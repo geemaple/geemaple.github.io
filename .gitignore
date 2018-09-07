@@ -1,0 +1,7 @@
+_site
+*.lock
+.sass-cache
+*.xcuserstate
+xcschememanagement.plist
+*.xcscheme
+*.xcbkptlist
