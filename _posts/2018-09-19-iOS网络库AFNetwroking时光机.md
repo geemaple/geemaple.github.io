@@ -18,6 +18,8 @@ excerpt: "AFNetwroking的版本印记"
 
 # 1.0版本，NSOperation+NSURLConnection
 
+![](https://geemaple.github.io/sketch/AFNetworking1.x.png)
+
 AFURLConnectionOperation单独开了一个线程，并增加一个Runloop，因为NSURLConnection要依赖Runloop才能进行代理的回调。通常我们在主线程中使用NSURLConnection，默认使用了主线程的Runloop。
 
 AFClient共有1400多行代码，里面包含了Reachability功能，Request Serializer，管理NSOperationQueue队列，HTTP认证， 以及常用的HTTP请求等
