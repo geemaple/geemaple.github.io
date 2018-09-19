@@ -5,11 +5,11 @@ tags: AFNetwroking, Architecture
 excerpt: "AFNetwroking的版本印记"
 ---
 
-> 前一阵子，写了一个基于BLE(Bluetooth Low Energy)的遥控器。BLE要比HTTP更自由的多，完全基于二进制流。具体问题列举如下：
+> 前一阵子，写了一个基于BLE(Bluetooth Low Energy)的外设遥控器。BLE要比HTTP更自由的多，完全基于二进制流。具体问题列举如下：
 
 问题1: 协议如何制定？
 
-问题2: 如何转化应用基本数据，比如String，Int到给BLE传输，反过来，如何根据协议翻译对应的2进制
+问题2: 如何序列化基本数据，比如String，Int到给BLE传输，反过来，如何根据协议反序列化字节数据
 
 问题3: 如果翻译过程缓慢，是否需要引入多线程，采用异步来处理
 
@@ -18,7 +18,11 @@ excerpt: "AFNetwroking的版本印记"
 
 # 1.0版本，NSOperation+NSURLConnection
 
+AFURLConnectionOperation单独开了一个线程，并增加一个Runloop，因为NSURLConnection要依赖Runloop才能进行代理的回调。通常我们在主线程中使用NSURLConnection，默认使用了主线程的Runloop。
 
+AFClient共有1400多行代码，里面包含了Reachability功能，Request Serializer，管理NSOperationQueue队列，HTTP认证， 以及常用的HTTP请求等
+
+ 
 
 
 
