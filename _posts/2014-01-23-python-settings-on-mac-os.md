@@ -3,7 +3,7 @@ layout: post
 title: "Mac上python环境配置"
 date:   2014-01-23
 categories: python
-tags: mac python
+tags: mac python setup
 excerpt: Life is short, I use python
 ---
 

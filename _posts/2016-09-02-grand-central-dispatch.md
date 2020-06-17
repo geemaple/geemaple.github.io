@@ -3,7 +3,7 @@ layout: post
 title: "iOS/MacOS多线程编程GCD"
 date: 2016-09-12
 categories: ios
-tags: gcd
+tags: GCD
 excerpt: 主要了解GCD编程，以及如何用GCD完成一些经典多线程问题
 ---
 

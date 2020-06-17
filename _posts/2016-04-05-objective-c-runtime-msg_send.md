@@ -3,7 +3,7 @@ layout: post
 title: "Objective-C 消息和转发机制"
 date: 2016-04-05
 categories: ios
-tags: objc runtime
+tags: obj-c runtime
 excerpt: Objective-C消息分发，拦截与转发机制。
 ---
 

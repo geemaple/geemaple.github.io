@@ -3,7 +3,7 @@ layout: post
 title: "CentOS7之新建用户与SSH登陆"
 date:   2015-10-05
 categories: linux
-tags: centos, ssh, swap
+tags: centOS, ssh, swap
 excerpt: 初次接触阿里云服务器，登陆设置，SWAP创建，磁盘挂在
 ---
 

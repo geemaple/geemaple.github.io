@@ -3,7 +3,7 @@ layout: post
 title: "Objective-C Category的实现细节"
 date: 2016-06-01
 categories: ios
-tags: objc category runtime
+tags: obj-c category runtime
 excerpt: Objective-C Category可算是独门利器，不需要继承，就能够为类动态添加方法。
 ---
 

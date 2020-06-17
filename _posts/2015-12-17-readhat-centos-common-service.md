@@ -3,7 +3,7 @@ layout: post
 title: "CentOS7之常用服务"
 date:   2015-12-17
 categories: linux
-tags: centos, service
+tags: centOS, service
 excerpt: CentOS7之常用服务收集
 ---
 

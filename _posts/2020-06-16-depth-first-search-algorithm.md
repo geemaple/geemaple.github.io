@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "深度优先搜索算法DFS"
+categories: 算法
 tags: DFS 算法
 excerpt: "爆破专家"
 ---
@@ -11,7 +12,11 @@ excerpt: "爆破专家"
 
 所以，深度优先搜索，也可称之为回溯算法(Backtracing)
 
-深度优先搜索，通常通过递归来完成，非递归代码，可以使用Stack数据结构。但非递归代码要难得多，只需掌握树的三种DFS的非递归代码
+深度优先搜索，通常通过递归来完成，非递归代码，可以使用Stack数据结构。
+
+非递归代码要难得多，只需掌握树的三种DFS的非递归代码
+
+DFS适用：排列+组合 + 暴力破解 + 切割问题
 
 ## 图的深度优先搜索
 
@@ -71,11 +76,70 @@ DFS另一个擅长的领域是，排列组合(Permutation/Combination)，也可�
 
 时间复杂度 = 答案个数 * 构造每个答案的时间, 可以通过预处理，或者剪枝来达到优化的效果， 时间复杂度在N! ~ 2^N级别
 
-### 组合
+### [排列](https://leetcode.com/problems/permutations-ii/)
 
+```
+class Solution(object):
+  def permuteUnique(self, nums):
+    """
+    :type nums: List[int]
+    :rtype: List[List[int]]
+    """
+    result = []
+    state = []
+    visited = set()
+    self.helper(sorted(nums), state, visited, result)
+    return result
+        
+  def helper(self, nums, state, visited, result):
+      
+    if len(nums) == len(state):
+        result.append(list(state)) #state一定要复制
+        return
+      
+    for i in range(0, len(nums)):
+      if i in visited: 
+        continue
+        
+      #如果和前面数字一样，并且前面也没用过，就跳过
+      if i != 0 and nums[i] == nums[i - 1] and i - 1 not in visited: 
+        continue
+        
+      visited.add(i)
 
+      state.append(nums[i])
+      self.helper(nums, state, visited, result)
+      state.pop() # 回溯
 
-### 排列
+      visited.remove(i)
+```
+
+### [组合](https://leetcode.com/problems/subsets-ii/)
+
+```
+class Solution(object):
+  def subsetsWithDup(self, nums):
+    """
+    :type nums: List[int]
+    :rtype: List[List[int]]
+    """
+    result = []
+    state = []
+    self.helper(sorted(nums), 0, state, result)
+    return result
+        
+  def helper(self, nums, start, state, result):
+      
+    result.append(list(state)) #state一定要复制
+      
+    for i in range(start, len(nums)):
+      #同排列注释，i != 0 and nums[i] == nums[i - 1] and i != start
+      if i != start and nums[i] == nums[i - 1]: 
+        continue
+      state.append(nums[i])
+      self.helper(nums, i + 1, state, result)
+      state.pop() # 回溯
+```
 
 
 ### 子组数 vs. 子序列
@@ -87,24 +151,9 @@ DFS另一个擅长的领域是，排列组合(Permutation/Combination)，也可�
 ```
 array = [1,2,3,4]
 
-subarray = [1] [1,2] [1,2,3] [1,2,3,4] [2] [2,3] [2,3,4] [3] [3,4] [4] # 共10 substring是一种特殊的数组
+subarray = [1] [1,2] [1,2,3] [1,2,3,4] [2] [2,3] [2,3,4] [3] [3,4] [4] # 非空共10 substring是一种特殊的数组
 
 subsequence = [] [1] [2] [3] [4] [1,2] [1,3] [1,4] [2,3] [2,4] [3,4] [1,2,3] [1,2,4] [1,3,4] [2,3,4] [1,2,3,4] //共16个
 ```
 
-
-1. 不推荐拓扑排序
-2. 排列+组合(暴力破解)
-
-
 --End--
-
-DFS要比BFS难很多，递归解法要掌握, 非递归就更难了
-
-1. Combination
-2. Permutation
-
-DFS适用：排列+组合 + 暴力破解 + 切割问题
-
-
-如果和前面数字一样，并且前面也没用过，就跳过

@@ -3,7 +3,7 @@ layout: post
 title: "Objective-C Class与Object的关系"
 date: 2014-07-06
 categories: ios
-tags: objc object runtime
+tags: obj-c runtime
 excerpt: 用了那么久的面向对象，这回我们看看对象是什么
 ---
 

@@ -3,7 +3,7 @@ layout: post
 title: "创业失败了，除了失去的机会成本, 究竟得到了什么？"
 date: 2017-09-15
 categories: ios
-tags: life
+tags: work-life
 excerpt: 你觉得这次创业值得么？不值。 那如果时间可以倒流，你还会选择这家创业公司么? 依然会。
 ---
 

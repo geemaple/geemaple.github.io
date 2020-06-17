@@ -3,7 +3,7 @@ layout: post
 title: "Objective-C 内存管理"
 date: 2014-10-18
 categories: ios
-tags: objc memory
+tags: obj-c memory
 excerpt: Objective-C 内存管理MRC和ARC
 ---
 

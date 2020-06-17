@@ -3,7 +3,7 @@ layout: post
 title: "C/C++数据内存Alignment与Padding"
 date: 2014-02-18
 categories: core
-tags: c c++
+tags: c/c++
 excerpt: 本文主要列举C/C++常用数据类型在32位与64位机器中内存大小，涉及到内存对齐(alignment)与补全(padding), 以及如何优化一个结构体占用内存大小。
 ---
 
