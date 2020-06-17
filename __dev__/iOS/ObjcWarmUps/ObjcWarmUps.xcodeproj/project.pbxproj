@@ -1,0 +1,358 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 48;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0515A0E41F62B7F300CC4162 /* CategoryWarmUps.m in Sources */ = {isa = PBXBuildFile; fileRef = 0515A0E31F62B7F300CC4162 /* CategoryWarmUps.m */; };
+		0515A0E61F62BD2D00CC4162 /* UndefinedWarmUps.m in Sources */ = {isa = PBXBuildFile; fileRef = 0515A0E51F62BD2D00CC4162 /* UndefinedWarmUps.m */; };
+		0515A0F31F63859800CC4162 /* ExistingMultiFileClass+TestingOne.m in Sources */ = {isa = PBXBuildFile; fileRef = 0515A0F21F63859800CC4162 /* ExistingMultiFileClass+TestingOne.m */; };
+		052F44641F60622000F625E8 /* BlockWarmUps.mm in Sources */ = {isa = PBXBuildFile; fileRef = 052F44611F60622000F625E8 /* BlockWarmUps.mm */; };
+		052F44661F60622000F625E8 /* RuntimeWarmUps.mm in Sources */ = {isa = PBXBuildFile; fileRef = 052F44621F60622000F625E8 /* RuntimeWarmUps.mm */; };
+		052F44681F60622000F625E8 /* SizingWarmUps.mm in Sources */ = {isa = PBXBuildFile; fileRef = 052F44631F60622000F625E8 /* SizingWarmUps.mm */; };
+		052FC7F91F666D2C007AD889 /* MRCWarmUPs.m in Sources */ = {isa = PBXBuildFile; fileRef = 052FC7F81F666D2C007AD889 /* MRCWarmUPs.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		052FC7FE1F66BC5E007AD889 /* ARCWarmUps.m in Sources */ = {isa = PBXBuildFile; fileRef = 052FC7FD1F66BC5E007AD889 /* ARCWarmUps.m */; };
+		056472EB1F626E800025D083 /* MessagingWarmUps.m in Sources */ = {isa = PBXBuildFile; fileRef = 056472EA1F626E800025D083 /* MessagingWarmUps.m */; };
+		0599CAFC1F6904370000BFD8 /* GCDWarmUps.m in Sources */ = {isa = PBXBuildFile; fileRef = 0599CAFB1F6904370000BFD8 /* GCDWarmUps.m */; };
+		05F158C11F63FAC2006B11E6 /* ExistingMultiFileClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 05F158BE1F63FAC2006B11E6 /* ExistingMultiFileClass.m */; };
+		05F158C21F63FAC2006B11E6 /* ExistingMultiFileClass+TestingTwo.m in Sources */ = {isa = PBXBuildFile; fileRef = 05F158C01F63FAC2006B11E6 /* ExistingMultiFileClass+TestingTwo.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		0515A0E31F62B7F300CC4162 /* CategoryWarmUps.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryWarmUps.m; sourceTree = "<group>"; };
+		0515A0E51F62BD2D00CC4162 /* UndefinedWarmUps.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UndefinedWarmUps.m; sourceTree = "<group>"; };
+		0515A0F11F63859800CC4162 /* ExistingMultiFileClass+TestingOne.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ExistingMultiFileClass+TestingOne.h"; sourceTree = "<group>"; };
+		0515A0F21F63859800CC4162 /* ExistingMultiFileClass+TestingOne.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ExistingMultiFileClass+TestingOne.m"; sourceTree = "<group>"; };
+		052F44441F60616000F625E8 /* MacUnitTesting.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MacUnitTesting.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		052F44481F60616000F625E8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		052F44611F60622000F625E8 /* BlockWarmUps.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = BlockWarmUps.mm; sourceTree = "<group>"; };
+		052F44621F60622000F625E8 /* RuntimeWarmUps.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RuntimeWarmUps.mm; sourceTree = "<group>"; };
+		052F44631F60622000F625E8 /* SizingWarmUps.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SizingWarmUps.mm; sourceTree = "<group>"; };
+		052FC7F81F666D2C007AD889 /* MRCWarmUPs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRCWarmUPs.m; sourceTree = "<group>"; };
+		052FC7FD1F66BC5E007AD889 /* ARCWarmUps.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARCWarmUps.m; sourceTree = "<group>"; };
+		056472EA1F626E800025D083 /* MessagingWarmUps.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MessagingWarmUps.m; sourceTree = "<group>"; };
+		0599CAFB1F6904370000BFD8 /* GCDWarmUps.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDWarmUps.m; sourceTree = "<group>"; };
+		05F158BD1F63FAC2006B11E6 /* ExistingMultiFileClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExistingMultiFileClass.h; sourceTree = "<group>"; };
+		05F158BE1F63FAC2006B11E6 /* ExistingMultiFileClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExistingMultiFileClass.m; sourceTree = "<group>"; };
+		05F158BF1F63FAC2006B11E6 /* ExistingMultiFileClass+TestingTwo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ExistingMultiFileClass+TestingTwo.h"; sourceTree = "<group>"; };
+		05F158C01F63FAC2006B11E6 /* ExistingMultiFileClass+TestingTwo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ExistingMultiFileClass+TestingTwo.m"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		052F44411F60616000F625E8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0515A0F01F63859800CC4162 /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				05F158BD1F63FAC2006B11E6 /* ExistingMultiFileClass.h */,
+				05F158BE1F63FAC2006B11E6 /* ExistingMultiFileClass.m */,
+				05F158BF1F63FAC2006B11E6 /* ExistingMultiFileClass+TestingTwo.h */,
+				05F158C01F63FAC2006B11E6 /* ExistingMultiFileClass+TestingTwo.m */,
+				0515A0F11F63859800CC4162 /* ExistingMultiFileClass+TestingOne.h */,
+				0515A0F21F63859800CC4162 /* ExistingMultiFileClass+TestingOne.m */,
+			);
+			path = Category;
+			sourceTree = "<group>";
+		};
+		052F44451F60616000F625E8 /* MacUnitTesting */ = {
+			isa = PBXGroup;
+			children = (
+				052F44481F60616000F625E8 /* Info.plist */,
+			);
+			path = MacUnitTesting;
+			sourceTree = "<group>";
+		};
+		055962A31F603C6000A813A5 = {
+			isa = PBXGroup;
+			children = (
+				055962AE1F603C6000A813A5 /* ObjcWarmUps */,
+				052F44451F60616000F625E8 /* MacUnitTesting */,
+				055962AD1F603C6000A813A5 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		055962AD1F603C6000A813A5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				052F44441F60616000F625E8 /* MacUnitTesting.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		055962AE1F603C6000A813A5 /* ObjcWarmUps */ = {
+			isa = PBXGroup;
+			children = (
+				0515A0F01F63859800CC4162 /* Category */,
+				052F44611F60622000F625E8 /* BlockWarmUps.mm */,
+				052F44621F60622000F625E8 /* RuntimeWarmUps.mm */,
+				052F44631F60622000F625E8 /* SizingWarmUps.mm */,
+				056472EA1F626E800025D083 /* MessagingWarmUps.m */,
+				0515A0E31F62B7F300CC4162 /* CategoryWarmUps.m */,
+				0515A0E51F62BD2D00CC4162 /* UndefinedWarmUps.m */,
+				052FC7F81F666D2C007AD889 /* MRCWarmUPs.m */,
+				052FC7FD1F66BC5E007AD889 /* ARCWarmUps.m */,
+				0599CAFB1F6904370000BFD8 /* GCDWarmUps.m */,
+			);
+			path = ObjcWarmUps;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		052F44431F60616000F625E8 /* MacUnitTesting */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 052F44491F60616000F625E8 /* Build configuration list for PBXNativeTarget "MacUnitTesting" */;
+			buildPhases = (
+				052F44401F60616000F625E8 /* Sources */,
+				052F44411F60616000F625E8 /* Frameworks */,
+				052F44421F60616000F625E8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MacUnitTesting;
+			productName = MacUnitTesting;
+			productReference = 052F44441F60616000F625E8 /* MacUnitTesting.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		055962A41F603C6000A813A5 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0900;
+				ORGANIZATIONNAME = dean;
+				TargetAttributes = {
+					052F44431F60616000F625E8 = {
+						CreatedOnToolsVersion = 8.3.3;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 055962A71F603C6000A813A5 /* Build configuration list for PBXProject "ObjcWarmUps" */;
+			compatibilityVersion = "Xcode 8.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 055962A31F603C6000A813A5;
+			productRefGroup = 055962AD1F603C6000A813A5 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				052F44431F60616000F625E8 /* MacUnitTesting */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		052F44421F60616000F625E8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		052F44401F60616000F625E8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0599CAFC1F6904370000BFD8 /* GCDWarmUps.m in Sources */,
+				052F44661F60622000F625E8 /* RuntimeWarmUps.mm in Sources */,
+				052F44641F60622000F625E8 /* BlockWarmUps.mm in Sources */,
+				052FC7F91F666D2C007AD889 /* MRCWarmUPs.m in Sources */,
+				056472EB1F626E800025D083 /* MessagingWarmUps.m in Sources */,
+				052FC7FE1F66BC5E007AD889 /* ARCWarmUps.m in Sources */,
+				05F158C21F63FAC2006B11E6 /* ExistingMultiFileClass+TestingTwo.m in Sources */,
+				0515A0F31F63859800CC4162 /* ExistingMultiFileClass+TestingOne.m in Sources */,
+				052F44681F60622000F625E8 /* SizingWarmUps.mm in Sources */,
+				0515A0E61F62BD2D00CC4162 /* UndefinedWarmUps.m in Sources */,
+				0515A0E41F62B7F300CC4162 /* CategoryWarmUps.m in Sources */,
+				05F158C11F63FAC2006B11E6 /* ExistingMultiFileClass.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		052F444A1F60616000F625E8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				INFOPLIST_FILE = MacUnitTesting/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_BUNDLE_IDENTIFIER = mogoal.MacUnitTesting;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		052F444B1F60616000F625E8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				INFOPLIST_FILE = MacUnitTesting/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_BUNDLE_IDENTIFIER = mogoal.MacUnitTesting;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		055962D61F603C6000A813A5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		055962D71F603C6000A813A5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		052F44491F60616000F625E8 /* Build configuration list for PBXNativeTarget "MacUnitTesting" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				052F444A1F60616000F625E8 /* Debug */,
+				052F444B1F60616000F625E8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		055962A71F603C6000A813A5 /* Build configuration list for PBXProject "ObjcWarmUps" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				055962D61F603C6000A813A5 /* Debug */,
+				055962D71F603C6000A813A5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 055962A41F603C6000A813A5 /* Project object */;
+}
