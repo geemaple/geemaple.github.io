@@ -5,6 +5,9 @@ tags: AFNetwroking, Architecture
 excerpt: "AFNetwroking的版本印记"
 ---
 
+* content
+{:toc}
+
 > 前一阵子，写了一个基于BLE(Bluetooth Low Energy)的外设遥控器。BLE要比HTTP更自由的多，完全基于二进制流。具体问题列举如下：
 
 问题1: 协议如何制定？

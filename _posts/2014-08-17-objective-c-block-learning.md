@@ -7,6 +7,9 @@ tags: obj-c block closure
 excerpt: 用Clang重写功能，我们来和Block谈一场恋爱
 ---
 
+* content
+{:toc}
+
 ## 介绍
 
 > 看源码比较烧脑, 请仔细阅读热身内容再继续

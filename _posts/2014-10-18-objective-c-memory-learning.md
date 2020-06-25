@@ -7,6 +7,9 @@ tags: obj-c memory
 excerpt: Objective-C 内存管理MRC和ARC
 ---
 
+* content
+{:toc}
+
 ## 介绍
 
 这是一本不错的书籍《Pro Multithreading and Memory Management

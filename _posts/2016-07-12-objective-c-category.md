@@ -7,6 +7,9 @@ tags: obj-c category runtime
 excerpt: Objective-C Category可算是独门利器，不需要继承，就能够为类动态添加方法。
 ---
 
+* content
+{:toc}
+
 ## Category简介
 
 Category能够添加额外的方法到已有的类中(甚至你无法访问源码的类，Framework或者第三方SDK)。后加入的方法会被子类继承，并且在运行时Category中的方法和原有类的方法是没有区别的，就仿佛原来就在那一样。

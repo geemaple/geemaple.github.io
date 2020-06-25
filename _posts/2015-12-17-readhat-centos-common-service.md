@@ -7,6 +7,9 @@ tags: centOS, service
 excerpt: CentOS7之常用服务收集
 ---
 
+* content
+{:toc}
+
 ## 介绍
 
 我是一个前端工程师，对于后端还算是个新手，下面是我手机的一些关于[阿里云](https://promotion.aliyun.com/ntms/act/ambassador/sharetouser.html?userCode=c2dmplih&utm_source=c2dmplih)Centos7使用的一些工具，希望对你有帮助。

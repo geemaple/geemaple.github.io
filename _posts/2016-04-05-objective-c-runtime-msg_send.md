@@ -7,6 +7,9 @@ tags: obj-c runtime
 excerpt: Objective-C消息分发，拦截与转发机制。
 ---
 
+* content
+{:toc}
+
 ## 介绍
 
 > 这是之前[《死磕Objective-C runtime运行》](https://segmentfault.com/a/1190000007446208)的重写。还是延续问答的方式，日期复用当时的日期，并加入测试代码

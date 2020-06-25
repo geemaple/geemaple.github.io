@@ -7,6 +7,9 @@ tags: mac python setup
 excerpt: Life is short, I use python
 ---
 
+* content
+{:toc}
+
 > Life is short, I use python
 
 [pyenv][1]用来管理多个版本的python在用户目录的安装和使用, 类似rbenv

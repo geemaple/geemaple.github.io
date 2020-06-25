@@ -7,6 +7,9 @@ tags: centOS, ssh, swap
 excerpt: 初次接触阿里云服务器，登陆设置，SWAP创建，磁盘挂在
 ---
 
+* content
+{:toc}
+
 ## 介绍
 
 最近Openshift2也不好用了， 而且Openshift2在2017年09月30号就要停止维护了。所以看看阿里云，竟然有3年=800元的优惠价，外面世界那么大，没有梯子怎么行, 所以果断买了美国西部地区[ECS 1核1GB](https://promotion.aliyun.com/ntms/act/ambassador/sharetouser.html?userCode=c2dmplih&utm_source=c2dmplih)。

@@ -7,6 +7,9 @@ tags: GCD
 excerpt: 主要了解GCD编程，以及如何用GCD完成一些经典多线程问题
 ---
 
+* content
+{:toc}
+
 ## 介绍
 
 GCD和Block一起，使得iOS多线程编程变得简单优雅许多。如此优雅简单的多线程API真希望C和C++标准中也会有

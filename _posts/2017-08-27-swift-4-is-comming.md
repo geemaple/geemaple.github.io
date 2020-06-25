@@ -6,6 +6,10 @@ categories: ios
 tags: swift
 excerpt: 自从2014年发布以来，Swift已经3岁了，马上9月份就要迎来第四个版本，上车再解释。
 ---
+
+* content
+{:toc}
+
 ![Swift_language_intro]({{site.static}}/images/Swift_language_intro.jpg)
 
 2014年06月02日，随着iOS 8发布的同时, 苹果亮出全新的编程语言Swift, 彻底甩开的C系列语言的包袱(Objecive-C without the C)。并极力赞扬Swift具有快速，现代，内存安全，富有交互性等特点。
