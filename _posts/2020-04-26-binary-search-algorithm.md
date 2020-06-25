@@ -6,6 +6,9 @@ tags: 二分法 二分查找 算法
 excerpt: "锤子，可以用来敲各种钉子"
 ---
 
+* content
+{:toc}
+
 ## 二分思想
 
 > Binary Search是在排序"数组"中查找指定(Any/First/Last/Closest/Range)元素的一种快速搜索算法。
