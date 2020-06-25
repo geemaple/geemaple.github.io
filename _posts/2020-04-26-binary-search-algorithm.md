@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "二分查找算法"
+categories: 算法
 tags: 二分法 二分查找 算法
 excerpt: "锤子，可以用来敲各种钉子"
 ---
@@ -32,7 +33,7 @@ excerpt: "锤子，可以用来敲各种钉子"
 
 二分查找相当于通过O(1)的执行时间(大小比较操作)，把问题缩小一半
 
-```
+```python
 # T(N)表示一个问题，所需要的执行时间
 
 T(N) = T(N/2) + O(1)
@@ -52,7 +53,7 @@ T(N) = T(N/2) + O(1)
 1. 如下,首先分别检测第**2^K**(K>=0)个, 直到找第**2^(k-1)**个 <= **T** <= 第**2^k**个
 2. 然后有了上下边界，就可以正常二分了
 
-```
+```python
  第1个    第2个   第4个 
 Arr[0], Arr[1], Arr[3], ... Arr[2^(K-1) - 1], Arr[2^K -1]... 
 
@@ -78,7 +79,7 @@ Arr[0], Arr[1], Arr[3], ... Arr[2^(K-1) - 1], Arr[2^K -1]...
 
 第一种：**left + 1 < right**, 不用考虑mid是+1还是-1，只是结果需要额外判断边界, 最好记
 
-```
+```python
 int binarySearch(vector<int>& nums, int target){
     if (nums.size() == 0)
         return -1;
@@ -106,7 +107,7 @@ int binarySearch(vector<int>& nums, int target){
 
 第二种：**left < right**, 终止条件**left==right**, 因为中值偏左, 所以mid = left + 1, 比较简洁
 
-```
+```python
 int binarySearch(vector<int>& nums, int target){
   if(nums.size() == 0)
     return -1;
@@ -129,7 +130,7 @@ int binarySearch(vector<int>& nums, int target){
 
 第三种：**left <= right**, 终止条件是**left > right**, 结合上一条, right = mid - 1也要让一步, 比较简洁
 
-```
+```python
 int binarySearch(vector<int>& nums, int target){
   if(nums.size() == 0)
     return -1;
