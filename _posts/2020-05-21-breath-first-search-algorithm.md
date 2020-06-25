@@ -121,10 +121,56 @@ B = deepcopy(A) = C1
 # 如果C改变，B的状态C'没有影响
 ```
 
-## 拓扑排序
+## [拓扑排序](https://leetcode.com/problems/course-schedule-ii/)
 
-累了，之后在写
+```
+1 ->
+       3  -> 4 -> 5
+2 ->
 
+```
 
+拓扑排序主要对于有依赖关系的一组任务，给出一个可执行的序列， 比如上图，其中拓扑排序为 [1, 2 ,3, 4, 5] 或 [2, 1, 3, 4, 5]
+
+此外拓扑排序还可以判断有没有循环依赖， 比如编译的执行顺序，内存对象循环引用等问题
+
+对于有向无环图(DAG), 至少有一个拓扑排序。
+
+常见的问题有，对于给定的一组依赖关系，有没有可能拓扑排序，如果有，输出其中一个结果
+
+```python
+from collections import Counter, deque
+class Solution(object):
+    def findOrder(self, numCourses, prerequisites):
+        """
+        :type numCourses: int
+        :type prerequisites: List[List[int]]
+        :rtype: List[int]
+        """
+        res = []
+        indegrees = Counter()
+        edges = defaultdict(list)
+        
+        for pair in prerequisites:
+            indegrees[pair[0]] += 1
+            edges[pair[1]].append(pair[0])
+            
+        queue = deque()
+        for i in range(numCourses):
+            if indegrees[i] == 0:
+                queue.append(i)
+                
+        while(len(queue) > 0):
+            front = queue.popleft()
+            res.append(front)
+
+            for neighbor in edges[front]:
+                indegrees[neighbor] -= 1
+                if indegrees[neighbor] == 0:
+                    queue.append(neighbor)
+                    del indegrees[neighbor]
+                    
+        return [] if len(indegrees) > 0 else res 
+```
 
 --End--
