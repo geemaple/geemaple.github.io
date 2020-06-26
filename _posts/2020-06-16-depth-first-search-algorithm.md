@@ -14,7 +14,7 @@ excerpt: "爆破专家"
 深度优先搜索，是一条路走到黑(不撞南墙不回头)，然后在选择其他路径的策略。其中从路的尽头一步步*状态回退*的过程，称作回溯。
 所以，深度优先搜索，也可称之为回溯算法(Backtracking)
 
-深度优先搜索，通常通过递归来完成，非递归代码，可以使用Stack数据结构。
+深度优先搜索，通常通过递归来完成，非递归代码，使用Stack数据结构。
 
 非递归代码要难得多，只需掌握树的三种DFS的非递归代码即可
 
@@ -89,6 +89,7 @@ DFS另一个擅长的领域是，排列组合(Permutation/Combination)，也可�
 ### [排列](https://leetcode.com/problems/permutations-ii/)
 
 ```python
+# leetcode-047(permutations-ii)
 class Solution(object):
   def permuteUnique(self, nums):
     """
@@ -128,6 +129,7 @@ class Solution(object):
 ### [组合](https://leetcode.com/problems/subsets-ii/)
 
 ```python
+# leetcode-090(subsets-ii​)
 class Solution(object):
   def subsetsWithDup(self, nums):
     """
