@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "二叉树与分治算法"
-categories: 算法
+categories: Algorithm
 tags: 亢龙有悔 Divide-and-conquer Recursion
 excerpt: "顾名思义，分而治之"
 ---

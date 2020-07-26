@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "宽度优先搜索算法BFS"
-categories: 算法
+categories: Algorithm
 tags: 亢龙有悔 BFS
 excerpt: "拓扑排序"
 ---
