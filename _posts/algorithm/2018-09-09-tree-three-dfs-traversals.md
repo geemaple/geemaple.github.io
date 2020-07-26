@@ -1,7 +1,8 @@
 ---
 layout: post
 title: "树的三种DFS策略(前序、中序、后序)遍历"
-tags: 算法 DFS 代码
+categories: 算法
+tags: DFS
 excerpt: "树的前序遍历，中序遍历，后序遍历"
 ---
 

@@ -2,7 +2,7 @@
 layout: post
 title: "二叉树与分治算法"
 categories: 算法
-tags: 分治 递归 算法
+tags: Divide-and-conquer Recursion
 excerpt: "顾名思义，分而治之"
 ---
 

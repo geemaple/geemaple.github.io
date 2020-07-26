@@ -1,7 +1,8 @@
 ---
 layout: post
 title: "计算机数学, 边界与数量级"
-tags: 数学
+categories: 算法
+tags: Math
 excerpt: "边界与数量级"
 ---
 

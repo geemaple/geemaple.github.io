@@ -2,7 +2,7 @@
 layout: post
 title: "深度优先搜索算法DFS"
 categories: 算法
-tags: DFS 算法
+tags: DFS
 excerpt: "爆破专家"
 ---
 
