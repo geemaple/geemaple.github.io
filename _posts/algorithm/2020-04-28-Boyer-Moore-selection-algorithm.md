@@ -1,8 +1,8 @@
 ---
 layout: post
 title: "Boyer-Moore大多数选择算法"
-categories: Algorithm
-tags: 亢龙有悔 Boyer-moore
+categories: 亢龙有悔
+tags: Algorithm Boyer-moore
 excerpt: "把O(N*logN)优化成O(N)都不容易"
 ---
 

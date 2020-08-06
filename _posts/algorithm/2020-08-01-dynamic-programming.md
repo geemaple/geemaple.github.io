@@ -1,8 +1,8 @@
 ---
 layout: post
 title: "动态规划"
-categories: 亢龙有悔
-tags: Algorithm Dynamic-programming
+categories: Algorithm
+tags: 亢龙有悔 Dynamic-programming
 excerpt: ""
 ---
 
