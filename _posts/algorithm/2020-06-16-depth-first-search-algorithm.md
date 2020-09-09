@@ -159,7 +159,7 @@ class Solution(object):
 
 ### 子组数 vs. 子序列
 
-子组数(subarray)，子串(substring): 原数组，起点i到终点j*连续的*部分，数量级为N^2
+子组数(subarray)，子串(substring), 窗口(window): 原数组，起点i到终点j*连续的*部分，数量级为N^2
 
 ```python
 array = [1,2,3,4]
