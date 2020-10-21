@@ -160,6 +160,9 @@ counter = 1
 该算法一个可能的应用，就是容错计算，并行多个计算，选择大多数，作为靠谱的答案输出。
 
 ## 参考：
+
+《Majority Voting Algorithm》 https://gregable.com/2013/10/majority-vote-algorithm-find-majority.html
+
 《Boyer-Moore Majority Vote Algorithm》 http://www.cs.rug.nl/~wim/pub/whh348.pdf
 
 《Finding the Majority Element in Parallel》 http://www.crm.umontreal.ca/pub/Rapports/3300-3399/3302.pdf
