@@ -157,7 +157,23 @@ A B C D A B D
 
 ### KMP匹配优化
 
-//TBD 未完待续
+字符串搜索是在主串中(Text)寻找目标(Pattern)
+
+```
+Text = "ABCDABABCD"
+Pattern = "ABCDABD", 部分匹配表如上述代码结果
+
+------i
+ABCDABABCD        # 
+ABCDABD           #公共前后缀AB
+>>>|
+   |ABCDABD
+```
+
+假设在上述匹配中, Text[i] != Pattern[i], 那么划线部分是已经匹配好的, 划线部分="ABCDAB", 对应部分匹配表的值=2
+
+不匹配的时候Pattern需要后移, 根据Text/Pattern划线部分前后缀**相等**的特性, 依次后移只有前后缀相等的部分才有可能匹配, 此时, 我们可以放心的将Pattern开头，移动到后缀匹配的位置。
+
 
 ### 部分匹配应用
 
@@ -215,11 +231,5 @@ BBC ABCDAB ABCDABCDABDE
 BBC ABCDAB ABCDABCDABDE
                ABCDABD
 ```
-
-## BM算法
-
-工业级字符串匹配算法，执行效率要比KMP快3-4倍
-
-//TBD 未完待续
 
 --End--
