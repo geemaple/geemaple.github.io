@@ -80,14 +80,14 @@ dp[j]等于s[0: j]字符串(包含下标j), 公共前后缀最长的长度
 #### 状态转移
 
 ```
-i           j
+i   k       j
 A B C D A B D
 ---     ---
   ^       ^
   k       k     
 ```
 
-k代表s[i : j - 1]中最长的公共前后缀, 同时k也是待匹配字符的'C'的下标
+k代表**s[i : j - 1]**中最长的公共前后缀("ABCDAB"), 同时k也是待匹配字符的'C'的下标
 
 如果s[k] == s[j]
 
@@ -102,6 +102,7 @@ ABCD....ABCD
 ---      --- k - 1
 --        -- k - 2
 -          - 1
+             0
 
  s1      s2
 ABCD....ABCD
@@ -167,11 +168,11 @@ Text = "ABCDABABCD"
 Pattern = "ABCDABD", 部分匹配表如上述代码结果
 
 ----------- i
-A B C D A B A B C D        # 
-A B C D A B D           #公共前后缀AB
+A B C D A B A B C D        # i处 'A' != 'D' 
+A B C D A B D              # 最大公共前后缀AB
 -----------
 
-右移动 |
+>>>>> |
       | A B C D A B D
 
 ```
@@ -242,7 +243,7 @@ BBC ABCDAB ABCDABCDABDE
 
 逐个判断相等之后，发现D与空格不匹配，**如果是暴力破解，Pattern就只能右移动一格。KMP利用next数组，可以一次移动更多格数**
 
-```ABCDAB```的末尾字符下标=match - 1, 设置match = dp[match - 1]
+设置match = dp[match - 1], ```ABCDAB```的末尾字符```B```, 下标index=match - 1, 查表对应的数值是2
 
 ```
 BBC ABCDAB ABCDABCDABDE
@@ -272,6 +273,11 @@ BBC ABCDAB ABCDABCDABDE
            ABCDABD
                  ^
                  i = 17, match = 6
+
+BBC ABCDAB ABCDABCDABDE
+               ABCDABD
+                 ^
+                 i = 17, match = 2
 ```
 
 重复match > 0的逻辑，i保持不变, 查表得知match = dp[match - 1] = 2
@@ -279,8 +285,8 @@ BBC ABCDAB ABCDABCDABDE
 ```
 BBC ABCDAB ABCDABCDABDE
                ABCDABD
-                 ^
-                 i = 17, match = 2
+                     ^
+                 i = 21, match = 7
 ```
 
 逐个匹配, 找到了结果，返回i - match
