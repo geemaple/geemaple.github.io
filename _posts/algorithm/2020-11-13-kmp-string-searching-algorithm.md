@@ -285,8 +285,8 @@ BBC ABCDAB ABCDABCDABDE
 ```
 BBC ABCDAB ABCDABCDABDE
                ABCDABD
-                     ^
-                 i = 21, match = 7
+                      ^
+                 i = 22, match = 7
 ```
 
 逐个匹配, 找到了结果，返回i - match
