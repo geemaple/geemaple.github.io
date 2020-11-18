@@ -6,3 +6,4 @@ xcschememanagement.plist
 *.xcscheme
 *.xcbkptlist
 tmp.*
+__dev__/.lc/cache
