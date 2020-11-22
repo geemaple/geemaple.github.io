@@ -17,7 +17,7 @@ KMP是历史上第一个O(N)级别的字符匹配算法，各大教科书必备�
 
 ### 前后缀定义
 
-```
+```python
 A = BS, 对于非空字符S, B是A的前缀
 A = SB, 对于非空字符S, B是A的后缀
 ```
@@ -30,7 +30,7 @@ A = SB, 对于非空字符S, B是A的后缀
 
 例如: ```ABCDABD```
 
-```
+```python
 A       前缀 = []
         后缀 = []                                   ->    0
         结果 = 0
@@ -68,7 +68,7 @@ O(N)
 
 #### 状态定义
 
-```
+```python
     dp[j]
 ------------
 SSSSSSSSSSSS....SSSS
@@ -79,7 +79,7 @@ dp[j]等于s[0: j]字符串(包含下标j), 公共前后缀最长的长度
 
 #### 状态转移
 
-```
+```python
 i   k       j
 A B C D A B D
 ---     ---
@@ -87,7 +87,7 @@ A B C D A B D
   k       k     
 ```
 
-k代表**s[i : j - 1]**中最长的公共前后缀("ABCDAB"), 同时k也是待匹配字符的'C'的下标
+k代表**s[i : j - 1] = "ABCDAB"**中最长的公共前后缀, 同时k也是待匹配字符的'C'的下标
 
 如果s[k] == s[j]
 
@@ -95,13 +95,13 @@ dp[j] = dp[j - 1] + 1 = k + 1
 
 如果不相等, 需要找到```ABCDAB```次长度的公共前后缀来尝试, 比如说k-1, k-2, ...0来尝试, 如下图
 
-```
+```python
  s1      s2
 ABCD....ABCD
 ----    ---- k
 ---      --- k - 1
 --        -- k - 2
--          - 1
+-          - ...
              0
 
  s1      s2
@@ -117,7 +117,7 @@ ABCD....ABCD
 
 所以s1....s2字符串，可以用s1/s2其中一个代替，根据从0开始的动规定义，使用s1更简单
 
-s1中最后字符的下标last = k - 1, 途中s1长度为k = 4, 末尾'D'下标 = k - 1 = 3
+s1中最后字符的下标last = k - 1, 图中s1长度为k = 4, 末尾'D'下标 = k - 1 = 3
 
 所以k = dp[k - 1], 再次尝试, 重复判断直到k == 0, 或者遇到匹配
 
@@ -153,7 +153,7 @@ class Solution:
 
 我们的Next数组计算如下
 
-```
+```python
 A B C D A B D
 
 0 0 0 0 1 2 0
@@ -163,7 +163,7 @@ A B C D A B D
 
 字符串搜索是在主串中(Text)寻找目标(Pattern)
 
-```
+```python
 Text = "ABCDABABCD"
 Pattern = "ABCDABD", 部分匹配表如上述代码结果
 
@@ -225,7 +225,7 @@ class Solution:
 
 ### CASE模拟
 
-```
+```python
 BBC ABCDAB ABCDABCDABDE
 ABCDABD
 ^
@@ -234,7 +234,7 @@ i
 
 左对齐，比较后发现match个数等于0，那么不断右移一格(i++)，直到首位相等
 
-```
+```python
 BBC ABCDAB ABCDABCDABDE
     ABCDABD
           ^
@@ -245,7 +245,7 @@ BBC ABCDAB ABCDABCDABDE
 
 设置match = dp[match - 1], ```ABCDAB```的末尾字符```B```, 下标index=match - 1, 查表对应的数值是2
 
-```
+```python
 BBC ABCDAB ABCDABCDABDE
         ABCDABD
           ^
@@ -254,7 +254,7 @@ BBC ABCDAB ABCDABCDABDE
 
 此时，已经比较了```AB```2个字符，最后一位匹配的是字符```B```, 查表得知对应的数值 = 0, match = 0
 
-```
+```python
 BBC ABCDAB ABCDABCDABDE
           ABCDABD
           ^
@@ -268,7 +268,7 @@ BBC ABCDAB ABCDABCDABDE
 
 重复最开始的match=0的逻辑，i++
 
-```
+```python
 BBC ABCDAB ABCDABCDABDE
            ABCDABD
                  ^
@@ -282,7 +282,7 @@ BBC ABCDAB ABCDABCDABDE
 
 重复match > 0的逻辑，i保持不变, 查表得知match = dp[match - 1] = 2
 
-```
+```python
 BBC ABCDAB ABCDABCDABDE
                ABCDABD
                       ^

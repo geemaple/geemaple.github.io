@@ -23,12 +23,12 @@ O(M*N)
 
 暴力破解，也是最常用的实现方式，优点是思路比较简单，不容易出错
 
-```
-逐个比较，如果不匹配，右移动一格
-
+```python
 ABCDEFG    ->    ABCDEFG    ->    ABCDEFG    ->    ABCDEFG     
 DEF               DEF               DEF               DEF
 ```
+
+逐个比较，如果不匹配，右移动一格
 
 该算法，进行(M - N + 1)次比较, 每次比较N个字符
 
@@ -59,23 +59,21 @@ O(M + N), 如果哈希函数冲突很小的情况下, 不然就退化成暴力�
 
 Robin-karp是对暴力破解的一个优化，将Pattern字符哈希取值。每次匹配只比较同长度字符串的哈希值。
 
-如果哈希值相等，考虑到哈希冲突，需再次比较每一位字符。用来验证结果。
-
-```
+```python
 ABCDEFG
-ABC    --哈希值-->   Hash(ABC)
- BCD    --哈希值-->   Hash(BCD)
-  CDE    --哈希值-->   Hash(CDE)
+ABC    --Hash-->   Hash(ABC)
+ BCD    --Hash-->   Hash(BCD)
+  CDE    --Hash-->   Hash(CDE)
    ...     
 
-DEF    --哈希值-->   Hash(DEF)   
+DEF    --Hash-->   Hash(DEF)   
 ```
 
-比较同长哈希值, 如果相等，逐个比较验证结果
+如果哈希值相等，考虑到哈希冲突，需再次比较每一位字符。用来验证结果。
 
-```
+```python
 hash(ABC)        hash(BCD)        hash(CDE)        hash(DEF) 
-   !=               !=               !=               == (需验证结果)
+   !=❌             !=❌            !=❌               ==✅
 hash(DEF)        hash(DEF)        hash(DEF)        hash(DEF)
    
 ABCDEFG    ->    ABCDEFG    ->    ABCDEFG    ->    ABCDEFG
@@ -86,11 +84,11 @@ DEF               DEF               DEF               DEF
 
 如果设计哈希函数如下, 就不必重复计算，每次去掉最高位，乘以K进制，再加上新的最低位
 
-```
+```python
 f(ABC) = A * K^2 + B * K^1 + C * K^0
 f(BCD) =           B * K^2 + C * K^1 + D * K^0
 
-存在递推关系:
+# Formula:
 f(BCD) = (f(ABC) - A * k^2) * k + D
 ```
 
