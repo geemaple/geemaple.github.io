@@ -3,7 +3,7 @@ layout: post
 title: "Rabin–Karp字符串匹配搜索算法"
 categories: 亢龙有悔
 tags: Algorithm String Robin-karp
-excerpt: ""
+excerpt: "感谢上帝，我还活着"
 ---
 
 * content

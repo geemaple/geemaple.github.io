@@ -3,7 +3,7 @@ layout: post
 title: "KMP字符串匹配搜索算法"
 categories: 亢龙有悔
 tags: Algorithm String KMP
-excerpt: ""
+excerpt: "一米阳光的幸福"
 ---
 
 * content
