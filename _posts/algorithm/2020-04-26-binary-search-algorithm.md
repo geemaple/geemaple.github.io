@@ -1,8 +1,8 @@
 ---
 layout: post
 title: "二分查找算法"
-categories: 亢龙有悔
-tags: Algorithm Binary-search
+categories: Algorithm
+tags: 亢龙有悔 Binary-search
 excerpt: "锤子，可以用来敲各种钉子"
 ---
 

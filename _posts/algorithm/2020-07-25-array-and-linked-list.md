@@ -1,8 +1,8 @@
 ---
 layout: post
 title: "数组与链表"
-categories: 亢龙有悔
-tags: Algorithm Array Linked-list
+categories: Algorithm
+tags: 亢龙有悔 Array Linked-list
 excerpt: "一线之间"
 ---
 

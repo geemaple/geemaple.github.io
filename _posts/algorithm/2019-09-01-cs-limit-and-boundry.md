@@ -1,8 +1,8 @@
 ---
 layout: post
 title: "计算机数学, 边界与数量级"
-categories: 亢龙有悔
-tags: Algorithm Math
+categories: Algorithm
+tags: 亢龙有悔 Math
 excerpt: "边界与数量级"
 ---
 

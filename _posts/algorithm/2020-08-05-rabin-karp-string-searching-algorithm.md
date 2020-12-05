@@ -1,8 +1,8 @@
 ---
 layout: post
 title: "Rabin–Karp字符串匹配搜索算法"
-categories: 亢龙有悔
-tags: Algorithm String Robin-karp
+categories: Algorithm
+tags: 亢龙有悔 String Robin-karp
 excerpt: "感谢上帝，我还活着"
 ---
 
