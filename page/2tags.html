@@ -6,32 +6,31 @@ icon: tags
 type: page
 ---
 
+{% capture tags %}
+    {% for tag in site.tags %}
+        {{ tag | first }}
+    {% endfor %}
+{% endcapture %}
+{% assign sortedtags = tags | split:' ' | sort %}
+
 <div class="page clearfix">
     <div class="left">
         <h1>{{page.title}}</h1>
         <hr>
-        {% capture tags %}
-          {% for tag in site.tags %}
-            {{ tag[0] }}
-          {% endfor %}
-        {% endcapture %}
-        {% assign sortedtags = tags | split:' ' | sort %}
-
         <ul>
-        {% for tag in sortedtags %}
-          <h2 id="{{ tag }}">{{ tag }}</h2>
-          {% for post in site.tags[tag] %}
-            <li>
-                <time>
-                {{ post.date | date:"%F" }} {{ post.date | date: "%a" }}.
-                </time>
-                <a class="title" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
-
-                {% include category.html %}
-                {% include tag.html %}
-            </li>
-          {% endfor %}
-        {% endfor %}
+            {% for tag in sortedtags %}
+                <h2 id="{{ tag }}">{{ tag }}</h2>
+                {% assign sortedPosts = site.tags[tag] | sort: "index" | reverse %}
+                {% for post in sortedPosts %}
+                    <li>
+                        <time>
+                        {{ post.date | date:"%F" }} {{ post.date | date: "%a" }}.
+                        </time>
+                        <a class="title" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+                        {% include tag.html %}
+                    </li>
+                {% endfor %}
+            {% endfor %}
         </ul>
 
     </div>
@@ -55,8 +54,7 @@ type: page
 
                 </ul>
             </div>
-            <!-- 其他div框放到这里 -->
-            <!-- <div class="side">bbbb</div> -->
+            <!-- <div class="side">other right side div</div> -->
         </div>
     </div>
 </div>
