@@ -12,7 +12,8 @@ baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://geemaple.github.io" # the base hostname & protocol for your site
 static: "https://raw.githubusercontent.com/geemaple/geemaple.github.io/master"
 
-permalink: /:year/:month/:day/:title/
+permalink: /:categories/:title
+
 
 # other links
 twitter_username:
