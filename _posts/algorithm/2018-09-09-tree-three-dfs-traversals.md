@@ -2,7 +2,7 @@
 layout: post
 title: "树的三种DFS策略(前序、中序、后序)遍历"
 categories: Algorithm
-tags: 亢龙有悔 DFS
+tags: 亢龙有悔 Depth-first-search
 excerpt: "树的前序遍历，中序遍历，后序遍历"
 ---
 

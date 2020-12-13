@@ -2,7 +2,7 @@
 layout: post
 title: "深度优先搜索算法DFS"
 categories: Algorithm
-tags: 亢龙有悔 DFS
+tags: 亢龙有悔 Depth-first-search
 excerpt: "爆破专家"
 ---
 
