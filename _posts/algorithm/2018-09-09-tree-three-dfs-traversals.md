@@ -1,5 +1,6 @@
 ---
 layout: post
+index: 8
 title: "树的三种DFS策略(前序、中序、后序)遍历"
 categories: Algorithm
 tags: 亢龙有悔 Depth-first-search

@@ -1,5 +1,6 @@
 ---
 layout: post
+index: 7
 title: "一对好基友，深度优先vs.广度优先搜索"
 categories: Algorithm
 tags: 亢龙有悔 Breadth-first-search Depth-first-search

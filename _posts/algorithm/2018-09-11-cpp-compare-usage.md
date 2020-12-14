@@ -1,5 +1,6 @@
 ---
 layout: post
+index: 4
 title: "C++算法排序中常用cmp的三种实现"
 categories: Algorithm
 tags: 亢龙有悔 C++

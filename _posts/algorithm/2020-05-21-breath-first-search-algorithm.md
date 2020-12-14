@@ -1,5 +1,6 @@
 ---
 layout: post
+index: 6
 title: "宽度优先搜索算法BFS"
 categories: Algorithm
 tags: 亢龙有悔 Breadth-first-search

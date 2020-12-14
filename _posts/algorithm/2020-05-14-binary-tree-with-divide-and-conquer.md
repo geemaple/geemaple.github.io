@@ -1,5 +1,6 @@
 ---
 layout: post
+index: 5
 title: "二叉树与分治算法"
 categories: Algorithm
 tags: 亢龙有悔 Divide-and-conquer Recursion

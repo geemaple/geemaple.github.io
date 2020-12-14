@@ -1,5 +1,6 @@
 ---
 layout: post
+index: 2
 title: "Boyer-Moore大多数选择算法"
 categories: Algorithm
 tags: 亢龙有悔 Boyer-moore

@@ -1,8 +1,9 @@
 ---
 layout: post
+index: 11
 title: "动态规划"
 categories: Algorithm
-tags: 飞龙在天 Dynamic-programming
+tags: 亢龙有悔 Dynamic-programming
 excerpt: "纸上得来终觉浅，绝知此事要躬行"
 ---
 

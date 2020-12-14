@@ -1,5 +1,6 @@
 ---
 layout: post
+index: 10
 title: "Rabin–Karp字符串匹配搜索算法"
 categories: Algorithm
 tags: 亢龙有悔 String Robin-karp

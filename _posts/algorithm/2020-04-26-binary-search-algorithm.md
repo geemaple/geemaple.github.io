@@ -1,5 +1,6 @@
 ---
 layout: post
+index: 3
 title: "二分查找算法"
 categories: Algorithm
 tags: 亢龙有悔 Binary-search

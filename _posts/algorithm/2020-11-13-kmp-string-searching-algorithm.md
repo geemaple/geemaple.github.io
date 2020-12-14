@@ -1,8 +1,9 @@
 ---
 layout: post
+index: 12
 title: "KMP字符串匹配搜索算法"
 categories: Algorithm
-tags: 飞龙在天 String KMP
+tags: 亢龙有悔 String KMP
 excerpt: "一米阳光的幸福"
 ---
 

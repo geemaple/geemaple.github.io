@@ -1,5 +1,6 @@
 ---
 layout: post
+index: 1
 title: "数组与链表"
 categories: Algorithm
 tags: 亢龙有悔 Array Linked-list
