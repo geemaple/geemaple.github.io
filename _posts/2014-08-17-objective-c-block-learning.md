@@ -2,7 +2,7 @@
 layout: post
 title: "Objective-C Block的实现细节"
 date: 2014-08-17
-categories: ios
+categories: iOS
 tags: obj-c block closure
 excerpt: 用Clang重写功能，我们来和Block谈一场恋爱
 ---

@@ -22,11 +22,11 @@ excerpt: 用了那么久的面向对象，这回我们看看对象是什么
 
 Union可以看成高铁的一个洗手间，可以容纳任意乘客，通常一次只能一个人使用
 
-[更详细的可以参考之前的文章](https://geemaple.github.io/2014/02/18/C-Data-Sizes-Reference/)
+[更详细的可以参考之前的文章](https://geemaple.github.io/C-Data-Sizes-Reference/)
 
 ## class和object
 
-在Objc源码Public Headers中[runtime.h](https://github.com/geemaple/objc4-709/blob/master/ClassObject/ClassObject.h#L55-L70)和[objc.h](https://github.com/geemaple/objc4-709/blob/master/runtime/objc.h#L36-L47)可以找到class和object的定义
+在Objc源码Public Headers中[runtime.h](https://github.com/geemaple/objc4-709/blob/master/runtime/runtime.h#L55-L70)和[objc.h](https://github.com/geemaple/objc4-709/blob/master/runtime/objc.h#L36-L47)可以找到class和object的定义
 
 ```c++
 
@@ -64,12 +64,18 @@ struct objc_object {
 typedef struct objc_class *Class; //类的定义
 typedef struct objc_object *id; //对象的定义
 ```
-可以看出凡是带有isa结构的，就是objc中的对象，其中类Class也包含isa，所以类也是一个对象。[block也是对象](https://geemaple.github.io/2014/08/17/objective-c-block-learning/)，运行时可以通过isa指针，查找到该对象是属于什么类
+
+苹果在Objective-C 2.0中试图模糊isa的内容，这样多了一层封装，并且isa也被OBJC_ISA_AVAILABILITY废弃，禁止直接访问了
 
 接下来我们看看Project Headers中的相关定义，代码比较长，就只粘贴了部分在这里
 [objc-runtime-new.h](https://github.com/geemaple/objc4-709/blob/master/runtime/objc-runtime-new.h#L1064-L1305)和[objc-private.h](https://github.com/geemaple/objc4-709/blob/master/runtime/objc-private.h#L168-L275)
 
 ```c++
+
+typedef unsigned long uintptr_t;
+typedef struct objc_class *Class;
+typedef struct objc_object *id;
+
 union isa_t
 {
     isa_t() { }
@@ -80,6 +86,14 @@ union isa_t
     // ...
 }
 
+struct objc_object {
+private:
+    isa_t isa;
+
+public:
+    ...
+}
+
 struct objc_class : objc_object {
     // Class ISA;
     Class superclass;
@@ -87,13 +101,19 @@ struct objc_class : objc_object {
     class_data_bits_t bits;    // class_rw_t * plus custom rr/alloc flags
     //...
 }
+
+struct protocol_t : objc_object {
+    ...
+}
 ```
 
-其中`struct objc_object`中多了一个Union isa_t, isa_t中可以传入一个unsigned long类型初始化，同时union可以转成Class cls, 苹果在Objective-C 2.0中试图模糊isa的存在，这样多了一层封装，并且isa也被OBJC_ISA_AVAILABILITY废弃，禁止直接访问了
+其中**struct objc_object**中多了一个**Union isa_t**, isa_t中有两个构造函数其中**bits**和**cls**只能用其中一个
 
-另外一点是objc_class也是对象，是因为它继承了objc_object
+objc_class, protocol_t都继承了objc_object, 可以看出凡是带有isa结构的，就是objc中的对象. [block也是对象](https://geemaple.github.io/iOS/objective-c-block-learning)，运行时可以通过isa指针，查找到该对象是属于什么类
 
 ## clang重写
+
+具体原OC代码在[这里](https://github.com/geemaple/geemaple.github.io/blob/master/__dev__/iOS/ClassObject/ClassObject/main.m)
 
 ```c++
 static void OBJC_CLASS_SETUP_$_CatAnimal(void ) {
@@ -129,11 +149,11 @@ isa: PrisonCat -> PrisonCat(meta) -> NSObject(meta)
 isa: CatAnimal -> CatAnimal(meta) -> NSObject(meta)
 ```
 
-通过运行时函数`objc_getMetaClass`，`objc_getClass`，`class_isMetaClass`，`class_getSuperclass`得到如下superclass关系，具体代码在[这里](https://github.com/geemaple/geemaple.github.io/blob/master/_code/iOS/ClassObject/ClassObject/main.m)
+通过运行时函数**objc_getMetaClass**，**objc_getClass**，**class_isMetaClass**，**class_getSuperclass**得到如下superclass关系
 
 ```C++
-superclass: PrisonCat < CatAnimal < NSObject < nil
-superclass: PrisonCat[meta] < CatAnimal[meta] < NSObject[meta] < NSObject < nil
+superclass: PrisonCat => CatAnimal => NSObject => nil 
+superclass: PrisonCat[meta] => CatAnimal[meta] => NSObject[meta] => NSObject => nil 
 ```
 
 最后通过如下摘抄源码[objc-runtime-new.h](https://github.com/geemaple/objc4-709/blob/master/runtime/objc-runtime-new.h#L1235-L1240)可以画出一个类的关系图
@@ -145,9 +165,17 @@ superclass: PrisonCat[meta] < CatAnimal[meta] < NSObject[meta] < NSObject < nil
     bool isRootMetaclass() {
         return ISA() == (Class)this;
     }
+
+    Class cls = ((Class (*)(id, SEL))(void *)objc_msgSend)((id)self, sel_registerName("class"));
+    Class cls = ((Class (*)(__rw_objc_super *, SEL))(void *)objc_msgSendSuper)((__rw_objc_super){(id)self, (id)class_getSuperclass(objc_getClass("PrisonCat"))}, sel_registerName("class"));
 ```
 
 ![类的关系图]({{site.static}}/images/Objc_object_class_meta_relations.jpg)
+
+首先，只看绿色的父类箭头，在OC中一切基类都是NSObject, NSObject没有父类
+
+其次, **isRootMetaclass**使用了并查集的根节点判断, 也就是说**meta class**都属于同一个集合. 且**NSObject[meta]**为并查集的跟节点
+
 
 ## 更多
 [https://blog.ibireme.com/2013/11/25/objc-object/](https://blog.ibireme.com/2013/11/25/objc-object/)

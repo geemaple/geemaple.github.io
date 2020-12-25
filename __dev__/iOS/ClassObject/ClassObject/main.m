@@ -35,7 +35,7 @@
         //因为PrisonCat没有覆盖class方法，所以调用self和super结果是一样的
         Class cls = [self class];
         Class super_cls = [super class];
-        printf("place holder");
+        printf("cls %s super_cls\n", cls == super_cls ? "==" : "!=");
     }
     return self;
 }
@@ -69,9 +69,9 @@ void printSuperClass(Class cls){
     printf("superclass: %s%s", class_getName(cls), class_isMetaClass(cls)?"[meta]": "");
     while (class_getSuperclass(cls)) {
         cls = class_getSuperclass(cls);
-        printf(" < %s%s", class_getName(cls), class_isMetaClass(cls)?"[meta]": "");
+        printf(" => %s%s", class_getName(cls), class_isMetaClass(cls)?"[meta]": "");
     }
-    printf(" < nil \n");
+    printf(" => nil \n");
 }
 
 int main(int argc, const char * argv[]) {

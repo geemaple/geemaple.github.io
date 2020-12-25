@@ -7,3 +7,4 @@ xcschememanagement.plist
 *.xcbkptlist
 tmp.*
 __dev__/.lc/cache
+__dev__/iOS/ClassObject/ClassObject.xcodeproj/project.xcworkspace/xcshareddata

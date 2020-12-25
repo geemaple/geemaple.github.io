@@ -3,7 +3,7 @@ layout: post
 title: "C++数据内存Alignment与Padding"
 date: 2014-02-18
 categories: iOS
-tags: C++
+tags: Lang
 excerpt: 本文主要列举C/C++常用数据类型在32位与64位机器中内存大小，涉及到内存对齐(alignment)与补全(padding), 以及如何优化一个结构体占用内存大小。
 ---
 
@@ -182,6 +182,27 @@ offsetof无法用在bit元素上，不过我想可以最小类型char来做个�
 如果把Struct看成高铁座位，其中每个乘客, 都有自己的位置，并且有足够舒适的空间(即对齐和补全)
 
 Union可以看成高铁的一个洗手间，可以容纳任意指定乘客，通常一次只能一个人使用
+
+```cpp
+union foo {
+  int a;   // can't use both a and b at once
+  char b;
+} foo;
+
+struct bar {
+  int a;   // can use both a and b simultaneously
+  char b;
+} bar;
+
+
+union foo x;
+x.a = 3; // OK
+x.b = 'c'; // NO! this affects the value of x.a!
+
+struct bar y;
+y.a = 3; // OK
+y.b = 'c'; // OK
+```
 
 ## 优化Struct大小
 
