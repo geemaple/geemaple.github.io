@@ -2,7 +2,7 @@
 layout: post
 title: "Objective-C Class与Object的关系"
 date: 2014-07-06
-categories: ios
+categories: iOS
 tags: obj-c runtime
 excerpt: 用了那么久的面向对象，这回我们看看对象是什么
 ---
@@ -14,9 +14,7 @@ excerpt: 用了那么久的面向对象，这回我们看看对象是什么
 
 虽然Foundation不是开源的，但苹果其实是[开源社区的主力军之一](https://opensource.apple.com/)，这回我们主要研究Objective-C中的类与对象，其历史源码在[这里](https://opensource.apple.com/tarballs/objc4/), 这里我修改了一个[709版本](https://github.com/geemaple/objc4-709)，你可以拿过去直接运行
 
-## 热身
-
-### Struct And Union
+## Struct And Union
 
 如果把Struct看成高铁座位，那每个乘客, 都有自己的位置，并且有足够舒适的空间(即对齐和补全)
 
