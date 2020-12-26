@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "锁的经典问题"
+title: "并发经典问题"
 date: 2020-12-27
 categories: Core
 tags: OS
-excerpt: "一直搞不懂的东西"
+excerpt: "奇怪的经典问题"
 ---
 
 * content

@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "锁与条件变量"
+title: "条件变量"
 date: 2020-12-26
 categories: Core
 tags: OS
-excerpt: "经典场景"
+excerpt: "条件变量"
 ---
 
 * content

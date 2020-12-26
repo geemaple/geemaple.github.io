@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "锁的实现"
+title: "信号量"
 date: 2020-12-26
 categories: Core
 tags: OS
