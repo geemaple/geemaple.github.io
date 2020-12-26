@@ -22,7 +22,7 @@ extern int _objc_rootRetainCount(id); //这是个私有API
 }
 
 - (BOOL)retainWeakReference{
-    NSLog(@"retainWeakReference");
+    printf("retainWeakReference");
     return NO;
 }
 

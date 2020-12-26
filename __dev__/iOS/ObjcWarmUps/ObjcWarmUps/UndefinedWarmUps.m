@@ -22,7 +22,11 @@
 @end
 
 @implementation ExistingOneFileClass(TestingOne)
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wshadow-ivar"
 - (NSString *)sayHi{ return @"TestingOne sayhi";}
+#pragma clang diagnostic pop
 @end
 
 
