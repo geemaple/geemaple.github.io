@@ -2,9 +2,12 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:Pthread/Pthread.xcodeproj">
+      location = "group:ObjcBasics/ObjcBasics.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:ObjcWarmUps/ObjcWarmUps.xcodeproj">
+      location = "group:ClassObject/ClassObject.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Pthread/Pthread.xcodeproj">
    </FileRef>
 </Workspace>

@@ -7,22 +7,25 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		05651BDA2597A3A40022ED6E /* ObjcWarmUpsTesting.m in Sources */ = {isa = PBXBuildFile; fileRef = 05651BD92597A3A40022ED6E /* ObjcWarmUpsTesting.m */; };
+		05651C162599ED560022ED6E /* PthreadTesting.m in Sources */ = {isa = PBXBuildFile; fileRef = 05651C152599ED560022ED6E /* PthreadTesting.m */; };
+		05651C1D2599EDA00022ED6E /* ProducerAndConsumerSemaphoreTesting.m in Sources */ = {isa = PBXBuildFile; fileRef = 05651BD0259792F00022ED6E /* ProducerAndConsumerSemaphoreTesting.m */; };
+		05651C1F2599EDA30022ED6E /* ProducerAndConsumerTesting.m in Sources */ = {isa = PBXBuildFile; fileRef = 05651BC8259770B80022ED6E /* ProducerAndConsumerTesting.m */; };
+		05651C212599EDA50022ED6E /* JoinSemaphoreTesting.m in Sources */ = {isa = PBXBuildFile; fileRef = 05651BCB2597879A0022ED6E /* JoinSemaphoreTesting.m */; };
+		05651C222599EDA70022ED6E /* JoinPthreadTesting.m in Sources */ = {isa = PBXBuildFile; fileRef = 05651BC0259767710022ED6E /* JoinPthreadTesting.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		05651BC0259767710022ED6E /* JoinPthreadTesting.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JoinPthreadTesting.m; sourceTree = "<group>"; };
-		05651BC2259767710022ED6E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		05651BC8259770B80022ED6E /* ProducerAndConsumerTesting.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProducerAndConsumerTesting.m; sourceTree = "<group>"; };
 		05651BCB2597879A0022ED6E /* JoinSemaphoreTesting.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JoinSemaphoreTesting.m; sourceTree = "<group>"; };
 		05651BD0259792F00022ED6E /* ProducerAndConsumerSemaphoreTesting.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProducerAndConsumerSemaphoreTesting.m; sourceTree = "<group>"; };
-		05651BD72597A3A40022ED6E /* ObjcWarmUpsTesting.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ObjcWarmUpsTesting.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		05651BD92597A3A40022ED6E /* ObjcWarmUpsTesting.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ObjcWarmUpsTesting.m; sourceTree = "<group>"; };
-		05651BDB2597A3A50022ED6E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		05651C132599ED560022ED6E /* PthreadTesting.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = PthreadTesting.xctest; path = /Users/dean/Developer/geemaple.github.io/__dev__/iOS/Pthread/build/Debug/PthreadTesting.xctest; sourceTree = "<absolute>"; };
+		05651C152599ED560022ED6E /* PthreadTesting.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PthreadTesting.m; sourceTree = "<group>"; };
+		05651C172599ED560022ED6E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		05651BD42597A3A40022ED6E /* Frameworks */ = {
+		05651C102599ED560022ED6E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -37,17 +40,7 @@
 			children = (
 				05651B7A259764640022ED6E /* Pthread */,
 				05651BBF259767710022ED6E /* PthreadTesting */,
-				05651BD82597A3A40022ED6E /* ObjcWarmUpsTesting */,
-				05651B79259764640022ED6E /* Products */,
 			);
-			sourceTree = "<group>";
-		};
-		05651B79259764640022ED6E /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				05651BD72597A3A40022ED6E /* ObjcWarmUpsTesting.xctest */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		05651B7A259764640022ED6E /* Pthread */ = {
@@ -60,7 +53,8 @@
 		05651BBF259767710022ED6E /* PthreadTesting */ = {
 			isa = PBXGroup;
 			children = (
-				05651BC2259767710022ED6E /* Info.plist */,
+				05651C152599ED560022ED6E /* PthreadTesting.m */,
+				05651C172599ED560022ED6E /* Info.plist */,
 				05651BC0259767710022ED6E /* JoinPthreadTesting.m */,
 				05651BCB2597879A0022ED6E /* JoinSemaphoreTesting.m */,
 				05651BC8259770B80022ED6E /* ProducerAndConsumerTesting.m */,
@@ -69,33 +63,24 @@
 			path = PthreadTesting;
 			sourceTree = "<group>";
 		};
-		05651BD82597A3A40022ED6E /* ObjcWarmUpsTesting */ = {
-			isa = PBXGroup;
-			children = (
-				05651BD92597A3A40022ED6E /* ObjcWarmUpsTesting.m */,
-				05651BDB2597A3A50022ED6E /* Info.plist */,
-			);
-			path = ObjcWarmUpsTesting;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		05651BD62597A3A40022ED6E /* ObjcWarmUpsTesting */ = {
+		05651C122599ED560022ED6E /* PthreadTesting */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 05651BDC2597A3A50022ED6E /* Build configuration list for PBXNativeTarget "ObjcWarmUpsTesting" */;
+			buildConfigurationList = 05651C182599ED560022ED6E /* Build configuration list for PBXNativeTarget "PthreadTesting" */;
 			buildPhases = (
-				05651BD32597A3A40022ED6E /* Sources */,
-				05651BD42597A3A40022ED6E /* Frameworks */,
-				05651BD52597A3A40022ED6E /* Resources */,
+				05651C0F2599ED560022ED6E /* Sources */,
+				05651C102599ED560022ED6E /* Frameworks */,
+				05651C112599ED560022ED6E /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = ObjcWarmUpsTesting;
-			productName = ObjcWarmUpsTesting;
-			productReference = 05651BD72597A3A40022ED6E /* ObjcWarmUpsTesting.xctest */;
+			name = PthreadTesting;
+			productName = PthreadTesting;
+			productReference = 05651C132599ED560022ED6E /* PthreadTesting.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -106,7 +91,7 @@
 			attributes = {
 				LastUpgradeCheck = 1230;
 				TargetAttributes = {
-					05651BD62597A3A40022ED6E = {
+					05651C122599ED560022ED6E = {
 						CreatedOnToolsVersion = 12.3;
 					};
 				};
@@ -120,17 +105,17 @@
 				Base,
 			);
 			mainGroup = 05651B6F259764640022ED6E;
-			productRefGroup = 05651B79259764640022ED6E /* Products */;
+			productRefGroup = 05651B6F259764640022ED6E;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				05651BD62597A3A40022ED6E /* ObjcWarmUpsTesting */,
+				05651C122599ED560022ED6E /* PthreadTesting */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		05651BD52597A3A40022ED6E /* Resources */ = {
+		05651C112599ED560022ED6E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -140,11 +125,15 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		05651BD32597A3A40022ED6E /* Sources */ = {
+		05651C0F2599ED560022ED6E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				05651BDA2597A3A40022ED6E /* ObjcWarmUpsTesting.m in Sources */,
+				05651C162599ED560022ED6E /* PthreadTesting.m in Sources */,
+				05651C222599EDA70022ED6E /* JoinPthreadTesting.m in Sources */,
+				05651C1D2599EDA00022ED6E /* ProducerAndConsumerSemaphoreTesting.m in Sources */,
+				05651C1F2599EDA30022ED6E /* ProducerAndConsumerTesting.m in Sources */,
+				05651C212599EDA50022ED6E /* JoinSemaphoreTesting.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -262,34 +251,34 @@
 			};
 			name = Release;
 		};
-		05651BDD2597A3A50022ED6E /* Debug */ = {
+		05651C192599ED560022ED6E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = ObjcWarmUpsTesting/Info.plist;
+				INFOPLIST_FILE = PthreadTesting/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = mogoal.ObjcWarmUpsTesting;
+				PRODUCT_BUNDLE_IDENTIFIER = mogoal.PthreadTesting;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
-		05651BDE2597A3A50022ED6E /* Release */ = {
+		05651C1A2599ED560022ED6E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = ObjcWarmUpsTesting/Info.plist;
+				INFOPLIST_FILE = PthreadTesting/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = mogoal.ObjcWarmUpsTesting;
+				PRODUCT_BUNDLE_IDENTIFIER = mogoal.PthreadTesting;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -306,11 +295,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		05651BDC2597A3A50022ED6E /* Build configuration list for PBXNativeTarget "ObjcWarmUpsTesting" */ = {
+		05651C182599ED560022ED6E /* Build configuration list for PBXNativeTarget "PthreadTesting" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				05651BDD2597A3A50022ED6E /* Debug */,
-				05651BDE2597A3A50022ED6E /* Release */,
+				05651C192599ED560022ED6E /* Debug */,
+				05651C1A2599ED560022ED6E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
