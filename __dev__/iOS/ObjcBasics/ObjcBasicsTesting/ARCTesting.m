@@ -8,36 +8,9 @@
 
 #import <XCTest/XCTest.h>
 
+
 extern uintptr_t _objc_rootRetainCount(id obj); // 这是个私有API，作用是返回obj的引用计数。
 extern void _objc_autoreleasePoolPrint(void); //这是个私有API, 作用是打印当前的自动释放池对象。
-
-@interface CatAnimal : NSObject
-
-@end
-
-@implementation CatAnimal
-
-@end
-
-@interface PrisonCat : CatAnimal
-
-@property(nonatomic, copy) NSString *name;
-@property(atomic, assign) BOOL isSick;
-
-- (void)fullySick;
-+ (void)fullySick;
-@end
-
-@implementation PrisonCat
-
-- (void)fullySick{
-    printf("nice job\n");
-}
-+ (void)fullySick{
-    printf("fully sick bro\n");
-}
-
-@end
 
 @interface MRCObject : NSObject
 + (instancetype)object;

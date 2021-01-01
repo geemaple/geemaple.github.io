@@ -9,61 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <objc/runtime.h>
 #import <objc/objc.h>
-
-
-@interface CatAnimal : NSObject
-
-@end
-
-@implementation CatAnimal
-
-@end
-
-@interface PrisonCat : CatAnimal
-
-@property(nonatomic, copy) NSString *name;
-@property(atomic, assign) BOOL isSick;
-
-- (void)fullySick;
-+ (void)fullySick;
-@end
-
-@implementation PrisonCat
-
-- (instancetype)init{
-    if(self = [super init]){
-        //因为PrisonCat没有覆盖class方法，所以调用self和super结果是一样的
-        Class cls = [self class];
-        Class super_cls = [super class];
-        printf("cls %s super_cls\n", cls == super_cls ? "==" : "!=");
-    }
-    return self;
-}
-
-//- (Class)class{
-//    return objc_getClass("NSObject");
-//}
-
-- (void)fullySick{
-    printf("nice job\n");
-}
-+ (void)fullySick{
-    printf("fully sick bro\n");
-}
-
-@end
-
-
-@interface PrisonCat(Mogoal)
-- (void)catCrawl;
-@end
-
-@implementation PrisonCat(Mogoal)
-- (void)catCrawl{
-    printf("crawling x1 x2 x3 jump\n");
-}
-@end
-
+#import "CatAnimal.h"
 
 void printSuperClass(Class cls){
     printf("superclass: %s%s", class_getName(cls), class_isMetaClass(cls)?"[meta]": "");

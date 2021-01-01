@@ -7,6 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
+#import "CatAnimal.h"
 
 struct mogoal_class{
     mogoal_class *isa;
@@ -47,6 +48,12 @@ typedef struct mogoal_object *custom_id; //对象的定义
 - (void)tearDown {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
     [super tearDown];
+}
+
+- (void)testSelfAndSuper {
+    NSLog(@"==== start ====");
+    PrisonCat *cat = [PrisonCat new];
+    NSLog(@"==== end ====");
 }
 
 - (void)testFakeObjectAndClass{
