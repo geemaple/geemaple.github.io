@@ -2,7 +2,7 @@
 layout: post
 title: "我的iOS程序生涯的起点"
 date: 2014-06-28
-categories: Life
+categories: Milestone
 tags: startup
 excerpt: 当你累了，倦了，偶尔回过头看看来时的路，也许会走得更远
 ---

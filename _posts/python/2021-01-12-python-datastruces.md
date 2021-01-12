@@ -290,6 +290,6 @@ for q, a in zip(questions, answers):
 
 ## 参考
 
-[Python常用数据结构](https://docs.python.org/3/tutorial/datastructures.html)
+Python常用数据结构: [https://docs.python.org/3/tutorial/datastructures.html](https://docs.python.org/3/tutorial/datastructures.html)
 
 -- End --

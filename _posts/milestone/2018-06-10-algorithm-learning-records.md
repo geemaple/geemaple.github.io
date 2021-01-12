@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "SE内功修炼之算法篇"
+title: "Leetcode-刷题记录"
 date: 2018-06-10
-categories: core
+categories: Milestone
 tags: leetcode
 excerpt: 内功修炼之算法篇
 ---
@@ -26,24 +26,16 @@ excerpt: 内功修炼之算法篇
 
 ## [刷leetcode吃力正常吗？](https://www.zhihu.com/question/31092580/answer/432178498)
 
-# 学习卡片
-![Leetcode_learn_hash_table.jgp]({{site.static}}/images/Leetcode_learn_hash_table.jpg)<!-- .element height="50%" width="50%" -->
-
 # 里程碑
 
-## 100 Questiones/2018-05-28
+## 2018-05-28/100问题
 ![Leetcode_2018_05_28.jgp]({{site.static}}/images/Leetcode_2018_05_28.jpg)<!-- .element height="50%" width="50%" -->
 
-## 250 Accepts/2018-06-10
-![Leetcode_2018_06_10.jpg]({{site.static}}/images/Leetcode_2018_06_10.jpg)<!-- .element height="50%" width="50%" -->
-
-## 300 Accepts/2018-06-25
-![Leetcode_2018_06_25.jpg]({{site.static}}/images/Leetcode_2018_06_25.jpg)<!-- .element height="50%" width="50%" -->
-
-## 150 Questiones/2018-06-29
+## 2018-06-29/150问题
 ![Leetcode_2018_06_29.jpg]({{site.static}}/images/Leetcode_2018_06_29.jpg)<!-- .element height="50%" width="50%" -->
 
-## 200个问题
-## 500次Accept
-努力达成中..
-进度传送门[LeetCode修行之路](https://github.com/geemaple/algorithm)
+## 2021-01-12/300问题
+![Leetcode_2021_01_12.jpg]({{site.static}}/images/Leetcode_2021_01_12.jpg)<!-- .element height="50%" width="50%" -->
+
+## 下一个里程碑
+  TBD
