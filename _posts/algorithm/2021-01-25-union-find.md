@@ -3,7 +3,7 @@ layout: post
 index: 14
 title: "并查集(Union Find)"
 categories: Algorithm
-tags: 亢龙有悔 Union-find
+tags: 亢龙有悔 Union-find Disjoint-set
 excerpt: "Big Brother"
 ---
 
