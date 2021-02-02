@@ -126,6 +126,8 @@ PS: 代码中用数组实现的，你也可以尝试用Hash来实现
 
 [https://en.wikipedia.org/wiki/Iterated_logarithm](https://en.wikipedia.org/wiki/Iterated_logarithm)
 
-[https://en.wikipedia.org/wiki/Disjoint-set_data_structure#Proof_of_O(log*(n))_time_complexity_of_Union-Find](https://en.wikipedia.org/wiki/Disjoint-set_data_structure#Proof_of_O(log*(n))_time_complexity_of_Union-Find)
+[https://en.wikipedia.org/wiki/Disjoint-set_data_structure#Proof_of_O(log*(n))_time_complexity_of_Union-Find][1]
 
 --End--
+
+[1]: https://en.wikipedia.org/wiki/Disjoint-set_data_structure#Proof_of_O(log*(n))_time_complexity_of_Union-Find
