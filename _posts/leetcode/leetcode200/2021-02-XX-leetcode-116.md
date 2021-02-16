@@ -112,7 +112,7 @@ left right ----->   left right
 
 跨节点的时候, 上一层是已经链接好的
 
-node1.right.next = node1.next.left, 然后只关注node2节点后面的部分
+node1.right.next = node2.next.left, 然后只关注node2节点后面的部分
 
 cur始终指向一层的第一个节点，level用来做层级操作
 
