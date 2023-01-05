@@ -106,8 +106,8 @@ service sshd restart  # 重启服务，是配置生效
 
 ```sh
 Host 54.174.51.64
-  IdentityFile /Users/dean/Developer/some_rsa
-  IdentityFile /Users/dean/Developer/other_rsa
+  IdentityFile /Users/felix/Developer/some_rsa
+  IdentityFile /Users/felix/Developer/other_rsa
   Port 41414
 ```
 

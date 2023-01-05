@@ -83,7 +83,7 @@ Linux常用命令收集
 
 以第一行为例:
 
-    -rw-r--r--   1 dean  admin   3.1K Apr 21 14:39 CODEOFCONDUCT.md
+    -rw-r--r--   1 felix  admin   3.1K Apr 21 14:39 CODEOFCONDUCT.md
 
 字符: -
  -表示文件
@@ -100,7 +100,7 @@ Linux常用命令收集
  当前只是一个Markdown文件，链接数位1
  若空文件夹连接数默认2，包含(. ..)两个目录
 
-字符: dean
+字符: felix
  表示文件所属人
 
 字符: admin

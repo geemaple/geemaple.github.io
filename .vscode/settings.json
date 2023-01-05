@@ -1,5 +1,5 @@
 {
-  "python.pythonPath": "/Users/dean/.pyenv/shims/python",
+  "python.pythonPath": "/Users/Felix/.pyenv/shims/python",
   "python.linting.pylintEnabled": true,
   "python.linting.enabled": true
 }
