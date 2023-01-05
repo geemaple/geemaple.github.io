@@ -4,7 +4,7 @@ title: "OpenGL环境设置"
 date: 2022-01-05
 categories: Graphics
 tags: opengl
-excerpt: 
+excerpt: 设置OpenGL环境，显示窗口，处理窗口缩放与键盘事件
 ---
 
 * content
