@@ -98,15 +98,13 @@ cmake "-DCMAKE_OSX_ARCHITECTURES=x86_64;arm64" .
 
 ```cpp
 //
-//  main.cpp
+//  lesson_01.cpp
 //  learn_opengl
 //
 //  Created by Felix Ji on 1/5/23.
 //
 
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-#include <iostream>
+#include "lesson_01.hpp"
 
 // handle window resize
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
@@ -123,7 +121,7 @@ void processInput(GLFWwindow *window)
         glfwSetWindowShouldClose(window, true);
 }
 
-int main(void) {
+int lenson_01_entry(void) {
 
     glfwInit();
 // opengl 3.3
@@ -174,7 +172,6 @@ int main(void) {
     glfwTerminate();
     return 0;
 }
-
 ```
 
 ## 更多
