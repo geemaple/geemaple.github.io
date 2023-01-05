@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "OpenGL环境设置"
-date: 2014-02-18
+date: 2022-01-05
 categories: Graphics
 tags: opengl
 excerpt: 
