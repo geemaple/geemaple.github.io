@@ -21,7 +21,7 @@ When an application draws in a single buffer the resulting image may display fli
 */
 ```
 
-```glfwSwapBuffers```采用两个缓冲设计，因为绘制不是立即完成的，所以绘制在幕后进行，当绘制完成后，在切换到前台给用户看到，这样增强用户体验
+`glfwSwapBuffers`采用两个缓冲设计，因为绘制不是立即完成的，所以绘制在幕后进行，当绘制完成后，在切换到前台给用户看到，这样增强用户体验
 
 ## 垂直同步
 
@@ -61,7 +61,7 @@ Graphics Pipeline的另一部分工作室，将转换的2D坐标，绘制成颜�
 1. 流水线通常意味着一条线的输出是另一条线的输入
 2. 流水线可以同时进行
 
-流水线上的操作处理程序，称作shaders，阳光下的暗影，但shaders已经进化成为处理图形渲染的专门程序
+流水线上的操作处理程序，称作shaders，阳光下的暗影，但shaders一词已经进化成为处理图形渲染的专门程序
 
 ![Graphics Pipeline]({{site.static}}/images/Graphics_pipeline.png)
 
