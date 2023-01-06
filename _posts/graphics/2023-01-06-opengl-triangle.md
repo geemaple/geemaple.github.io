@@ -65,7 +65,7 @@ Graphics Pipeline的另一部分工作室，将转换的2D坐标，绘制成颜�
 
 流水线上的操作处理程序，称作shaders，随着时间推移，shaders一词已经进化成为处理图形渲染的专门程序
 
-![Graphics Pipeline]({{site.static}}/images/graphics_pipeline.png)
+![Graphics Pipeline]({{site.static}}/images/opengl_graphics_pipeline.png)
 
 ## GLSL
 
