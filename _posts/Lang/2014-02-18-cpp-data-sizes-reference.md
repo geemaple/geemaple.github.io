@@ -19,7 +19,8 @@ C++是Objective-C底层技术的实现语言，所以夯实基础，有助于源
 本文涉及测试代码在[这里](https://github.com/geemaple/geemaple.github.io/blob/master/__dev__/iOS/ObjcWarmUps/ObjcWarmUps/SizingWarmUps.mm), 你可以选择Xcode -> Target -> Building Settings -> Architectures来选择32位还是64位
 
 ## 内存对齐
-如果把内存看成8-bit一个单元的列车车厢，C语言需要把基本的数据类型整齐的放入车厢中，这样能够有助于CPU通过一个指令读取和存入数据，如果没有对齐的处理，那么一个数据很有可能横跨两个车厢，CPU可能需要2个指令或者更多。
+
+如果把内存1B看成8个座位的列车车厢，C语言需要把基本的数据类型整齐的放入车厢中，这样能够有助于CPU通过一个指令读取和存入数据，如果没有对齐的处理，那么一个数据很有可能横跨两个车厢，CPU可能需要2个指令或者更多, 效率变低。
 
 为了确保数据尽可能呆在一个车厢内:
 
@@ -57,7 +58,7 @@ off_t = fpos_t = long long
 
 我们假设代码变量顺序，就是变量在内存中的顺序(C99提到，补齐并不保证其值为0)
 
-指针对齐非常严格，必须占满4/8个车厢，无论之前内存布局如何
+指针对齐非常严格，必须占满4或8座位车厢，无论之前内存布局如何
 
 情况1: int
 ```c++
@@ -82,7 +83,7 @@ long x;      // 4B(ILP32) 或 8B(LP64)
 
 情况4: char开头
 ```c++
-char c;      // 1B 考虑已有内存情况, 需要0-3(ILP32)或0-7(LP64)补齐
+char c;      // 1B 考虑已有内存情况, char的起始位置不定, 需要[0-3](ILP32)或[0-7](LP64)补齐
 char *p;     // 4B(ILP32) 或 8B(LP64)
 int x;       // 4B
 ```
@@ -209,7 +210,7 @@ y.b = 'c'; // OK
 最简单的优化Struct大小的方式是，按照Bytes从大到小一次排序，先是8Byte > 4Byte > 2Byte > 1Byte
 这样做的原因是，任意一个较大size的数据类型padding后，接下来的起始地址，总是适合Size比他小的数据类型，
 
-但是，例如下面代码，有时仅靠重新布局是无法节省struct的大小的，这时应该考虑设计上能否有什么改进。
+但是，例如下面代码，有时仅靠重新布局是无法节省struct的大小的。
 ```c++
 struct foo12 {
     struct foo12_inner {
@@ -219,8 +220,6 @@ struct foo12 {
     char c;           /* 1 byte*/
 };
 ```
-
-代码并不是只给机器看的，你可能和其他工程师合作，又或许将来的你可能回溯这段代码。所以合理的安排有相同意义的数据分组，对可读性有很大帮助。作为工程师，这个重要的优化，设计，与可读性问题就留给你了
 
 ## 更多
 [https://developer.apple.com/library/content/documentation/General/Conceptual/CocoaTouch64BitGuide/Major64-BitChanges/Major64-BitChanges.html#//apple_ref/doc/uid/TP40013501-CH2-SW1](https://developer.apple.com/library/content/documentation/General/Conceptual/CocoaTouch64BitGuide/Major64-BitChanges/Major64-BitChanges.html#//apple_ref/doc/uid/TP40013501-CH2-SW1)

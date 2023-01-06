@@ -33,7 +33,7 @@ excerpt: “行走江湖必备，C++三种常用的cmp方式实现”
 
 # 重载操作符<
 
-```
+```cpp
 struct Triple{
     int height, x, y;
     Triple(int height, int x, int y){
@@ -50,7 +50,7 @@ struct Triple{
 ```
 注意需要用到const，也就是你不能够在比较的同时修改当前this的成员变量
 
-```
+```cpp
 struct Triple{
     int height, x, y;
     Triple(int height, int x, int y){
@@ -69,7 +69,7 @@ struct Triple{
 这个比第一种更清晰一些，friend函数就像一个static函数，这时就无法访问this成员变量, 使用如下：
 
 
-```
+```cpp
 vector<Triple> v;
 sort(v.begin(), v.end());
 
@@ -82,7 +82,7 @@ set<Triple> s;
 
 有些内部数据类型，我们无法修改其Struct或者Class定义，可以通过比较函数来进行
 
-```
+```cpp
 struct Triple{
     int height, x, y;
     Triple(int height, int x, int y){
@@ -100,14 +100,14 @@ bool cmp(Triple a, Triple b)
 
 使用如下：
 
-```
+```cpp
 Triple test[4] = {Triple(2,5,6), Triple(9,3,6), Triple(0,5,6), Triple(12,5,6)};
 sort(begin(test), end(test), cmp);
 ```
 
 # 定义操作符()
 
-```
+```cpp
 struct cmp
 {
     bool operator()(const Triple& a,const Triple& b)
@@ -120,14 +120,14 @@ struct cmp
 
 C++标准库STL中也有默认的less<T>和greater<T>, 具体使用如下：
 
-```
+```cpp
 set<Triple, cmp> s;
 priority_queue<Triple, vector<Triple>, cmp> pq;
 ```
 
 functor也可以在后面加上(),就变成了第二种使用方法，例如
 
-```
+```cpp
 sort(data.begin(), data.end(), greater<int>());
 
 Triple test[4] = {Triple(2,5,6), Triple(2,3,6), Triple(0,5,6), Triple(12,5,6)};
@@ -141,7 +141,7 @@ sort(begin(test), end(test), cmp());
 ##彩蛋1
 如果你定义的class非常大，那你最好通过Const和&来进行，好处是通过引用而不是这个对象,例如
 
-```
+```cpp
 bool cmp(const Triple& a,const Triple& b)
 {
     return  a.height > b.height;
