@@ -97,17 +97,8 @@ cmake "-DCMAKE_OSX_ARCHITECTURES=x86_64;arm64" .
 此外，Framework需要IOKit和Cocoa
 
 ```cpp
-//
-//  lesson_01.cpp
-//  learn_opengl
-//
-//  Created by Felix Ji on 1/5/23.
-//
-
-#include "lesson_01.hpp"
-
 // handle window resize
-void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+static void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
     // For retina displays width and height will end up significantly higher than the original input values
     std::cout << "window:" << window << " width:" << width << " height:" << height << std::endl;
@@ -115,47 +106,54 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 }
 
 // handle keyboard input
-void processInput(GLFWwindow *window)
+static void processInput(GLFWwindow *window)
 {
     if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
 }
 
-int lenson_01_entry(void) {
-
+// create window to draw
+static GLFWwindow * createGraphicWindow(const char *title, int width, int height) {
     glfwInit();
-// opengl 3.3
+    // opengl 3.3
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-// core mode
+    // core mode
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 #ifdef __APPLE__
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
     
-// create window
-    GLFWwindow* window = glfwCreateWindow(800, 600, "LearnOpenGL", NULL, NULL);
+    // create window
+    GLFWwindow* window = glfwCreateWindow(width, height, title, NULL, NULL);
     if (window == NULL)
     {
         std::cout << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
-        return -1;
+        return NULL;
     }
-// make the window's context current
+    // make the window's context current
     glfwMakeContextCurrent(window);
     
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
         std::cout << "Failed to initialize GLAD" << std::endl;
-        return -1;
     }
     
-// pixels view port will transform (-1 to 1) to (0, 800) and (0, 600)
-    glViewport(0, 0, 800, 600);
-// We register the callback functions after we've created the window and before the render loop is initiated.
+    // pixels view port will transform (-1 to 1) to (0, 800) and (0, 600)
+    glViewport(0, 0, width, height);
+    // We register the callback functions after we've created the window and before the render loop is initiated.
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     
-// render loop, each iteration is called a frame
+    return window;
+}
+
+int Lesson01::entry(void) {
+    
+    // create window
+    GLFWwindow* window = createGraphicWindow("OpenGL Lesson 01", 800, 600);
+    
+    // render loop, each iteration is called a frame
     while(!glfwWindowShouldClose(window))
     {
         processInput(window);
@@ -168,7 +166,7 @@ int lenson_01_entry(void) {
         glfwPollEvents();
     }
     
-// clean up all the resources
+    // clean up all the resources
     glfwTerminate();
     return 0;
 }
