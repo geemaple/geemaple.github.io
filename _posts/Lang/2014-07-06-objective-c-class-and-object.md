@@ -4,7 +4,7 @@ title: "Objective-C Class与Object的关系"
 date: 2014-07-06
 categories: Lang
 tags: Lang Objective-C
-excerpt: 用了那么久的面向对象，这回我们看看对象是什么
+excerpt: 苹果用尽全力，隐藏ISA
 ---
 
 * content
@@ -12,19 +12,11 @@ excerpt: 用了那么久的面向对象，这回我们看看对象是什么
 
 ## 介绍
 
-虽然Foundation不是开源的，但苹果其实是[开源社区的主力军之一](https://opensource.apple.com/)，这回我们主要研究Objective-C中的类与对象，其历史源码在[这里](https://opensource.apple.com/tarballs/objc4/), 这里我修改了一个[709版本](https://github.com/geemaple/objc4-709)，你可以拿过去直接运行
-
-## Struct And Union
-
-如果把Struct看成高铁座位，那每个乘客, 都有自己的位置，并且有足够舒适的空间(即对齐和补全)
-
-Union可以看成高铁的一个洗手间，可以容纳任意乘客，通常一次只能一个人使用
-
-[更详细的可以参考之前的文章]({{site.static}}/C-Data-Sizes-Reference/)
+虽然Foundation不是开源的，但苹果其实是[开源社区的主力军之一](https://opensource.apple.com/)，这回我们主要研究Objective-C中的类与对象，其历史源码在[这里](https://opensource.apple.com/tarballs/objc4/), 写文章是版本是709版本, 旧版的重写文件还仍有保留
 
 ## class和object
 
-在Objc源码Public Headers中[runtime.h](https://github.com/geemaple/objc4-709/blob/master/runtime/runtime.h#L55-L70)和[objc.h](https://github.com/geemaple/objc4-709/blob/master/runtime/objc.h#L36-L47)可以找到class和object的定义
+在Objc源码Public Headers中`runtime.h`和`objc.h`可以找到class和object的定义
 
 ```c++
 
@@ -65,8 +57,7 @@ typedef struct objc_object *id; //对象的定义
 
 苹果在Objective-C 2.0中试图模糊isa的内容，这样多了一层封装，并且isa也被OBJC_ISA_AVAILABILITY废弃，禁止直接访问了
 
-接下来我们看看Project Headers中的相关定义，代码比较长，就只粘贴了部分在这里
-[objc-runtime-new.h](https://github.com/geemaple/objc4-709/blob/master/runtime/objc-runtime-new.h#L1064-L1305)和[objc-private.h](https://github.com/geemaple/objc4-709/blob/master/runtime/objc-private.h#L168-L275)
+接下来我们看看Project Headers中的相关定义，代码比较长，就只粘贴了部分在这里`objc-runtime-new.h`和`objc-private.h`
 
 ```c++
 
@@ -111,9 +102,54 @@ objc_class, protocol_t都继承了objc_object, 可以看出凡是带有isa结构
 
 ## clang重写
 
-具体原OC代码在[这里](https://github.com/geemaple/geemaple.github.io/blob/master/__dev__/iOS/ClassObject/ClassObject/main.m)
+苹果已经更新到866.9，转写代码大不相同，很多isa信息隐藏的更好，自定义类略有修改，当时[Clang转写C++的代码](https://github.com/geemaple/learning/blob/main/learn_ios/ClassObject/ClassObject/old_clang_rewrite_main.cpp)
 
 ```c++
+// 类定义
+struct _class_t {
+	struct _class_t *isa;
+	struct _class_t *superclass;
+	void *cache;
+	void *vtable;
+	struct _class_ro_t *ro;
+};
+
+// 类定义的一部分
+struct _class_ro_t {
+	unsigned int flags;
+	unsigned int instanceStart;
+	unsigned int instanceSize;
+	unsigned int reserved;
+	const unsigned char *ivarLayout;
+	const char *name;
+	const struct _method_list_t *baseMethods;
+	const struct _objc_protocol_list *baseProtocols;
+	const struct _ivar_list_t *ivars;
+	const unsigned char *weakIvarLayout;
+	const struct _prop_list_t *properties;
+};
+
+// 实例
+typedef struct objc_object PrisonCat;
+
+// 父类
+extern "C" __declspec(dllimport) struct _class_t OBJC_METACLASS_$_NSObject;
+extern "C" __declspec(dllexport) struct _class_t OBJC_METACLASS_$_CatAnimal __attribute__ ((used, section ("__DATA,__objc_data"))) = {
+	0, // &OBJC_METACLASS_$_NSObject,
+	0, // &OBJC_METACLASS_$_NSObject,
+	0, // (void *)&_objc_empty_cache,
+	0, // unused, was (void *)&_objc_empty_vtable,
+	&_OBJC_METACLASS_RO_$_CatAnimal,
+};
+
+extern "C" __declspec(dllimport) struct _class_t OBJC_CLASS_$_NSObject;
+extern "C" __declspec(dllexport) struct _class_t OBJC_CLASS_$_CatAnimal __attribute__ ((used, section ("__DATA,__objc_data"))) = {
+	0, // &OBJC_METACLASS_$_CatAnimal,
+	0, // &OBJC_CLASS_$_NSObject,
+	0, // (void *)&_objc_empty_cache,
+	0, // unused, was (void *)&_objc_empty_vtable,
+	&_OBJC_CLASS_RO_$_CatAnimal,
+};
 static void OBJC_CLASS_SETUP_$_CatAnimal(void ) {
 	OBJC_METACLASS_$_CatAnimal.isa = &OBJC_METACLASS_$_NSObject;
 	OBJC_METACLASS_$_CatAnimal.superclass = &OBJC_METACLASS_$_NSObject;
@@ -123,6 +159,24 @@ static void OBJC_CLASS_SETUP_$_CatAnimal(void ) {
 	OBJC_CLASS_$_CatAnimal.cache = &_objc_empty_cache;
 }
 
+// 子类
+extern "C" __declspec(dllimport) struct _class_t OBJC_METACLASS_$_NSObject;
+extern "C" __declspec(dllexport) struct _class_t OBJC_METACLASS_$_PrisonCat __attribute__ ((used, section ("__DATA,__objc_data"))) = {
+	0, // &OBJC_METACLASS_$_NSObject,
+	0, // &OBJC_METACLASS_$_CatAnimal,
+	0, // (void *)&_objc_empty_cache,
+	0, // unused, was (void *)&_objc_empty_vtable,
+	&_OBJC_METACLASS_RO_$_PrisonCat,
+};
+
+extern "C" __declspec(dllexport) struct _class_t OBJC_CLASS_$_CatAnimal;
+extern "C" __declspec(dllexport) struct _class_t OBJC_CLASS_$_PrisonCat __attribute__ ((used, section ("__DATA,__objc_data"))) = {
+	0, // &OBJC_METACLASS_$_PrisonCat,
+	0, // &OBJC_CLASS_$_CatAnimal,
+	0, // (void *)&_objc_empty_cache,
+	0, // unused, was (void *)&_objc_empty_vtable,
+	&_OBJC_CLASS_RO_$_PrisonCat,
+};
 static void OBJC_CLASS_SETUP_$_PrisonCat(void ) {
 	OBJC_METACLASS_$_PrisonCat.isa = &OBJC_METACLASS_$_NSObject;
 	OBJC_METACLASS_$_PrisonCat.superclass = &OBJC_METACLASS_$_CatAnimal;
@@ -142,33 +196,34 @@ __declspec(allocate(".objc_inithooks$B")) static void *OBJC_CLASS_SETUP[] = {
 
 当`objc_inithooks`启动回调时，程序会组装isa和superclass的关系, 可以看出isa关系:
 
-```c++
-isa: PrisonCat -> PrisonCat(meta) -> NSObject(meta)
-isa: CatAnimal -> CatAnimal(meta) -> NSObject(meta)
+通过运行时函数(**object_getClass**，**class_isMetaClass**，**class_getSuperclass**得到如下关系
+
+[测试代码](https://github.com/geemaple/learning/blob/main/learn_ios/ClassObject/ClassObject/main.m)运行如下:
+
 ```
-
-通过运行时函数**objc_getMetaClass**，**objc_getClass**，**class_isMetaClass**，**class_getSuperclass**得到如下superclass关系
-
-```C++
+isa: Kitty := PrisonCat := PrisonCat[meta] := NSObject[meta] := NSObject[meta] := ...
 superclass: PrisonCat => CatAnimal => NSObject => nil 
-superclass: PrisonCat[meta] => CatAnimal[meta] => NSObject[meta] => NSObject => nil 
+superclass: PrisonCat[meta] => CatAnimal[meta] => NSObject[meta] => NSObject => nil
 ```
 
-最后通过如下摘抄源码[objc-runtime-new.h](https://github.com/geemaple/objc4-709/blob/master/runtime/objc-runtime-new.h#L1235-L1240)可以画出一个类的关系图
+最后通过如下摘抄源码`objc-runtime-new.h`可以画出一个类的关系图
 
 ```c++
+    Class object_getClass(id obj)
+    {
+        if (obj) return obj->getIsa();
+        else return Nil;
+    }
+
     bool isRootClass() {
         return superclass == nil;
     }
     bool isRootMetaclass() {
         return ISA() == (Class)this;
     }
-
-    Class cls = ((Class (*)(id, SEL))(void *)objc_msgSend)((id)self, sel_registerName("class"));
-    Class cls = ((Class (*)(__rw_objc_super *, SEL))(void *)objc_msgSendSuper)((__rw_objc_super){(id)self, (id)class_getSuperclass(objc_getClass("PrisonCat"))}, sel_registerName("class"));
 ```
 
-![类的关系图]({{site.static}}/images/objc_object_class_meta_relations.jpg)
+![类的关系图]({{site.static}}/images/objc-object-class-meta-relations.jpg)
 
 首先，只看绿色的父类箭头，在OC中一切基类都是NSObject, NSObject没有父类
 
