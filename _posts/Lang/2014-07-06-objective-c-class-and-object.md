@@ -14,7 +14,7 @@ excerpt: 苹果用尽全力，隐藏ISA
 
 虽然Foundation不是开源的，但苹果其实是[开源社区的主力军之一](https://opensource.apple.com/)，这回我们主要研究Objective-C中的类与对象，其历史源码在[这里](https://opensource.apple.com/tarballs/objc4/), 写文章是版本是709版本, 旧版的重写文件还仍有保留
 
-## class和object
+## Class源码
 
 在Objc源码Public Headers中`runtime.h`和`objc.h`可以找到class和object的定义
 
@@ -100,7 +100,7 @@ struct protocol_t : objc_object {
 
 objc_class, protocol_t都继承了objc_object, 可以看出凡是带有isa结构的，就是objc中的对象. [block也是对象]({{site.static}}/iOS/objective-c-block-learning)，运行时可以通过isa指针，查找到该对象是属于什么类
 
-## clang重写
+## Clang重写
 
 苹果已经更新到866.9，转写代码大不相同，很多isa信息隐藏的更好，自定义类略有修改，当时[Clang转写C++的代码](https://github.com/geemaple/learning/blob/main/learn_ios/ClassObject/ClassObject/old_clang_rewrite_main.cpp)
 
@@ -196,15 +196,7 @@ __declspec(allocate(".objc_inithooks$B")) static void *OBJC_CLASS_SETUP[] = {
 
 当`objc_inithooks`启动回调时，程序会组装isa和superclass的关系, 可以看出isa关系:
 
-通过运行时函数(**object_getClass**，**class_isMetaClass**，**class_getSuperclass**得到如下关系
-
-[测试代码](https://github.com/geemaple/learning/blob/main/learn_ios/ClassObject/ClassObject/main.m)运行如下:
-
-```
-isa: Kitty := PrisonCat := PrisonCat[meta] := NSObject[meta] := NSObject[meta] := ...
-superclass: PrisonCat => CatAnimal => NSObject => nil 
-superclass: PrisonCat[meta] => CatAnimal[meta] => NSObject[meta] => NSObject => nil
-```
+## Runtime源码
 
 最后通过如下摘抄源码`objc-runtime-new.h`可以画出一个类的关系图
 
@@ -221,6 +213,18 @@ superclass: PrisonCat[meta] => CatAnimal[meta] => NSObject[meta] => NSObject => 
     bool isRootMetaclass() {
         return ISA() == (Class)this;
     }
+```
+
+## 代码验证
+
+通过运行时函数(**object_getClass**，**class_isMetaClass**，**class_getSuperclass**得到如下关系
+
+[测试代码](https://github.com/geemaple/learning/blob/main/learn_ios/ClassObject/ClassObject/main.m)运行如下:
+
+```
+isa: Kitty := PrisonCat := PrisonCat[meta] := NSObject[meta] := NSObject[meta] := ...
+superclass: PrisonCat => CatAnimal => NSObject => nil 
+superclass: PrisonCat[meta] => CatAnimal[meta] => NSObject[meta] => NSObject => nil
 ```
 
 ![类的关系图]({{site.static}}/images/objc-object-class-meta-relations.jpg)
