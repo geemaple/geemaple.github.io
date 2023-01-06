@@ -2,8 +2,8 @@
 layout: post
 title: "OpenGL绘制一个三角形"
 date: 2023-01-06
-categories: OpenGL
-tags: graphics
+categories: Graphics
+tags: OpenGL
 excerpt: 三角形是最稳定的
 ---
 
