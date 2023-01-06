@@ -98,7 +98,7 @@ struct protocol_t : objc_object {
 
 其中**struct objc_object**中多了一个**Union isa_t**, isa_t中有两个构造函数其中**bits**和**cls**只能用其中一个
 
-objc_class, protocol_t都继承了objc_object, 可以看出凡是带有isa结构的，就是objc中的对象. [block也是对象]({{site.static}}/iOS/objective-c-block-learning)，运行时可以通过isa指针，查找到该对象是属于什么类
+objc_class, protocol_t都继承了objc_object, 可以看出凡是带有isa结构的，就是objc中的对象. protocl也是对象，运行时可以通过isa指针，查找到该对象是属于什么类
 
 ## Clang重写
 
