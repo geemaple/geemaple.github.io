@@ -33,7 +33,7 @@ BFS适用于：层级遍历，图是否连通，拓扑排序，(同权重)最短
 
 社交网络是图比较常用的切入话题之一，包括N度人脉，单向关注，好友关系
 
-![graph_representation](https://geemaple.github.io/images/graph_representation.png)
+![graph_representation]({{site.static}}/images/graph_representation.png)
 
 ```python
 edge(i, j)表示从点i到点j有一条边

@@ -16,28 +16,28 @@ Linux常用命令收集
 
 ## 查看Linux信息？
 `cat /proc/version`
-![Linux_cmd_proc_version]({{site.static}}/images/Linux_cmd_proc_version.png)
+![linux_cmd_proc_version]({{site.static}}/images/linux_cmd_proc_version.png)
 
 `uname -a`
-![Linux_cmd_uname]({{site.static}}/images/Linux_cmd_uname.png)
+![linux_cmd_uname]({{site.static}}/images/linux_cmd_uname.png)
 
 `lsb_release -a`
 
 ## 查看CPU信息？
 `cat /proc/cpuinfo`
-![Linux_cmd_proc_cpuinfo]({{site.static}}/images/Linux_cmd_proc_cpuinfo.png)
+![linux_cmd_proc_cpuinfo]({{site.static}}/images/linux_cmd_proc_cpuinfo.png)
 
 `lscpu`
-![Linux_cmd_lscpu_0]({{site.static}}/images/Linux_cmd_lscpu_0.png)
-![Linux_cmd_lscpu_1]({{site.static}}/images/Linux_cmd_lscpu_1.png)
+![linux_cmd_lscpu_0]({{site.static}}/images/linux_cmd_lscpu_0.png)
+![linux_cmd_lscpu_1]({{site.static}}/images/linux_cmd_lscpu_1.png)
 
 ## 查看内存信息
 `free -h`
-![Linux_cmd_free]({{site.static}}/images/Linux_cmd_free.png)
+![linux_cmd_free]({{site.static}}/images/linux_cmd_free.png)
 
 ## 查看磁盘信息
 `df -h`
-![Linux_cmd_df]({{site.static}}/images/Linux_cmd_df.png)
+![linux_cmd_df]({{site.static}}/images/linux_cmd_df.png)
 
 
 
@@ -46,10 +46,10 @@ Linux常用命令收集
 
 根据不同的习惯常用的有以下两种:
 `ps aux`
-![Linux_cmd_ps_0]({{site.static}}/images/Linux_cmd_ps_0.png)
+![linux_cmd_ps_0]({{site.static}}/images/linux_cmd_ps_0.png)
 
 `ps -ef`
-![Linux_cmd_ps_1]({{site.static}}/images/Linux_cmd_ps_1.png)
+![linux_cmd_ps_1]({{site.static}}/images/linux_cmd_ps_1.png)
 
 `USER` – 用户名
 `%cpu` - CPU轮训时间占用比
@@ -79,7 +79,7 @@ Linux常用命令收集
 
 ## ls输出详解
 `ls -l`命令输出如下
-![Linux_cmd_ls]({{site.static}}/images/Linux_cmd_ls.png)
+![linux_cmd_ls]({{site.static}}/images/linux_cmd_ls.png)
 
 以第一行为例:
 

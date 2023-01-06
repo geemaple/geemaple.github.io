@@ -262,7 +262,7 @@ int main(int argc, const char * argv[]) {
  1. 你可以用__weak关键字，来打破循环引用。
  2. 或者可以用__block关键字，然后再合适的时候把处于循环引用中的一个变量=nil
 
-更多内存细节，可以参考另一篇[文章](https://geemaple.github.io/2014/10/18/objective-c-memory-learning/)
+更多内存细节，可以参考另一篇[文章]({{site.static}}/2014/10/18/objective-c-memory-learning/)
 
 ## block copy
 

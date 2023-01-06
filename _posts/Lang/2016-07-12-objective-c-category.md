@@ -42,12 +42,12 @@ Category通常可以用来：
 
 ### class与object的关系
 
-见之前文章[class与object的关系](https://geemaple.github.io/2014/02/18/objective-c-class-and-object/)
+见之前文章[class与object的关系]({{site.static}}/2014/02/18/objective-c-class-and-object/)
 
 ## Category注意事项
 1. 你可以在Category中添加类 或者 成员方法。也可以添加`@Property`，但是Property在Category中是**失效的**，编译器**无法**帮你生成getter和setter，也**无法**添加property对应的成员变量。 可以用`@dynamic`，然后自己处理变量，getter和setter
 2. Category本身新加方法可能会和已有类成员函数(父类成员函数)，或者其他Category中添加的方法**命名冲突**, 到底哪个一个函数在运行时生效，是无法确认的，所以用Category增强Framework时，要格外注意.
-3. Category中的方法，和已有方法是替代关系，苹果非常不推荐用[Category来复写方法](https://stackoverflow.com/questions/5272451/overriding-methods-using-categories-in-objective-c), 理由一是没法调用被覆盖方法原有super实现，理由二是哪个方法最后生效无法确定。[参考文章](https://geemaple.github.io/2017/09/11/objective-c-undefined/)
+3. Category中的方法，和已有方法是替代关系，苹果非常不推荐用[Category来复写方法](https://stackoverflow.com/questions/5272451/overriding-methods-using-categories-in-objective-c), 理由一是没法调用被覆盖方法原有super实现，理由二是哪个方法最后生效无法确定。[参考文章]({{site.static}}/2017/09/11/objective-c-undefined/)
 
 ## Category定义
 
@@ -227,7 +227,7 @@ static struct _category_t *L_OBJC_LABEL_CATEGORY_$ [1] __attribute__((used, sect
 
 ## 源码解析
 
-![加载断点]({{site.static}}/images/Objc-runtime-image-read.jpg)
+![加载断点]({{site.static}}/images/objc-runtime-image-read.jpg)
 
 [第1步](https://github.com/geemaple/objc4-709/blob/master/runtime/objc-os.mm#L826-L846)，libobjc.A.dylib在加载时，首先调用`_objc_init`, 然后调用`map_images, map_images_nolock, _read_images`
 

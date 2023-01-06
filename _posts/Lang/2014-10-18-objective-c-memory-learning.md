@@ -57,7 +57,7 @@ MRC经常会出现，错误实例release， 或者release过度的情况，直�
 
 ### 循环引用
 {{site.static}}
-![Objc_circular_reference]({{site.static}}/images/Objc_circular_reference.png)
+![objc_circular_reference]({{site.static}}/images/objc_circular_reference.png)
 
 在iOS5或者OSX Lion之后，可以用__weak关键字，来打破这样的循环引用，如果之前，可以用__unsafe_unretained
 

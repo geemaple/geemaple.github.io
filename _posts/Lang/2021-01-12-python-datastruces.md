@@ -112,7 +112,7 @@ val = range(0, 10, 1)
 
 ## 集合
 
-![图片说明](https://geemaple.github.io/images/python-data-structure-set.png)
+![图片说明]({{site.static}}/images/python-data-structure-set.png)
 
 ```python
 empty = set()

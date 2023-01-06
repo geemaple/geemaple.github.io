@@ -88,7 +88,9 @@ Generate a loader
 
 需要把glad.h放在header search里面，glad.c放到工程里面
 
-## [代码](https://github.com/geemaple/learning/blob/main/learn_opengl/learn_opengl/lesson/lesson_01.cpp)
+## 代码
+
+[源码](https://github.com/geemaple/learning/blob/main/learn_opengl/learn_opengl/lesson/lesson_01.cpp)
 
 工程使用的是静GLFW态库, 支持x86_64和arm架构
 ```

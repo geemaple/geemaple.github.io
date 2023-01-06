@@ -49,7 +49,7 @@ excerpt:
 
 虚拟页与物理页之间的映射关系，就是虚拟内存和物理内存的关系，如下图所示：
 
-![os_memory_pageing]((https://geemaple.github.io/images/os_memery_page.png))
+![os_memory_paging]({{site.static}}/images/os_memory_paging.png)
 
 如图所示，多个进程虚拟页和物理页的关系通过箭头关联起来了，而页表就可以记录下箭头指向的映射关系。
 

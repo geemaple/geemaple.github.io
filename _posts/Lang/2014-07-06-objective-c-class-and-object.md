@@ -20,7 +20,7 @@ excerpt: 用了那么久的面向对象，这回我们看看对象是什么
 
 Union可以看成高铁的一个洗手间，可以容纳任意乘客，通常一次只能一个人使用
 
-[更详细的可以参考之前的文章](https://geemaple.github.io/C-Data-Sizes-Reference/)
+[更详细的可以参考之前的文章]({{site.static}}/C-Data-Sizes-Reference/)
 
 ## class和object
 
@@ -107,7 +107,7 @@ struct protocol_t : objc_object {
 
 其中**struct objc_object**中多了一个**Union isa_t**, isa_t中有两个构造函数其中**bits**和**cls**只能用其中一个
 
-objc_class, protocol_t都继承了objc_object, 可以看出凡是带有isa结构的，就是objc中的对象. [block也是对象](https://geemaple.github.io/iOS/objective-c-block-learning)，运行时可以通过isa指针，查找到该对象是属于什么类
+objc_class, protocol_t都继承了objc_object, 可以看出凡是带有isa结构的，就是objc中的对象. [block也是对象]({{site.static}}/iOS/objective-c-block-learning)，运行时可以通过isa指针，查找到该对象是属于什么类
 
 ## clang重写
 
@@ -168,7 +168,7 @@ superclass: PrisonCat[meta] => CatAnimal[meta] => NSObject[meta] => NSObject => 
     Class cls = ((Class (*)(__rw_objc_super *, SEL))(void *)objc_msgSendSuper)((__rw_objc_super){(id)self, (id)class_getSuperclass(objc_getClass("PrisonCat"))}, sel_registerName("class"));
 ```
 
-![类的关系图]({{site.static}}/images/Objc_object_class_meta_relations.jpg)
+![类的关系图]({{site.static}}/images/objc_object_class_meta_relations.jpg)
 
 首先，只看绿色的父类箭头，在OC中一切基类都是NSObject, NSObject没有父类
 

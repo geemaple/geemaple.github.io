@@ -58,14 +58,14 @@ Graphics Pipeline的另一部分工作室，将转换的2D坐标，绘制成颜�
 
 ## 绘图流水线
 
+流水线的输入位Vertex，也就是3D空间的数据(坐标，颜色等)
+
 1. 流水线通常意味着一条线的输出是另一条线的输入
 2. 流水线可以同时进行
 
-流水线上的操作处理程序，称作shaders，阳光下的暗影，但shaders一词已经进化成为处理图形渲染的专门程序
+流水线上的操作处理程序，称作shaders，随着时间推移，shaders一词已经进化成为处理图形渲染的专门程序
 
-![Graphics Pipeline]({{site.static}}/images/Graphics_pipeline.png)
-
-流水线的输入位Vertex，也就是3D空间的数据(坐标，颜色等)
+![Graphics Pipeline]({{site.static}}/images/graphics_pipeline.png)
 
 ## GLSL
 
@@ -94,7 +94,9 @@ void main()
 } 
 ```
 
-## [代码](https://github.com/geemaple/learning/blob/main/learn_opengl/learn_opengl/lesson/lesson_01.cpp)
+## 代码
+
+[源码](https://github.com/geemaple/learning/blob/main/learn_opengl/learn_opengl/lesson/lesson_02.cpp)
 
 ```cpp
 static unsigned int comipleShader(GLenum shaderType, const GLchar **code) {

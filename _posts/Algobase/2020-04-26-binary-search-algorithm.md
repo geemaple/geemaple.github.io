@@ -22,7 +22,7 @@ excerpt: "锤子，可以用来敲各种钉子"
 2. 将剩余部分一分为二，中间元素6与**7**比较，由于6 < **7**,  目标在**右边的一半**
 3. 沿着图中箭头，不断的把问题缩小一半，直到找到目标
 
-![binary_search_with_sorted_array](https://geemaple.github.io/images/binary_search_with_sorted_array.png)
+![binary_search_with_sorted_array]({{site.static}}/images/binary_search_with_sorted_array.png)
 
 ## 递归思想
 

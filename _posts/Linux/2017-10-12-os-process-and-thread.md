@@ -20,15 +20,15 @@ bss | “Block started by symbol”, 未出初始化据区
 Stack | 栈区，通常在高位内存地址, 向低位增长, LIFO, 自动变量和stack frame(函数调用的register，临时变量，返回地址等)存储地方
 Heap | 堆区，相邻栈区，通常在低位内存地址，想高位增长, malloc, realloc, free
 
-![OS_c_program_memory_layout_1]({{site.static}}/images/OS_c_program_memory_layout_1.png)
+![os_c_program_memory_layout_1]({{site.static}}/images/os_c_program_memory_layout_1.png)
 
 当然以上只是逻辑上的连续区域，但在实际内存中，每一块可能映射到不同的内存地址上。当内存不不足时，OS可以将部分内容swap到硬盘HD上。
 
-![OS_c_program_memory_layout_2]({{site.static}}/images/OS_c_program_memory_layout_2.png)
+![os_c_program_memory_layout_2]({{site.static}}/images/os_c_program_memory_layout_2.png)
 
 你可以通过```size```命令查看Object文件Section大小
 
-![OS_size_command]({{site.static}}/images/OS_size_command.png)
+![os_size_command]({{site.static}}/images/os_size_command.png)
 
 ## Process vs. Thread
 
@@ -44,7 +44,7 @@ Heap | 堆区，相邻栈区，通常在低位内存地址，想高位增长, ma
 
 线程的开销要比进程少，在Solaris，系统中创建线程要比进程快30x，上下文切换要快5x
 
-![OS_single_thread_vs_multithread]({{site.static}}/images/OS_single_thread_vs_multithread.png)
+![os_single_thread_vs_multithread]({{site.static}}/images/os_single_thread_vs_multithread.png)
 
 PS：每一个CPU内核，一次只能执行一个进程中的一个线程
 
