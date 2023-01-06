@@ -201,18 +201,18 @@ __declspec(allocate(".objc_inithooks$B")) static void *OBJC_CLASS_SETUP[] = {
 最后通过如下摘抄源码`objc-runtime-new.h`可以画出一个类的关系图
 
 ```c++
-    Class object_getClass(id obj)
-    {
-        if (obj) return obj->getIsa();
-        else return Nil;
-    }
+Class object_getClass(id obj)
+{
+		if (obj) return obj->getIsa();
+		else return Nil;
+}
 
-    bool isRootClass() {
-        return superclass == nil;
-    }
-    bool isRootMetaclass() {
-        return ISA() == (Class)this;
-    }
+bool isRootClass() {
+		return superclass == nil;
+}
+bool isRootMetaclass() {
+		return ISA() == (Class)this;
+}
 ```
 
 ## 代码验证
