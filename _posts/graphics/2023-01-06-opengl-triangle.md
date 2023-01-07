@@ -70,11 +70,18 @@ Graphics Pipeline的另一部分工作室，将转换的2D坐标，绘制成颜�
 
 ![坐标]({{site.static}}/images/opengl-triangle-vertex-buffer.png)
 
-定义坐标数组，然后将数据拷贝到显卡存储单元VBO(vertex buffer objects)中，从CPU到显卡推送数据比较慢，所以尽可能一次传输更多的内容
+定义坐标数组，然后将数据拷贝到显卡存储单元VBO(vertex buffer objects)中，GPU中的显存要比内存快得多
+
+从CPU到显卡推送数据比较慢，所以OpenGL期待传送一个array包含所有vetices
 
 1. 在显卡创建一个Buffer
 2. 通过Bind改变OpenGL状态机，将其设定为当前的Buffer
-3. 拷贝数据到Buffer中
+3. 拷贝数据到Buffer中(注意使用GL_ARRAY_BUFFER而不是id)
+
+拷贝数据最后一个参数决定，GPU内存使用类型
+* GL_STATIC_DRAW = 上传一次, 绘制多次
+* GL_DYNAMIC_DRAW = 多次上传，绘制多次
+* GL_STREAM_DRAW = 流式，上传一次，绘制一次，不断重复
 
 ```cpp
     float vertices[] = {
@@ -87,13 +94,13 @@ Graphics Pipeline的另一部分工作室，将转换的2D坐标，绘制成颜�
     glGenBuffers(1, &VBO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     
-    // copy to bind buffer 
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 ```
 
 ## VAP
 
 Vertex Shader允许传入不同的Buffer，我们还需要告诉OpenGL数据结构，才能解析
+以三角形坐标为例，
 
 ```cpp
 // index = 0 (GLSL的location, glEnableVertexAttribArray)中需一致
@@ -113,6 +120,8 @@ glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 1. 创建一个Buffer Array
 2. 通过Bind绑定
 3. 绑定后`glVertexAttribPointer glEnableVertexAttribArray glDisableVertexAttribArray`操作都会存储到VAO中
+4. 和调用`glDisableVertexAttribArray`相关的VBO引用也会存储到VAO中
+5. 需要enable属性
 
 ```cpp
 unsigned int VAO;
@@ -135,7 +144,7 @@ GLSL和C语言很像，需要编译后才能使用，OpenGL程序至少需要两
 
 GLSL最大是纬度是4，也就是vec4, 分别为(x, y, z, w), 前三个是3维坐标，最后一个w和视角有关系
 
-对应版本3.3，使用core mode，一个输入变量in vec3, gl_Position为输出
+330对应版本3.3(从3.3开始版本才开始对应)，使用core mode，一个输入变量in vec3, gl_Position为输出
 
 ```cpp
 #version 330 core
@@ -161,7 +170,14 @@ void main()
 } 
 ```
 
+最后，需要编译，链接才能使用，可以修改DLSL源码，但是要重新链接才能生效
+
 ## 绘制三角形
+
+```cpp
+// commonly point, line or triangle
+glDrawArrays(GL_TRIANGLES, 0, 3);
+```
 
 [源码](https://github.com/geemaple/learning/blob/main/learn_opengl/learn_opengl/lesson/lesson_02_triangle.cpp)
 
