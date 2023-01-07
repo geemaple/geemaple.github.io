@@ -37,7 +37,7 @@ void glfwSwapInterval(int interval)
 
 ## [栅格化](https://en.wikipedia.org/wiki/Rasterisation)
 
-[栅格化]({{site.static}}/images/opengl-top-left-triangle-rasterization-rule.gif)
+![栅格化]({{site.static}}/images/opengl-top-left-triangle-rasterization-rule.gif)
 
 完美的几何图形可以比作无限高清图片，当矢量绘制到低像素屏幕上，就会出现一个现象，就是信息会丢失。
 
@@ -60,7 +60,7 @@ Graphics Pipeline的另一部分工作室，将转换的2D坐标，绘制成颜�
 
 流水线上的操作处理程序，称作shaders，随着时间推移，shaders一词已经进化成为处理图形渲染的专门程序
 
-![Graphics Pipeline]({{site.static}}/images/opengl_graphics_pipeline.png)
+![Graphics Pipeline]({{site.static}}/images/opengl-graphics-pipeline.png)
 
 上图是流水线处理过程，具体可通过代码了解，蓝色部分的shaders可以通过GLSL语言控制
 
@@ -68,7 +68,7 @@ Graphics Pipeline的另一部分工作室，将转换的2D坐标，绘制成颜�
 
 屏幕坐标范围[-1, 1], 每一组三维坐标(x, y, z), 其中 z=0
 
-[坐标]({{site.static}}/images/opengl-triangle-vertex-buffer.png)
+![坐标]({{site.static}}/images/opengl-triangle-vertex-buffer.png)
 
 定义坐标数组，然后将数据拷贝到显卡存储单元VBO(vertex buffer objects)中，从CPU到显卡推送数据比较慢，所以尽可能一次传输更多的内容
 
@@ -169,4 +169,4 @@ void main()
 
 1. [https://learnopengl.com/Getting-started/Hello-Triangle](https://learnopengl.com/Getting-started/Hello-Triangle)
 2. [http://antongerdelan.net/opengl/hellotriangle.html](http://antongerdelan.net/opengl/hellotriangle.html)
-3. [https://antongerdelan.net/opengl/vertexbuffers.html](https://antongerdelan.net/opengl/vertexbuffers.html)
+3. [https://open.gl/drawing](https://open.gl/drawing)
