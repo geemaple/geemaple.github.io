@@ -48,7 +48,7 @@ OpenGL出现时最高性能的显卡也是单核的，并没有考虑多核处�
 
 ## [GLFW](https://www.glfw.org/)
 
-OpenGL只负责画画，需要用GLFW创建窗口和提供输入
+OpenGL只负责画画，具体的窗口创建不同的操作系统也不大一样，GLFW提供一致的创建窗口和事件响应等功能
 
 ### option 1
 ```
@@ -66,7 +66,7 @@ curl https://github.com/glfw/glfw/releases/download/3.3.8/glfw-3.3.8.zip -O
 unzip glfw-3.3.8.zip
 ```
 
-#### buid with cmake
+buid with cmake
 ```
 brew install cmake
 cd glfw-3.3.8
@@ -88,9 +88,7 @@ Generate a loader
 
 需要把glad.h放在header search里面，glad.c放到工程里面
 
-## 代码
-
-[源码](https://github.com/geemaple/learning/blob/main/learn_opengl/learn_opengl/lesson/lesson_01.cpp)
+## 创建窗口
 
 工程使用的是静GLFW态库, 支持x86_64和arm架构
 ```
@@ -98,82 +96,9 @@ cmake "-DCMAKE_OSX_ARCHITECTURES=x86_64;arm64" .
 ```
 此外，Framework需要IOKit和Cocoa
 
-```cpp
-// handle window resize
-static void framebuffer_size_callback(GLFWwindow* window, int width, int height)
-{
-    // For retina displays width and height will end up significantly higher than the original input values
-    std::cout << "window:" << window << " width:" << width << " height:" << height << std::endl;
-    glViewport(0, 0, width, height);
-}
-
-// handle keyboard input
-static void processInput(GLFWwindow *window)
-{
-    if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, true);
-}
-
-// create window to draw
-static GLFWwindow * createGraphicWindow(const char *title, int width, int height) {
-    glfwInit();
-    // opengl 3.3
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    // core mode
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-#ifdef __APPLE__
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-#endif
-    
-    // create window
-    GLFWwindow* window = glfwCreateWindow(width, height, title, NULL, NULL);
-    if (window == NULL)
-    {
-        std::cout << "Failed to create GLFW window" << std::endl;
-        glfwTerminate();
-        return NULL;
-    }
-    // make the window's context current
-    glfwMakeContextCurrent(window);
-    
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-    {
-        std::cout << "Failed to initialize GLAD" << std::endl;
-    }
-    
-    // pixels view port will transform (-1 to 1) to (0, 800) and (0, 600)
-    glViewport(0, 0, width, height);
-    // We register the callback functions after we've created the window and before the render loop is initiated.
-    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-    
-    return window;
-}
-
-int Lesson01::entry(void) {
-    
-    // create window
-    GLFWwindow* window = createGraphicWindow("OpenGL Lesson 01", 800, 600);
-    
-    // render loop, each iteration is called a frame
-    while(!glfwWindowShouldClose(window))
-    {
-        processInput(window);
-        
-        // rendering commands here
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
-        
-        glfwSwapBuffers(window);
-        glfwPollEvents();
-    }
-    
-    // clean up all the resources
-    glfwTerminate();
-    return 0;
-}
-```
+[源码](https://github.com/geemaple/learning/blob/main/learn_opengl/learn_opengl/lesson/lesson_01_window.cpp)
 
 ## 更多
-[参考教程](https://learnopengl.com/Introduction)
-[编译程序](http://www.opengl-tutorial.org/miscellaneous/building-your-own-c-application/)
+
+1. [https://learnopengl.com/Introduction](https://learnopengl.com/Introduction)
+2. [http://www.opengl-tutorial.org/miscellaneous/building-your-own-c-application/](http://www.opengl-tutorial.org/miscellaneous/building-your-own-c-application/)

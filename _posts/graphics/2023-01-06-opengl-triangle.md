@@ -35,17 +35,19 @@ void glfwSwapInterval(int interval)
 
 设置要等多少次屏幕刷新，才切换幕后缓冲到前台
 
-## 抗锯齿
+## [栅格化](https://en.wikipedia.org/wiki/Rasterisation)
+
+[栅格化]({{site.static}}/images/opengl-top-left-triangle-rasterization-rule.gif)
 
 完美的几何图形可以比作无限高清图片，当矢量绘制到低像素屏幕上，就会出现一个现象，就是信息会丢失。
 
-需要决定哪些像素块需要绘制，哪些不需要，这个过程叫做[栅格化](https://en.wikipedia.org/wiki/Rasterisation)。
+需要决定哪些像素块需要绘制，哪些不需要，这个过程叫做栅格化。
 
 信息丢失的结果是弧线看起来有锯齿，可以打开抗锯齿(当然是由性能消耗的)。
 
-抗锯齿并不能分割像素，抗锯齿做的是在黑白世界，增加了灰度，舍得曲线看起来比较平滑
+抗锯齿并不能分割像素，抗锯齿做的是在黑白世界，增加了灰度，使得曲线看起来比较平滑
 
-## 绘图流水线架构
+## 绘图流水线
 
 ```
 Application =>  Geometry => Rasterization => Screen
@@ -56,20 +58,84 @@ OpenGL世界是3D, 但屏幕是2D的，所以很大一部分绘制工作，就�
 
 Graphics Pipeline的另一部分工作室，将转换的2D坐标，绘制成颜色像素点
 
-## 绘图流水线
-
-流水线的输入位Vertex，也就是3D空间的数据(坐标，颜色等)
-
-1. 流水线通常意味着一条线的输出是另一条线的输入
-2. 流水线可以同时进行
-
 流水线上的操作处理程序，称作shaders，随着时间推移，shaders一词已经进化成为处理图形渲染的专门程序
 
 ![Graphics Pipeline]({{site.static}}/images/opengl_graphics_pipeline.png)
 
+上图是流水线处理过程，具体可通过代码了解，蓝色部分的shaders可以通过GLSL语言控制
+
+## VBO
+
+屏幕坐标范围[-1, 1], 每一组三维坐标(x, y, z), 其中 z=0
+
+[坐标]({{site.static}}/images/opengl-triangle-vertex-buffer.png)
+
+定义坐标数组，然后将数据拷贝到显卡存储单元VBO(vertex buffer objects)中，从CPU到显卡推送数据比较慢，所以尽可能一次传输更多的内容
+
+1. 在显卡创建一个Buffer
+2. 通过Bind改变OpenGL状态机，将其设定为当前的Buffer
+3. 拷贝数据到Buffer中
+
+```cpp
+    float vertices[] = {
+        -0.5f, -0.5f, 0.0f, //left
+         0.5f, -0.5f, 0.0f, //right
+         0.0f,  0.5f, 0.0f  // top
+    };
+
+    unsigned int VBO; // vertex buffer object
+    glGenBuffers(1, &VBO);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    
+    // copy to bind buffer 
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+```
+
+## VAP
+
+Vertex Shader允许传入不同的Buffer，我们还需要告诉OpenGL数据结构，才能解析
+
+```cpp
+// index = 0 (GLSL的location, glEnableVertexAttribArray)中需一致
+// 数据维度 = 3
+// 数据类型 = GL_FLOAT
+// 是否需要normalized，如果是无符号转换成[0, 1], 有符号数据转换成[-1, 1]
+// 下一组数据的offset
+// 第一组数据起始offset
+glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+```
+
+## VAO
+
+通常需要数十个VBO来维持不同坐标，纹理，命令等等，一个个绑定十分麻烦。
+新版OpenGL提供了VAO(vertex array object)，能够存储所有的vertex.
+
+1. 创建一个Buffer Array
+2. 通过Bind绑定
+3. 绑定后`glVertexAttribPointer glEnableVertexAttribArray glDisableVertexAttribArray`操作都会存储到VAO中
+
+```cpp
+unsigned int VAO;
+// create VAO
+glGenVertexArrays(1, &VAO);
+glBindVertexArray(VAO);
+// agttributes
+glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+glEnableVertexAttribArray(0);
+```
+
 ## GLSL
 
+GLSL和C语言很像，需要编译后才能使用，OpenGL程序至少需要两个shader才能工作，若有任何错误OpenGL选择躺平不画:
+
+1. vertex shader处理坐标
+2. fragment shader上色
+
 ### vertex shader
+
+GLSL最大是纬度是4，也就是vec4, 分别为(x, y, z, w), 前三个是3维坐标，最后一个w和视角有关系
+
+对应版本3.3，使用core mode，一个输入变量in vec3, gl_Position为输出
 
 ```cpp
 #version 330 core
@@ -83,125 +149,24 @@ void main()
 
 ### frament shader
 
+一个输出out vec4，代表RGBA颜色，数值范围[0.0, 1.0]
+
 ```cpp
 #version 330 core
 out vec4 FragColor;
 
 void main()
 {
-    // RGBA, value = [0.0 - 1.0]
     FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
 } 
 ```
 
-## 代码
+## 绘制三角形
 
-[源码](https://github.com/geemaple/learning/blob/main/learn_opengl/learn_opengl/lesson/lesson_02.cpp)
+[源码](https://github.com/geemaple/learning/blob/main/learn_opengl/learn_opengl/lesson/lesson_02_triangle.cpp)
 
-```cpp
-static unsigned int comipleShader(GLenum shaderType, const GLchar **code) {
-    // shader
-    unsigned int shader = glCreateShader(shaderType);
-    
-    // compile
-    glShaderSource(shader, 1, code, NULL);
-    glCompileShader(shader);
-    
-    int  success;
-    char infoLog[512];
-    glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
-    if(!success)
-    {
-        glGetShaderInfoLog(shader, 512, NULL, infoLog);
-        std::cout << "ERROR::SHADER::COMPILATION_FAILED\n" << infoLog << std::endl;
-    }
-    
-    return shader;
-}
+## 更多
 
-static unsigned int createShaderProgram() {
-
-    unsigned int vertexShader = comipleShader(GL_VERTEX_SHADER, &vertexShaderSource);
-    unsigned int fragmentShader = comipleShader(GL_FRAGMENT_SHADER, &fragmentShaderSource);
-
-    // create shader program
-    unsigned int shaderProgram;
-    shaderProgram = glCreateProgram();
-    glAttachShader(shaderProgram, vertexShader);
-    glAttachShader(shaderProgram, fragmentShader);
-    glLinkProgram(shaderProgram);
-    
-    int  success;
-    char infoLog[512];
-    glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
-    if(!success) {
-        glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
-        std::cout << "ERROR::PROGRAM::COMPILATION_FAILED\n" << infoLog << std::endl;
-    }
-    
-    glDeleteShader(vertexShader);
-    glDeleteShader(fragmentShader);
-    
-    return shaderProgram;
-}
-
-int Lesson02::entry(void) {
-
-    // create window
-    GLFWwindow* window = createGraphicWindow("OpenGL Lesson 02", 800, 600);
-
-    float vertices[] = {
-        -0.5f, -0.5f, 0.0f, //left
-         0.5f, -0.5f, 0.0f, //right
-         0.0f,  0.5f, 0.0f  // top
-    };
-    
-    unsigned int VBO, VAO;
-    // create vertex buffer/Array objects on GPU
-    glGenBuffers(1, &VBO);
-    glGenVertexArrays(1, &VAO);
-    
-    // bind
-    glBindVertexArray(VAO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    
-    // copy data to the bond buffer
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-    
-    // agttributes
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
-    
-    // unbind
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindVertexArray(0);
-    
-    unsigned int shaderProgram = createShaderProgram();
-    
-    // render loop, each iteration is called a frame
-    while(!glfwWindowShouldClose(window))
-    {
-        processInput(window);
-        
-        // rendering commands here
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
-        
-        // triangle
-        glUseProgram(shaderProgram);
-        glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES, 0, 3);
-        
-        glfwSwapBuffers(window);
-        glfwPollEvents();
-    }
-    
-    // clean up all the resources
-    glDeleteVertexArrays(1, &VAO);
-    glDeleteBuffers(1, &VBO);
-    glDeleteProgram(shaderProgram);
-    glfwTerminate();
-    
-    return 0;
-}
-```
+1. [https://learnopengl.com/Getting-started/Hello-Triangle](https://learnopengl.com/Getting-started/Hello-Triangle)
+2. [http://antongerdelan.net/opengl/hellotriangle.html](http://antongerdelan.net/opengl/hellotriangle.html)
+3. [https://antongerdelan.net/opengl/vertexbuffers.html](https://antongerdelan.net/opengl/vertexbuffers.html)
