@@ -48,7 +48,7 @@ long  | 4B | 4B | 8B | 8B
 long long | 8B | 4B | 8B | 8B
 pointer | 4B | 4B | 8B | 8B
 
-```c++
+```cpp
 time_t = long
 size_t = unsigned long
 off_t = fpos_t = long long
@@ -61,28 +61,28 @@ off_t = fpos_t = long long
 指针对齐非常严格，必须占满4或8座位车厢，无论之前内存布局如何
 
 情况1: int
-```c++
+```cpp
 char *p;      // 4B(ILP32) 或 8B(LP64)
 char c;       // 1B 需要3B来补齐
 int x;        // 4B
 ```
 
 情况2: short
-```c++
+```cpp
 char *p;      // 4B(ILP32) 或 8B(LP64)
 char c;       // 1B 需要1B来补齐
 short x;      // 2B
 ```
 
 情况3: long
-```c++
+```cpp
 char *p;     // 4B(ILP32) 或 8B(LP64)
 char c;      // 1B 需要3B(ILP32) 或 7B(LP64)补齐
 long x;      // 4B(ILP32) 或 8B(LP64)
 ```
 
 情况4: char开头
-```c++
+```cpp
 char c;      // 1B 考虑已有内存情况, char的起始位置不定, 需要[0-3](ILP32)或[0-7](LP64)补齐
 char *p;     // 4B(ILP32) 或 8B(LP64)
 int x;       // 4B
@@ -94,7 +94,7 @@ int x;       // 4B
 
 具体而言你可以用offsetof来查看每一个元素的偏移量
 
-```c++
+```cpp
     // 测试复杂Struct大小
     struct aStruct {
         int *ptrValue;
@@ -147,7 +147,7 @@ int x;       // 4B
 
 offsetof无法用在bit元素上，不过我想可以最小类型char来做个标记查看下
 
-```c++
+```cpp
     struct bitStruct {
         short shortValue;
         char charValue;
@@ -211,7 +211,7 @@ y.b = 'c'; // OK
 这样做的原因是，任意一个较大size的数据类型padding后，接下来的起始地址，总是适合Size比他小的数据类型，
 
 但是，例如下面代码，有时仅靠重新布局是无法节省struct的大小的。
-```c++
+```cpp
 struct foo12 {
     struct foo12_inner {
         char *p;      /* 8 bytes */

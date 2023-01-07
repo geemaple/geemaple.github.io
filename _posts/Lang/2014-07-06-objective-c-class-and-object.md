@@ -14,12 +14,11 @@ excerpt: 苹果用尽全力，隐藏ISA
 
 虽然Foundation不是开源的，但苹果其实是[开源社区的主力军之一](https://opensource.apple.com/)，这回我们主要研究Objective-C中的类与对象，其历史源码在[这里](https://opensource.apple.com/tarballs/objc4/), 写文章是版本是709版本, 旧版的重写文件还仍有保留
 
-## Class源码
+## Class&Object定义
 
 在Objc源码Public Headers中`runtime.h`和`objc.h`可以找到class和object的定义
 
-```c++
-
+```cpp
 /* OBJC_ISA_AVAILABILITY: `isa` will be deprecated or unavailable
  * in the future */
 #if !defined(OBJC_ISA_AVAILABILITY)
@@ -59,8 +58,7 @@ typedef struct objc_object *id; //对象的定义
 
 接下来我们看看Project Headers中的相关定义，代码比较长，就只粘贴了部分在这里`objc-runtime-new.h`和`objc-private.h`
 
-```c++
-
+```cpp
 typedef unsigned long uintptr_t;
 typedef struct objc_class *Class;
 typedef struct objc_object *id;
@@ -94,6 +92,11 @@ struct objc_class : objc_object {
 struct protocol_t : objc_object {
     ...
 }
+
+Class object_getClass(id obj) {
+    if (obj) return obj->getIsa();
+    else return Nil;
+}
 ```
 
 其中**struct objc_object**中多了一个**Union isa_t**, isa_t中有两个构造函数其中**bits**和**cls**只能用其中一个
@@ -102,9 +105,9 @@ objc_class, protocol_t都继承了objc_object, 可以看出凡是带有isa结构
 
 ## Clang重写
 
-苹果已经更新到866.9，转写代码大不相同，很多isa信息隐藏的更好，自定义类略有修改，当时[Clang转写C++的代码](https://github.com/geemaple/learning/blob/main/learn_ios/ClassObject/ClassObject/old_clang_rewrite_main.cpp)
+苹果已经更新到866.9，转写代码大不相同，很多isa信息隐藏的更好，自定义类略有修改，当时[Clang转写C++的代码](https://github.com/geemaple/learning/blob/main/learn_objc/class_object/old_clang_rewrite_main.cpp)
 
-```c++
+```cpp
 // 类定义
 struct _class_t {
 	struct _class_t *isa;
@@ -196,17 +199,11 @@ __declspec(allocate(".objc_inithooks$B")) static void *OBJC_CLASS_SETUP[] = {
 
 当`objc_inithooks`启动回调时，程序会组装isa和superclass的关系, 可以看出isa关系:
 
-## Runtime源码
+## Root判断源码
 
 最后通过如下摘抄源码`objc-runtime-new.h`可以画出一个类的关系图
 
-```c++
-Class object_getClass(id obj)
-{
-		if (obj) return obj->getIsa();
-		else return Nil;
-}
-
+```cpp
 bool isRootClass() {
 		return superclass == nil;
 }
@@ -219,7 +216,7 @@ bool isRootMetaclass() {
 
 通过运行时函数(**object_getClass**，**class_isMetaClass**，**class_getSuperclass**得到如下关系
 
-[测试代码](https://github.com/geemaple/learning/blob/main/learn_ios/ClassObject/ClassObject/main.m)运行如下:
+[测试代码](https://github.com/geemaple/learning/blob/main/learn_objc/class_object/main.m)运行如下:
 
 ```
 isa: Kitty := PrisonCat := PrisonCat[meta] := NSObject[meta] := NSObject[meta] := ...

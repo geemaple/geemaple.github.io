@@ -53,7 +53,7 @@ Category通常可以用来：
 
 我们先看一下Category私有API[定义](https://github.com/geemaple/objc4-709/blob/bc0828f8b8e968ecae93f3c8630b0dab2533c512/runtime/objc-runtime-new.h#L1326-L1342)和开放API[定义](https://github.com/geemaple/objc4-709/blob/bc0828f8b8e968ecae93f3c8630b0dab2533c512/runtime/runtime.h#L1649-L1655)
 
-```c++
+```cpp
 struct category_t {
     const char *name;
     classref_t cls;
@@ -95,7 +95,7 @@ struct objc_category {
 
 ### 翻译结果
 
-```c++
+```cpp
 // @interface PrisonCat(CatCategory)<Catify>
 
 // @property(nonatomic, assign)BOOL useless;
@@ -132,7 +132,7 @@ static void _I_PrisonCat_CatCategory_becomeACat(PrisonCat * self, SEL _cmd) {
 
 相应的`_C_PrisonCat_CatCategory_helloWorld`封装成method_list结构体`_OBJC_$_CATEGORY_CLASS_METHODS_PrisonCat_$_CatCategory`
 
-```c++
+```cpp
 static struct /*_method_list_t*/ {
 	unsigned int entsize;  // sizeof(struct _objc_method)
 	unsigned int method_count;
@@ -156,7 +156,7 @@ static struct /*_method_list_t*/ {
 ```
 同理应该能够看懂protocol_list和prop_list
 
-```c++
+```cpp
 static struct /*_protocol_list_t*/ {
 	long protocol_count;  // Note, this is 32/64 bit
 	struct _protocol_t *super_protocols[1];
@@ -179,7 +179,7 @@ static struct /*_prop_list_t*/ {
 ### 加载组装
 接下来我们看看编译器如何准备Category信息
 
-```c++
+```cpp
 #pragma section(".objc_inithooks$B", long, read, write)
 __declspec(allocate(".objc_inithooks$B")) static void *OBJC_CATEGORY_SETUP[] = {
 	(void *)&OBJC_CATEGORY_SETUP_$_PrisonCat_$_CatCategory,
@@ -216,7 +216,7 @@ class 在`L_OBJC_LABEL_CLASS_$[1]` 变量中，并拥有`__objc_classlist`属性
 
 category 在`L_OBJC_LABEL_CATEGORY_$[1]`, 并拥有`__objc_catlist`属性
 
-```c++
+```cpp
 static struct _class_t *L_OBJC_LABEL_CLASS_$ [1] __attribute__((used, section ("__DATA, __objc_classlist,regular,no_dead_strip")))= {
 	&OBJC_CLASS_$_PrisonCat,
 };
@@ -231,7 +231,7 @@ static struct _category_t *L_OBJC_LABEL_CATEGORY_$ [1] __attribute__((used, sect
 
 [第1步](https://github.com/geemaple/objc4-709/blob/master/runtime/objc-os.mm#L826-L846)，libobjc.A.dylib在加载时，首先调用`_objc_init`, 然后调用`map_images, map_images_nolock, _read_images`
 
-```c++
+```cpp
 /***********************************************************************
 * _objc_init
 * Bootstrap initialization. Registers our image notifier with dyld.
@@ -258,7 +258,7 @@ void _objc_init(void)
 
 [第2.0步](https://github.com/geemaple/objc4-709/blob/bc0828f8b8e968ecae93f3c8630b0dab2533c512/runtime/objc-runtime-new.mm#L2510-L2536) `_read_images方法中`调用 [realizeClass](https://github.com/geemaple/objc4-709/blob/master/runtime/objc-runtime-new.mm#L1707-L1830)生成元类与类的信息，
 
-```c++
+```cpp
 
     // Realize non-lazy classes (for +load methods and static instances)
     for (EACH_HEADER) {
@@ -358,7 +358,7 @@ void _objc_init(void)
 
 [第2.2步](https://github.com/geemaple/objc4-709/blob/bc0828f8b8e968ecae93f3c8630b0dab2533c512/runtime/objc-runtime-new.mm#L375-L399)`remethodizeClass`方法，拿到上述category信息, 并调用`attachCategories`更新类相关信息，刷新方法缓存。
 
-```c++
+```cpp
 /***********************************************************************
 * remethodizeClass
 * Attach outstanding categories to an existing class.
@@ -392,7 +392,7 @@ static void remethodizeClass(Class cls)
 
 最后通过attachLists将methods, properties, protocols更新到对应的类，或者元类的结构体中。
 
-```c++
+```cpp
 // Attach method lists and properties and protocols from categories to a class.
 // Assumes the categories in cats are all loaded and sorted by load order,
 // oldest categories first.

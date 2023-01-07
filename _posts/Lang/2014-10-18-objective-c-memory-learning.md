@@ -173,7 +173,7 @@ struct Data {
 
 CoreFoundation和Foundation中很多的Object区别非常少，例如一个由Foundation创建的object，可以由CoreFoundation释放，反之亦然。
 
-```c++
+```cpp
 NS_INLINE CF_RETURNS_RETAINED CFTypeRef _Nullable CFBridgingRetain(id _Nullable X) {
     return (__bridge_retained CFTypeRef)X;
 }

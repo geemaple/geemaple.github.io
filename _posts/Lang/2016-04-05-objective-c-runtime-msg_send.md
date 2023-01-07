@@ -46,7 +46,7 @@ When it encounters a method call, the compiler generates a call to one of the fu
 
 Clang重写之后：
 
-```c++
+```cpp
 static instancetype _I_PrisonCat_init(PrisonCat * self, SEL _cmd) {
     if(self = ((PrisonCat *(*)(__rw_objc_super *, SEL))(void *)objc_msgSendSuper)((__rw_objc_super){(id)self, (id)class_getSuperclass(objc_getClass("PrisonCat"))}, sel_registerName("init"))){
         Class cls = ((Class (*)(id, SEL))(void *)objc_msgSend)((id)self, sel_registerName("class"));

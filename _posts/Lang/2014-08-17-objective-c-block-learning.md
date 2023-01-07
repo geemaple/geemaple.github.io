@@ -12,8 +12,6 @@ excerpt: 用Clang重写功能，我们来和Block谈一场恋爱
 
 ## 介绍
 
-> 看源码比较烧脑, 请仔细阅读热身内容再继续
-
 2009年，Mac OS X 10.6雪豹更新了许多好用的底层技术，其中包括GCD和Block。虽然[苹果文档](https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/WorkingwithBlocks/WorkingwithBlocks.html#//apple_ref/doc/uid/TP40011210-CH8-SW1)对于使用来说解释的已经很好。但对于理解Block，文档远远不够，我们需要从另一个角度来入手，抛弃堆和栈，理解什么是匿名函数，闭包，如何捕获变量，__block关键字的作用等等。
 
 以下是苹果文档，重要的关键字已加粗显示：
@@ -199,7 +197,7 @@ int main(int argc, const char * argv[]) {
 }
 ```
 
-```c++
+```cpp
 struct __Block_byref_varNum_0 {
   void *__isa;
 __Block_byref_varNum_0 *__forwarding;
