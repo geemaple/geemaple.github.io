@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "OpenGL工作小黄人GLSL"
+title: "OpenGL高阶着色语言GLSL"
 date: 2023-01-07
 categories: Graphics
 tags: OpenGL
@@ -10,7 +10,7 @@ excerpt: 工作小黄人
 * content
 {:toc}
 
-> 你可能注意到了，拖动一下窗口，图形才会居中
+> 你可能注意到了，拖动或移动一下窗口，图形才会居中
 
 ## 状态机
 
@@ -135,7 +135,7 @@ Uniforms是另一种传递数据的方法就是, 它将数据从CPU传递到GPU
 
 Uniforms和vertex attributes有些不同:
 
-1. Uniforms是global的，可以被任意程序中的shader使用
+1. Uniforms是global的，可以被程序中的任意shader使用
 2. Uniforms会保存数据，直到重置或变更
 
 ```cpp
@@ -209,7 +209,7 @@ float vertices[] = {
 
 注意当目标为`GL_ELEMENT_ARRAY_BUFFER`，VAO也会保存bind与unbind信息，所以要在VAO激活时解绑EBO，这可能不是你想要的
 
-## 绘制四边形
+## 绘制变色四边形
 
 绘制的时候要使用新的函数
 
