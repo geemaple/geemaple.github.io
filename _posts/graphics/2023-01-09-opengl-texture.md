@@ -76,7 +76,7 @@ glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 ```
 
-## Mipmaps
+## Texture Mipmaps
 
 ![Mipmaps]({{site.static}}/images/opengl-texture-mipmaps.png)
 
@@ -130,7 +130,29 @@ glGenerateMipmap(GL_TEXTURE_2D);
 stbi_image_free(data);
 ```
 
-## vertex glsl
+## Texture Units
+
+Texture也使用一个下标叫做`texture unit`, 0是默认值, 在`bind`之前先要激活对应的`texture unit`, 取直范围`[GL_TEXTURE0, GL_TEXTURE15]`.
+
+只有一个`GL_TEXTURE0`的话，可以不用激活，不用设置`glUniformXY`
+```cpp
+// GL_TEXTURE8 = GL_TEXTURE0 + 8 
+glActiveTexture(GL_TEXTURE0); // activate the texture unit first before binding texture
+glBindTexture(GL_TEXTURE_2D, texture);
+```
+
+OpenGL有一个内置数据对象叫做`samplerXD`, X代表纬度取值范围`[1 - 3]`, 设置`glUniformXY`
+
+```cpp
+glUseProgram(shaderProgram);
+glUniform1i(glGetUniformLocation(shaderProgram, "texture1"), 0);
+glUniform1i(glGetUniformLocation(shaderProgram, "texture2"), 1);
+```
+
+
+## GLSL
+
+### Vertex Shader
 
 两个输出变量，作为`Fragment Shader`的输入
 
@@ -151,7 +173,7 @@ void main()
 }
 ```
 
-## fragment glsl
+### Fragment Shader
 
 `texture`函数根据纹理图片和坐标获取对应颜色
 
@@ -172,8 +194,27 @@ void main()
 
 ## 绘制
 
-OpenGL有一个内置数据对象叫做`samplerXD`, X = [1 - 3]
+```
+                            (0, 0)
+|                            |---------------------
+|                            |
+|                            |       
+|        OpenGL              |       Image
+|                            |
+| ----------------------     |
+(0,0)
+```
+
+由于OpenGL和图片坐标系`(0, 0)`的位置不同，所以纹理是上下颠倒的, 可以将图片上下翻转下，在传递给OpenGL
+
+```cpp
+stbi_set_flip_vertically_on_load(true);
+```
 
 ![结果]({{site.static}}/images/opengl-lesson-05-result.png)
 
 [源码](https://github.com/geemaple/learning/blob/main/learn_opengl/learn_opengl/lesson/lesson_05_texture.cpp)
+
+## 更多
+
+1. [https://learnopengl.com/Getting-started/Textures](https://learnopengl.com/Getting-started/Textures)
