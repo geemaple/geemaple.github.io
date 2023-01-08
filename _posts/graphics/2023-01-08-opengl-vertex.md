@@ -26,6 +26,7 @@ float triangle_vertices[] = {
 ## vertex shader
 
 定义两个输入属性`aPos`和`aColor`，`location`下标分别为1，2
+
 定义一个输出属性`ourColor`
 
 ```cpp
@@ -49,9 +50,10 @@ void main()
 ```cpp
 // position attribute
 glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
-glEnableVertexAttribArray(0);
 // color attribute
 glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3* sizeof(float)));
+
+glEnableVertexAttribArray(0);
 glEnableVertexAttribArray(1);
 ```
 
@@ -94,3 +96,7 @@ glDeleteBuffers(1, &EBO);
 ![结果]({{site.static}}/images/opengl-lesson-04-result.png)
 
 [代码](https://github.com/geemaple/learning/blob/main/learn_opengl/learn_opengl/lesson/lesson_04_vertex.cpp)
+
+## 更多
+
+1. [https://learnopengl.com/Getting-started/Shaders](https://learnopengl.com/Getting-started/Shaders)
