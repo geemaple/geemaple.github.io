@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "OpenGL自定义vertex"
-date: 2023-01-07
+title: "OpenGL自定义Vertex"
+date: 2023-01-08
 categories: Graphics
 tags: OpenGL
 excerpt: vertex不止坐标

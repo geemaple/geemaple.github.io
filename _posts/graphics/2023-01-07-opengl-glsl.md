@@ -4,7 +4,7 @@ title: "OpenGL高阶着色语言GLSL"
 date: 2023-01-07
 categories: Graphics
 tags: OpenGL
-excerpt: 工作小黄人
+excerpt: GLSL语言
 ---
 
 * content
