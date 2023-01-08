@@ -108,7 +108,7 @@ glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 `glTexImage2D`函数:
 
-1. 第二个参数指定生成多少level的`Mipmaps`, 后续也可以通过`glGenerateMipmap`函数生成
+1. 第二个参数指定生成多少level的`Mipmaps`, 后续通过`glGenerateMipmap`函数生成
 2. 第三个参数指定`Texture`存储类型
 3. 倒数第三个为源图片`结构(format)`
 4. 倒数第二个为源图片`数据类型(datatype)`
@@ -184,12 +184,17 @@ out vec4 FragColor;
 in vec3 ourColor;
 in vec2 TexCoord;
 
-uniform sampler2D ourTexture;
+uniform sampler2D texture1;
+uniform sampler2D texture2;
 
 void main()
 {
-    FragColor = texture(ourTexture, TexCoord) * vec4(ourColor, 1);
+//    FragColor = texture(texture1, TexCoord);
+//    FragColor = texture(texture2, TexCoord);
+//    FragColor = mix(texture(texture1, TexCoord), texture(texture2, TexCoord), 0.5)
+    FragColor = mix(texture(texture1, TexCoord), texture(texture2, TexCoord), 0.5) * vec4(ourColor, 1.0);
 }
+
 ```
 
 ## 绘制
