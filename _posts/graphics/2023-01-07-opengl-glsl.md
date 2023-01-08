@@ -207,7 +207,7 @@ float vertices[] = {
 
 注意当目标为`GL_ELEMENT_ARRAY_BUFFER`，VAO也会保存bind与unbind信息，所以要在VAO激活时解绑EBO，这可能不是你想要的
 
-## 绘制变色四边形
+## 绘制四边形
 
 ![结果]({{site.static}}/images/opengl-lesson-03-result.png)
 
