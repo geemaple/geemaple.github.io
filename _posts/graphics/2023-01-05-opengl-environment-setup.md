@@ -90,6 +90,8 @@ Generate a loader
 
 ## 创建窗口
 
+![结果]({{site.static}}/images/opengl-lesson-01-result.png)
+
 工程使用的是静GLFW态库, 支持x86_64和arm架构
 ```
 cmake "-DCMAKE_OSX_ARCHITECTURES=x86_64;arm64" .

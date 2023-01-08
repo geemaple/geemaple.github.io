@@ -174,6 +174,8 @@ void main()
 
 ## 绘制三角形
 
+![结果]({{site.static}}/images/opengl-lesson-02-result.png)
+
 ```cpp
 // commonly point, line or triangle
 glDrawArrays(GL_TRIANGLES, 0, 3);

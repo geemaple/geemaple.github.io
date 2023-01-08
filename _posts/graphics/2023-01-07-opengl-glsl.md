@@ -209,6 +209,8 @@ float vertices[] = {
 
 ## 绘制变色四边形
 
+![结果]({{site.static}}/images/opengl-lesson-03-result.png)
+
 绘制的时候要使用新的函数
 
 ```cpp
