@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "OpenGL向量与矩阵"
+title: "OpenGL变换Transform"
 date: 2023-01-09
 categories: Graphics
 tags: OpenGL
@@ -301,7 +301,7 @@ $
 
 但即使这样一个矩阵也不能完全解决万向节死锁问题（尽管会极大地避免）。避免万向死锁的真正解决方案是使用四元数(Quaternion)，它不仅更安全，而且计算会更有效率
 
-### combine
+### Combine
 
 一下结果基于`矩阵`乘以`向量`.
 
