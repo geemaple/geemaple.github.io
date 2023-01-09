@@ -1,10 +1,11 @@
 ---
 layout: post
 title: "OpenGL变换Transform"
-date: 2023-01-09
+date: 2023-01-10
 categories: Graphics
 tags: OpenGL
 excerpt: 高等代数
+mathjax: true
 ---
 
 * content
