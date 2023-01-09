@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "OpenGL坐标转换Transform"
+title: "OpenGL向量与矩阵"
 date: 2023-01-09
 categories: Graphics
 tags: OpenGL
@@ -43,7 +43,7 @@ $
 
 #### 几何
 
-![三角形法则]({{site.static}}/images/pengl-vectors_addition.png)
+![三角形法则]({{site.static}}/images/opengl-vectors-addition.png)
 )
 
 #### 数学
@@ -109,7 +109,7 @@ $
 (A_1 * B_1) + (A_2 * B_2) + (A_3 * B_3) = -0.8
 $
 
-## 向量外积(叉乘)
+### 向量外积(叉乘)
 
 外积是3D空间中的定义，两个不平行的向量，可以确定一个平面，外积的方向垂直于这个平面，通过右手法则确定。
 如果输入的两个向量也是正交的，那么叉乘之后将会产生3个互相正交的向量
@@ -129,3 +129,4 @@ $
 $
 
 ### 矩阵
+
