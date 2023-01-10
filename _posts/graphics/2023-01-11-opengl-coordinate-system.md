@@ -246,7 +246,7 @@ float vertices[] = {
     ...
 ```
 
-![结果1]({{site.static}}/images/opengl-lesson-07-result-01.png)
+![结果1]({{site.static}}/images/opengl-lesson-07-result-01.gif)
 
 [源码](https://github.com/geemaple/learning/blob/main/learn_opengl/learn_opengl/lesson/lesson_07_cube.cpp)
 
@@ -267,7 +267,7 @@ glEnable(GL_DEPTH_TEST);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 ```
 
-![结果2]({{site.static}}/images/opengl-lesson-07-result-02.png)
+![结果2]({{site.static}}/images/opengl-lesson-07-result-02.gif)
 
 
 ## 更多

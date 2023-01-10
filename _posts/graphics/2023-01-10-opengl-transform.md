@@ -387,7 +387,7 @@ unsigned int transformLoc = glGetUniformLocation(shaderProgram, "transform");
 glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 ```
 
-![结果]({{site.static}}/images/opengl-lesson-06-result.png)
+![结果]({{site.static}}/images/opengl-lesson-06-result.gif)
 
 [源码](https://github.com/geemaple/learning/blob/main/learn_opengl/learn_opengl/lesson/lesson_06_transform.cpp)
 
