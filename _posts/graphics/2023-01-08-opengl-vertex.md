@@ -4,7 +4,7 @@ title: "OpenGL自定义Vertex"
 date: 2023-01-08
 categories: Graphics
 tags: OpenGL
-excerpt: vertex不止坐标
+excerpt: Vertex不止坐标
 ---
 
 * content

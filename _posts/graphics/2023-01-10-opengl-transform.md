@@ -44,6 +44,8 @@ $
 
 **几何**
 
+三角形或平行四边形法则
+
 ![三角形法则]({{site.static}}/images/opengl-vectors-addition.png)
 
 **数学**
@@ -60,7 +62,9 @@ $
 
 **几何**
 
-向量方向取反之后，在相加
+$\vec{w} - \vec{v}$可以理解为以$\vec{v}$的终点为**始点**，以$\vec{w}$的终点为**终点**的向量
+
+![三角形法则]({{site.static}}/images/opengl-vectors-subtraction.png)
 
 **数学**
 
