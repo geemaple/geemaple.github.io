@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "OpenGL变换Transform"
+title: "OpenGL矩阵Matrix"
 date: 2023-01-10
 categories: Graphics
 tags: OpenGL

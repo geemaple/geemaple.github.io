@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "OpenGL绘制一个三角形"
+title: "OpenGL绘制三角形Triangle"
 date: 2023-01-06
 categories: Graphics
 tags: OpenGL

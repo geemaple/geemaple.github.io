@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "OpenGL坐标系统"
+title: "OpenGL空间Space"
 date: 2023-01-11
 categories: Graphics
 tags: OpenGL

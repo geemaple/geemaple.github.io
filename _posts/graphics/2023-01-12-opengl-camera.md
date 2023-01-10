@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "OpenGL相机"
-date: 2023-01-11
+title: "OpenGL相机Camera"
+date: 2023-01-12
 categories: Graphics
 tags: OpenGL
-excerpt: 坐标系
+excerpt: 运动是相对的
 mathjax: true
 ---
 
@@ -75,7 +75,7 @@ view = glm::lookAt(glm::vec3(0.0f, 0.0f, 2.0f),
                    glm::vec3(0.0f, 1.0f, 0.0f));
 ```
 
-## 移动相机
+## 绘制
 
 ![三角学]({{site.static}}/images/opengl-trigonometry.png)
 
@@ -90,6 +90,8 @@ view = glm::lookAt(glm::vec3(camX, 0.0, camZ), glm::vec3(0.0, 0.0, 0.0), glm::ve
 ```
 
 ![结果]({{site.static}}/images/opengl-lesson-08-result.gif)
+
+[源码](https://github.com/geemaple/learning/blob/main/learn_opengl/learn_opengl/lesson/lesson_08_camera.cpp)
 
 ## 更多
 
