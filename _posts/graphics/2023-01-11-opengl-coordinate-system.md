@@ -111,6 +111,81 @@ glm::mat4 proj = glm::perspective(glm::radians(45.0f), (float)width/(float)heigh
 
 OpenGL会将`标准化设备坐标(Normalized Device Coordinate)`变换到由`glViewport`函数所定义的坐标范围内, 也就是屏幕大小
 
+## 3D
+
+创建`model`矩阵(沿着x轴旋转`-55`度, 也就是物品在3D世界该怎么摆放):
+
+```cpp
+glm::mat4 model = glm::mat4(1.0f); // indentity matrix
+model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f)); //rotate along x axis
+```
+
+创建`view`矩阵(将世界向后移动`-3`，视角放置，移动世界相当于移动了视角): 
+
+```cpp
+glm::mat4 view = glm::mat4(1.0f);
+// note that we're translating the scene in the reverse direction of where we want to move
+view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f)); 
+```
+
+创建`projection`: 
+
+```cpp
+glm::mat4 projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
+```
+
+## GLSL
+
+### Vertex Shader
+
+定义3个`uniform`变量
+
+```cpp
+#version 330 core
+layout (location = 0) in vec3 aPos;
+layout (location = 1) in vec3 aColor;
+layout (location = 2) in vec2 aTexCoord;
+
+out vec3 ourColor;
+out vec2 TexCoord;
+
+uniform mat4 model;
+uniform mat4 view;
+uniform mat4 projection;
+
+void main()
+{
+    gl_Position = projection * view * model * vec4(aPos, 1.0);
+    ourColor = aColor;
+    TexCoord = aTexCoord;
+}
+```
+
+### Fragment Shader
+
+```cpp
+#version 330 core
+out vec4 FragColor;
+  
+in vec3 ourColor;
+in vec2 TexCoord;
+
+void main()
+{
+    FragColor = vec4(ourColor, 1.0);
+}
+```
+
+opengl-right-handed-coordinate-systems.png
+
+## 绘制
+
+绘制一个立方体需要6个面，每个面2个三角形, 每个三角形3个点, 一共36个`vertices`
+
+![右手坐标系]({{site.static}}/images/opengl-right-handed-coordinate-systems.png)
+
+![结果]({{site.static}}/images/opengl-lesson-07-result.png)
+
 ## 更多
 
 1. [https://learnopengl.com/Getting-started/Coordinate-Systems](https://learnopengl.com/Getting-started/Coordinate-Systems)
