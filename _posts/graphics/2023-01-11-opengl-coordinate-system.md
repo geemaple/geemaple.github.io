@@ -47,9 +47,9 @@ OpenGL需要所有的`Vertex Shader`值输出在`[-1.0, 1.0]`范围中，也就�
 
 ## 裁剪空间
 
-$
-gl\_Position=V_{clip}=M_{projection}⋅M_{view}⋅M_{model}⋅V_{local}
-$
+
+`gl_Position`=$V_{clip}=M_{projection}⋅M_{view}⋅M_{model}⋅V_{local}$
+
 
 `Vertex Shader`需要输出`[-1, 1]`，其余部分被剪裁掉，这也就是裁剪空间(Clip Space)名字的由来
 
@@ -115,3 +115,4 @@ OpenGL会将`标准化设备坐标(Normalized Device Coordinate)`变换到由`gl
 
 1. [https://learnopengl.com/Getting-started/Coordinate-Systems](https://learnopengl.com/Getting-started/Coordinate-Systems)
 2. [http://www.songho.ca/opengl/gl_projectionmatrix.html](http://www.songho.ca/opengl/gl_projectionmatrix.html)
+3. [https://www.youtube.com/watch?v=2YtdGVzDFkw&ab_channel=ClanMacCAD](https://www.youtube.com/watch?v=2YtdGVzDFkw&ab_channel=ClanMacCAD)
