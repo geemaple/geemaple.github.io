@@ -56,7 +56,7 @@ brew install glfw
 # 编译安装 brew install -s glfw
 ```
 
-添加'''/opt/homebrew/Cellar/glfw/3.3.8/include'''到 ```Build Phase > Header Search Paths```
+添加```/opt/homebrew/Cellar/glfw/3.3.8/include```到 ```Build Phase > Header Search Paths```
 添加'''libglfw.3.3.dylib''' 到 ```Build Phase->Link Binary with libraries```
 
 ### option 2
@@ -97,6 +97,8 @@ Generate a loader
 cmake "-DCMAKE_OSX_ARCHITECTURES=x86_64;arm64" .
 ```
 此外，Framework需要IOKit和Cocoa
+
+PS: 系统升级13.1突然编译不过了，默认的Xcode初始程序也同样错误，重新安装好了，24G的Xcode也不知道抽啥风
 
 [源码](https://github.com/geemaple/learning/blob/main/learn_opengl/learn_opengl/lesson/lesson_01_window.cpp)
 
