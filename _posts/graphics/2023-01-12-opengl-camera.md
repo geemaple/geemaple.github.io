@@ -11,6 +11,8 @@ mathjax: true
 * content
 {:toc}
 
+//TBD 待reivew
+
 OpenGL本身没有`Camera`定义，但是可以通过移动世界，给一个我们自己在动的错觉
 
 ## 观察空间
@@ -296,7 +298,7 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 
 ![结果]({{site.static}}/images/opengl-lesson-09-result.gif)
 
-[源码](https://github.com/geemaple/learning/blob/main/learn_opengl/learn_opengl/lesson/lesson_09_lesson_09_explore.cpp)
+[源码](https://github.com/geemaple/learning/blob/main/learn_opengl/learn_opengl/lesson/lesson_09_explore.cpp)
 
 ## 更多
 
