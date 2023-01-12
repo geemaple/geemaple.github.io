@@ -281,9 +281,22 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 
 ## 绘制
 
+```cpp
+// render loop
+  glm::mat4 model = glm::mat4(1.0f);
+  model = glm::translate(model, cube_positions[i]);
+  model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
+  glm::mat4 view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+  glm::mat4 projection = glm::perspective(glm::radians(fov), 800.0f / 600.0f, 0.1f, 100.0f);
+  
+  glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "model"), 1, GL_FALSE, glm::value_ptr(model));
+  glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "view"), 1, GL_FALSE, glm::value_ptr(view));
+  glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
+```
+
 ![结果]({{site.static}}/images/opengl-lesson-09-result.gif)
 
-[源码](https://github.com/geemaple/learning/blob/main/learn_opengl/learn_opengl/lesson/lesson_09_input.cpp)
+[源码](https://github.com/geemaple/learning/blob/main/learn_opengl/learn_opengl/lesson/lesson_09_lesson_09_explore.cpp)
 
 ## 更多
 
