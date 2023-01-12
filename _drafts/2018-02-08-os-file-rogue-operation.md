@@ -2,8 +2,8 @@
 layout: post
 title: "文件系统File, 无赖进程或线程"
 date: 2018-02-08
-categories: file
-tags: file-descriptor, os
+categories: Linux
+tags: Linux
 excerpt: 
 ---
 

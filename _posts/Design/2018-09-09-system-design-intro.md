@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "优秀的程序必修之路——系统设计开篇"
-tags: System-design
+tags: SystemDesign
 excerpt: "系统设计开篇，什么是系统设计，从哪些角度考虑"
 ---
 
