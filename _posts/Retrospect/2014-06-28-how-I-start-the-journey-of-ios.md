@@ -1,5 +1,6 @@
 ---
 layout: post
+published: false
 title: "我的iOS程序生涯的起点"
 date: 2014-06-28
 categories: Retrospect
