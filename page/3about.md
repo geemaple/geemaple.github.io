@@ -9,18 +9,9 @@ type: page
 * content
 {:toc}
 
-你好我是Felix
+Hi, I'm Felix
 
-我是一名iOS工程师，从4s开始就是苹果的强烈拥护者
-
-熟悉Python，并认为Python是最简单的语言
-
-熟悉JavaScript，相信Web是长盛不衰的存在
-
-### 当下
-
-0. 养好精神，锻炼身体
-1. 在努力的学习算法，并将结果输出到本博客, **公众号[极客算法]**
+一名iOS工程师
 
 ### 经历
 
