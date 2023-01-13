@@ -20,7 +20,13 @@ type: page
         <ul>
             {% for tag in sortedtags %}
                 <h2 id="{{ tag }}">{{ tag }}</h2>
-                {% assign sortedPosts = site.tags[tag] | sort: "index" | reverse %}
+                {% assign post = site.tags[tag] | first %}
+                {% if post.index > 0 %}
+                    {% assign sortedPosts = site.tags[tag] | sort: "index" | reverse %}
+                {% else %}
+                    {% assign sortedPosts = site.tags[tag] | sort: "date" | reverse %}
+                {% endif %}
+              
                 {% for post in sortedPosts %}
                     <li>
                         <time>

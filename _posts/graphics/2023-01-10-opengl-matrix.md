@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "OpenGL矩阵Matrix"
+title: "OpenGL1.6矩阵Matrix"
 date: 2023-01-10
 categories: Graphics
 tags: OpenGL

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "OpenGL相机Camera"
+title: "OpenGL1.8相机Camera"
 date: 2023-01-12
 categories: Graphics
 tags: OpenGL

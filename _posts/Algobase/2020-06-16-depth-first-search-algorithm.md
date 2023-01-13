@@ -1,6 +1,5 @@
 ---
 layout: post
-index: 9
 title: "深度优先搜索算法DFS"
 categories: Algobase
 tags: Algobase DFS

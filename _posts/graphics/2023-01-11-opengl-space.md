@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "OpenGL空间Space"
+title: "OpenGL1.7空间Space"
 date: 2023-01-11
 categories: Graphics
 tags: OpenGL

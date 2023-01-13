@@ -1,6 +1,5 @@
 ---
 layout: post
-index: 7
 title: "深度优先与广度优先搜索"
 categories: Algobase
 tags: Algobase BFS DFS

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "OpenGL纹理Texture"
+title: "OpenGL1.5纹理Texture"
 date: 2023-01-09
 categories: Graphics
 tags: OpenGL

@@ -1,6 +1,5 @@
 ---
 layout: post
-index: 2
 title: "Boyer-Moore大多数选择算法"
 categories: Algobase
 tags: Algobase BoyerMoore

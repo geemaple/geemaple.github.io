@@ -1,6 +1,5 @@
 ---
 layout: post
-index: 6
 title: "广度优先搜索算法BFS"
 categories: Algobase
 tags: Algobase BFS

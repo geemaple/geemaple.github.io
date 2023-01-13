@@ -1,6 +1,7 @@
 ---
 layout: post
-title: "OpenGL高阶着色语言GLSL"
+title: "OpenGL1.3高阶着色语言GLSL"
+index: 13
 date: 2023-01-07
 categories: Graphics
 tags: OpenGL

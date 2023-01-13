@@ -1,6 +1,5 @@
 ---
 layout: post
-index: 5
 title: "二叉树与分治算法"
 categories: Algobase
 tags: Algobase Divide&Conquer Recursion

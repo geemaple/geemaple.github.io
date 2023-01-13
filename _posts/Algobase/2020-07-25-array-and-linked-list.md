@@ -1,6 +1,5 @@
 ---
 layout: post
-index: 1
 title: "数组与链表"
 categories: Algobase
 tags: Algobase Array LinkedList

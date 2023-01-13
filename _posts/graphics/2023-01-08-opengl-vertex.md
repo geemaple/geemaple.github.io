@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "OpenGL自定义Vertex"
+title: "OpenGL1.4自定义Vertex"
 date: 2023-01-08
 categories: Graphics
 tags: OpenGL

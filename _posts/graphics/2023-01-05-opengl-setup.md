@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "OpenGL环境设置"
+title: "OpenGL1.1环境设置"
 date: 2023-01-05
 categories: Graphics
 tags: OpenGL

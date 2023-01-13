@@ -1,6 +1,5 @@
 ---
 layout: post
-index: 10
 title: "Rabin–Karp字符串匹配搜索算法"
 categories: Algobase
 tags: Algobase String RabinKarp

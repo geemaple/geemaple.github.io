@@ -1,6 +1,5 @@
 ---
 layout: post
-index: 12
 title: "KMP字符串匹配搜索算法"
 categories: Algobase
 tags: Algobase String KMP

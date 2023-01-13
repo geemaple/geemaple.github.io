@@ -1,6 +1,5 @@
 ---
 layout: post
-index: 11
 title: "动态规划"
 categories: Algobase
 tags: Algobase DP

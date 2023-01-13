@@ -1,6 +1,5 @@
 ---
 layout: post
-index: 8
 title: "树的三种DFS策略(前序、中序、后序)遍历"
 categories: Algobase
 tags: Algobase DFS

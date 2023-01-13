@@ -1,6 +1,5 @@
 ---
 layout: post
-index: 14
 title: "并查集"
 categories: Algobase
 tags: Algobase DisjointSet

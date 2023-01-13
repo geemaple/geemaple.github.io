@@ -1,6 +1,5 @@
 ---
 layout: post
-index: 3
 title: "二分查找算法"
 categories: Algobase
 tags: Algobase BinarySearch
