@@ -11,15 +11,13 @@ mathjax: true
 * content
 {:toc}
 
-//TBD 待reivew
-
 OpenGL本身没有`Camera`定义，但是可以通过移动世界，给一个我们自己在动的错觉
 
 ## 观察空间
 
-`观察空间(View Space)`也叫`Camera Space`或者`Eye Space`
+`观察空间(View Space)`也叫`Camera Space`或者`Eye Space`, 需要把`世界空间`转换成`观察空间`，也就是从相机的视角，观察`世界空间`的样子。
 
-也就是从相机的视角，观察`世界空间`的样子。定义相机，我们需要它在`世界空间`中的位置、观察的方向、一个指向它右侧的向量以及一个指向它上方的向量。也就是以相机**位置**为**原点**的一个坐标系。
+定义相机，我们需要它在`世界空间`中的位置、观察的方向、一个指向它右侧的向量以及一个指向它上方的向量。也就是以**相机位置**为**原点**的一个坐标系。
 
 ![相机坐标系]({{site.static}}/images/opengl-camera-coordinate.png)
 
@@ -44,7 +42,7 @@ glm::vec3 cameraDirection = glm::normalize(cameraPos - cameraTarget);
 
 ### 相机右轴X
 
-首先在`世界空间`定义个向上的`单位向量`， 然后将该向量与`相机方向`做`叉乘`, 会得到一个垂直于`单位向量`和`相机方向`的新向量，根据右手定则，新的向量即使我们想要的`View Space`的x轴
+首先在`世界空间`定义个向上的`单位向量`， 然后将该向量与`相机方向`做`叉乘`, 会得到一个垂直于`单位向量`和`相机方向`的新向量，根据右手定则，新的向量即是我们想要的`View Space`的x轴
 
 ```cpp
 glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f); 
@@ -60,13 +58,15 @@ glm::vec3 cameraUp = glm::cross(cameraDirection, cameraRight);
 
 ### 注视目标
 
-矩阵的好处是，如果有一个3个两两垂直(或非线性)的轴定义一个坐标空间，可以用这三个轴外加一个平移向量来创建一个矩阵。并且用这个矩阵乘以任何向量，将其转换空间。
+矩阵的好处是，如果有3个两两垂直(或非线性)的轴定义一个坐标空间，可以用这三个轴外加一个平移向量来创建一个矩阵。并且用这个矩阵乘以任何向量，将其转换空间。
 
 $
 LookAt = \begin{bmatrix} \color{red}{R_x} & \color{red}{R_y} & \color{red}{R_z} & 0 \\\ \color{green}{U_x} & \color{green}{U_y} & \color{green}{U_z} & 0 \\\ \color{blue}{D_x} & \color{blue}{D_y} & \color{blue}{D_z} & 0 \\\ 0 & 0 & 0  & 1 \end{bmatrix} \cdot \begin{bmatrix} 1 & 0 & 0 & -\color{purple}{P_x} \\\ 0 & 1 & 0 & -\color{purple}{P_y} \\\ 0 & 0 & 1 & -\color{purple}{P_z} \\\ 0 & 0 & 0  & 1 \end{bmatrix}
 $
 
-`R`为相机右轴，`U`为相机上轴, `D`为相机方向， `P`位相机位置。注意
+`R`为相机右轴，`U`为相机上轴, `D`为相机方向， `P`位相机位置。
+
+注意，左边是旋转矩阵，右边是平移矩阵
 
 GLM已经做了这项任务，我们只需要传入相机坐标`P`， `Target`坐标, `世界空间`的向上坐标
 
@@ -107,7 +107,7 @@ glm::vec3 cameraUp    = glm::vec3(0.0f, 1.0f,  0.0f);
 view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 ```
 
-注意第二个是`Front`坐标，也就是`相机面向`的方向， 
+注意第二个是`Front`坐标，也就是`相机面向`的方向， 这样确保无论怎样移动，始终看向同一个方向。
 
 ### 键盘输入
 
@@ -115,19 +115,19 @@ view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 `左右`移动则要用到`向量叉乘`, 右手定则, 左右向量乘数对调，方向相反
 
 ```cpp
-static void processArrowKeys(GLFWwindow *window, glm::vec3& cameraPos, glm::vec3& cameraTarget, glm::vec3& cameraUp)
+static void processArrowKeys(GLFWwindow *window, glm::vec3& cameraPos, glm::vec3& cameraFront, glm::vec3& cameraUp, float deltaTime)
 {
-    processInput(window);
+    processKeyInput(window);
     
-    const float cameraSpeed = 0.05f; // adjust accordingly
+    const float cameraSpeed = 2.5f * deltaTime; // adjust accordingly
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS or glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
-        cameraPos += cameraSpeed * cameraTarget;
+        cameraPos += glm::normalize(cameraFront) * cameraSpeed;
     if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS or glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
-        cameraPos -= cameraSpeed * cameraTarget;
+        cameraPos -= glm::normalize(cameraFront) * cameraSpeed;
     if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS or glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
-        cameraPos -= glm::normalize(glm::cross(cameraTarget, cameraUp)) * cameraSpeed;
+        cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS or glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
-        cameraPos += glm::normalize(glm::cross(cameraTarget, cameraUp)) * cameraSpeed;
+        cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
 }
 ```
 
@@ -135,7 +135,7 @@ static void processArrowKeys(GLFWwindow *window, glm::vec3& cameraPos, glm::vec3
 
 当前使用的是`常量`移动速度，一个问题是，速度快的机器`帧率`高，即每秒`render loop`执行的快，视角移动也相应的快，相反慢的机器就移动就慢
 
-所以应用或游戏，通常会保存一个`deltatime`变量，用来保存上一`帧`花费了多长时间。
+为了解决这个问题，应用或游戏通常会保存一个`deltatime`变量，用来保存上一`帧`花费了多长时间。
 
 假设一个设备，`桢率=60fps`, 也就是$deltatime=\frac{1}{60}$, 他就是的速度倍速就慢一些
 
@@ -153,7 +153,7 @@ const float cameraSpeed = 2.5f * deltaTime;
 
 ## 自由视角
 
-之前相机的视角是固定的，`cameraTarget`是一个固定值，可以通过鼠标输入改变。
+之前相机的视角是固定的，`cameraFront`是一个固定值，可以通过鼠标输入改变。
 
 ### 欧拉角
 
@@ -191,7 +191,7 @@ direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
 
 我们的相机是应该看向`z`轴负方向的， 但如果`偏航角(Yaw)`为0，相机就会看向`x`轴方向。
 
-为了修正这个，'yaw'的初始值应该为-90;
+为了修正这个，`yaw`的初始值应该为-90;
 
 ```cpp
 yaw = -90.0f;
@@ -223,15 +223,12 @@ static void mouseCaptureCallback(GLFWwindow* window, double xpos, double ypos) {
 
 ```cpp
 glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-
-mouseCapture.x = width / 2;
-mouseCapture.y = width / 2;
 glfwSetCursorPosCallback(window, mouseCaptureCallback);
 ```
 
 ### 相机空间
 
-首先获得鼠标输入`增量`, 我们希望获得一个`y`轴·，从底部到顶部是增大的，所以鼠标捕获的值需要**取负值**。
+首先获得鼠标输入`增量`, 我们希望获的`y`轴·，是底部到顶部是增大的，所以鼠标捕获的值需要**取负值**。
 
 然后将结果乘以`敏感度(sensitivity)`系数
 
@@ -244,7 +241,7 @@ xoffset *= sensitivity;
 yoffset *= sensitivity;
 ```
 
-对于`俯仰角(Pitch)`我们要做一个限制，这样摄像机就不会发生奇怪的移动了（也会避免一些奇怪的问题）。
+对于`俯仰角`我们要做一个限制，这样摄像机就不会发生奇怪的移动了（也会避免一些奇怪的问题）。
 
 对于`俯仰角`，要让用户不能看向高于89度的地方（在90度时视角会发生逆转，所以我们把89度作为极限。 
 
@@ -255,9 +252,24 @@ if(pitch > 89.0f) pitch =  89.0f;
 if(pitch < -89.0f) pitch = -89.0f;
 ```
 
+最后将角度`增量`, 加到已有的变量上, 计算出`cameraFront`。
+
+```cpp
+yaw   += xoffset;
+pitch += yoffset;
+
+glm::vec3 direction;
+direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+direction.y = sin(glm::radians(pitch));
+direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+cameraFront = glm::normalize(direction);
+```
+
+注意当鼠标被捕获时，第一个回调数值是鼠标进入窗口时的坐标，因为差值需要两个值相减，所以获取差值需要过滤掉第一次回调的结果。
+
 ## 缩放
 
-### 鼠标输入
+### 滚轮输入
 
 注册回调函数
 
@@ -272,9 +284,10 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 
 ### 缩放视角
 
-限制`fov`在`[0.0, 45.0]`范围内
+限制`fov`在`[0.0, 45.0]`范围内， 当`fov`变小时，根据`视觉投影`的结果，会有画面放大的效果
 
 ```cpp
+  fov -= (float)yoffset;
   if (fov < 1.0f)
       fov = 1.0f;
   if (fov > 45.0f)
@@ -302,4 +315,5 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 
 ## 更多
 
-1. [https://en.wikipedia.org/wiki/Gram%E2%80%93Schmidt_process](https://en.wikipedia.org/wiki/Gram%E2%80%93Schmidt_process)
+1. [https://learnopengl.com/Getting-started/Camera](https://learnopengl.com/Getting-started/Camera)
+2. [https://en.wikipedia.org/wiki/Gram%E2%80%93Schmidt_process](https://en.wikipedia.org/wiki/Gram%E2%80%93Schmidt_process)
