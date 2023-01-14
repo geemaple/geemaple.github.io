@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "OpenGL2.1光Lighting"
-date: 2023-01-12
+title: "OpenGL2.1光影Lighting"
+date: 2023-01-14
 categories: Graphics
 tags: OpenGL
 excerpt: 想要彻底摆脱黑暗就努力站在有光的地方
@@ -88,7 +88,9 @@ void main()
 }
 ```
 
-## 光源
+## 场景
+
+### 光源
 
 为了方便学习，需要画出光源位置，但是作为光源不希望被上面`反射`代码干扰，所以单独设置光源的`Fragment Shader`代码, `Vertex Shader`没有改动
 
@@ -104,10 +106,48 @@ void main()
 }
 ```
 
-## 灯光场景
-
 ![结果]({{site.static}}/images/opengl-lesson-10-result.gif)
 
 [源码](https://github.com/geemaple/learning/blob/main/learn_opengl/learn_opengl/lesson/lesson_10_lighting.cpp)
 
-// TBD
+## 光影模型
+
+物理世界的`光影`非常的复杂，OpenGL使用的`简单的模型来`模拟真实世界。
+
+其中一种模型叫`冯氏光照模型(Phong lighting)`, 主要结构由3个分量组成：环境(Ambient)、漫反射(Diffuse)和镜面(Specular)光照: 
+
+![冯氏光照模型]({{site.static}}/images/opengl-phong-lighting-model.png)
+
+1. 环境(Ambient), 即使在夜晚，也会有一些光亮(比如月亮，星星)。所以，大部分场景物体不完全是漆黑的。`Ambient`常量用来模拟这种效果，用来给物体一些颜色。
+2. 漫反射(Diffuse)，用来模拟光源位置对物体的影响，是光模型中最重要的组成部分，物体的某一部分越是正对着光源，它就会越亮。
+3. 镜面(Specular), 模拟有光泽物体上面出现的亮点，它更接近光源的颜色。
+
+### 环境光照
+
+光源通常来自物体的各个方向，即使不是直接发光的物体。
+
+光的一个特点是可以反射，根据环境物理特性不同，会导致光线反射的到处都是。
+
+这些反射的光，会对`物体`产生间接的影响。`global illumination`会考虑这些反射。
+
+我们这里采用`global illumination`里的一个非常简单的概念`ambient lighting`。
+
+代码使用`ambientStrength`变量，这样环境就会始终有一些反射光存在
+
+```cpp
+void main()
+{
+    float ambientStrength = 0.1;
+    vec3 ambient = ambientStrength * lightColor;
+
+    vec3 result = ambient * objectColor;
+    FragColor = vec4(result, 1.0);
+}  
+```
+
+![结果]({{site.static}}/images/opengl-lesson-11-result-01.gif)
+
+### 漫反射光照
+
+
+### 镜面光照
