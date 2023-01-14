@@ -228,6 +228,8 @@ vec3 diffuse = diff * lightColor;
 
 ![结果]({{site.static}}/images/opengl-lesson-11-result-02.gif)
 
+看上去怪怪的，主要是没有对`法向量`处理。使得光影停留在初始旋转时候的样子。
+
 #### 法线矩阵
 
 `法向量`需要转换到`世界空间`， 但是直接乘会有问题。
@@ -254,8 +256,10 @@ Normal = mat3(transpose(inverse(model))) * aNormal;
 
 ### 镜面光照
 
+//TBD 累了累了 
 
 
 ## 更多
 
+1. [https://learnopengl.com/Lighting/Basic-Lighting](https://learnopengl.com/Lighting/Basic-Lighting)
 2. [http://www.lighthouse3d.com/tutorials/glsl-12-tutorial/the-normal-matrix/](http://www.lighthouse3d.com/tutorials/glsl-12-tutorial/the-normal-matrix/)
