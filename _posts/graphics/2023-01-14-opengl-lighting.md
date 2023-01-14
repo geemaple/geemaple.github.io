@@ -55,39 +55,6 @@ glm::vec3 result = lightColor * toyColor; // = (0.33f, 0.21f, 0.06f);
 
 由此可以看出，相同的物体，会展示不同的视觉颜色
 
-## GLSL
-
-### Vertex Shader
-
-```cpp
-#version 330 core
-layout (location = 0) in vec3 aPos;
-
-uniform mat4 model;
-uniform mat4 view;
-uniform mat4 projection;
-
-void main()
-{
-    gl_Position = projection * view * model * vec4(aPos, 1.0);
-} 
-```
-
-### Fragment Shader
-
-```cpp
-#version 330 core
-out vec4 FragColor;
-  
-uniform vec3 objectColor;
-uniform vec3 lightColor;
-
-void main()
-{
-    FragColor = vec4(lightColor * objectColor, 1.0);
-}
-```
-
 ## 场景
 
 ### 光源
@@ -153,7 +120,7 @@ void main()
 
 漫反射光会对`物体`颜色有明显的效果，离光源越近，就越亮。
 
-![漫反射光照]({{site.static}}/images/opengl-diffuse-light.png)
+![漫反射光照]({{site.static}}/images/opengl-diffuse-lighting.png)
 
 图中，左边的光源发射光线到`物体`的一个`Fragment`上。 需要知道光线以什么角度射入的，如果光线是垂直照射的，光线就有最大的影响力(更亮)。
 
@@ -171,7 +138,7 @@ $
 
 `法向量`是垂直`物体`表面的`单位向量`, 因为单个`vertex`并不是平面，只是一个点。我们需要计`物体`体表面的`法向量`，可以通过周围的点组成的平面做向量叉乘获得。
 
-#### 计算漫反射
+#### 漫反射计算
 
 立方体`法向量`比较简单，直接放入`vertex`中, 然后再将数值传给`Fragment Shader`.
 
@@ -251,13 +218,79 @@ Normal = mat3(transpose(inverse(model))) * aNormal;
 ```
 
 注意，矩阵求逆是一项对于`shaders`开销很大，因为它必须在场景中的每一个Vertex上进行 最好先在CPU上计算出法线矩阵，再通过uniform把它传值
-
 ![结果]({{site.static}}/images/opengl-lesson-11-result-03.gif)
 
 ### 镜面光照
 
-//TBD 累了累了 
+和`漫反射光照`一样，镜面光照也决定于`光的方向向量`和物体的`法向量`，但是它也决定于`观察方向`，例如玩家是从什么方向看向这个片段的。
 
+`物体`表面的反射特性决定`镜面光照`。如果我们把物体表面设想为一面镜子，那么镜面光照最强的地方就是我们看到表面上反射光的地方。你可以在下图中看到效果：
+
+![镜面光照]({{site.static}}/images/opengl-specular-lighting.png)
+
+#### 镜面光照计算
+
+首先通过光的反射，得到反射光$\vec{R}$, 然后$\vec{R}$与`观察方向`的夹角$\theta$越小， 镜面光作用就越大。最后与其他`分量`叠加
+
+观察点，即相机的位置，通过`uniform`来设定
+
+```cpp
+uniform vec3 viewPos;
+glUniform3f(glGetUniformLocation(shaderProgram, "viewPos"), cameraPos.x, cameraPos.y, cameraPos.z);
+```
+
+定义一个镜面强度`specularStrength`变量，给镜面高光一个中等亮度颜色，让它不要产生过度的影响。
+
+```cpp
+float specularStrength = 0.5;
+```
+
+$\vec{viewPos} - \vec{FragPos}$获得从物体到眼睛的向量
+
+```cpp
+vec3 viewDir = normalize(viewPos - FragPos);
+```
+
+reflect函数要求第一个向量是从光源指向片段位置的向量，但是lightDir当前正好相反，是从片段指向光源（由先前我们计算lightDir向量时，减法的顺序决定）
+
+```cpp
+vec3 reflectDir = reflect(-lightDir, norm);
+```
+
+#### 反光度
+
+一个物体的`反光度`越高，反射光的能力越强，散射得越少，高光点就会越小。在下面的图片里不同`反光度`的效果
+
+![镜面光照]({{site.static}}/images/opengl-specular-shininess.png)
+
+最后通过点乘计算影响系数，然后取32次方。这个32是`反光度`参数
+
+```cpp
+float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
+vec3 specular = specularStrength * spec * lightColor;
+```
+
+![结果]({{site.static}}/images/opengl-lesson-11-result-04.gif)
+
+## 光照空间
+
+这里选择在世界空间进行光照计算，但是大多数人趋向于更偏向在观察空间进行光照计算。
+
+在观察空间计算的优势是，观察者的位置总是在(0, 0, 0)，所以你已经零成本地拿到了观察者的位置。
+
+然而，若以学习为目的，在世界空间中计算光照更符合直觉。如果你仍然希望在观察空间计算光照的话，你需要将所有相关的向量也用观察矩阵进行变换（不要忘记也修改法线矩阵）。
+
+## 光照对比
+
+两种都采用`冯氏光照模型`，但处理位置不同：
+
+在光照使用的的早期，开发者选择在`vertex shader`做光照处理，这种方法处理得快，只需要处理`vertex`数据就可以了，其余的值由插值完成。 这种在`vertex shader`处理的光照办法也叫`Gouraud Shading`
+
+与之相反的是，在`fragment shader`做处理，好处是每个`fragment`都会有颜色处理，好处是颜色更加真实，也就是这节使用的方法`Phong Shading`
+
+![光照对比]({{site.static}}/images/opengl-lighting-gouraud-vs-phong.png)
+
+[源码](https://github.com/geemaple/learning/blob/main/learn_opengl/learn_opengl/lesson/lesson_11_phong.cpp)
 
 ## 更多
 
