@@ -55,11 +55,9 @@ glm::vec3 result = lightColor * toyColor; // = (0.33f, 0.21f, 0.06f);
 
 由此可以看出，相同的物体，会展示不同的视觉颜色
 
-## 灯光场景
+## GLSL
 
-### 物体
-
-## Vertex Shader
+### Vertex Shader
 
 ```cpp
 #version 330 core
@@ -75,7 +73,7 @@ void main()
 } 
 ```
 
-## Fragment Shader
+### Fragment Shader
 
 ```cpp
 #version 330 core
@@ -90,11 +88,11 @@ void main()
 }
 ```
 
-### 光源
+## 光源
 
 为了方便学习，需要画出光源位置，但是作为光源不希望被上面`反射`代码干扰，所以单独设置光源的`Fragment Shader`代码, `Vertex Shader`没有改动
 
-## Fragment Shader
+`Fragment Shader`
 
 ```cpp
 #version 330 core
@@ -105,6 +103,8 @@ void main()
     FragColor = vec4(1.0);
 }
 ```
+
+## 灯光场景
 
 ![结果]({{site.static}}/images/opengl-lesson-10-result.gif)
 
