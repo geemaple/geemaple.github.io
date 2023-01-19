@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "K线图与订单"
-date: 2023-01-14
+date: 2023-01-19
 categories: Investment
 tags: Investment
 excerpt: 时间是最好的朋友
@@ -66,3 +66,6 @@ K线图下方通常会显示交易量，交易量是交易资产的数量，而�
 
 1. `OCO`订单(One Cancel the Other)，同时挂`stop-limit`订单和`limit`订单对, 如果任意一个订单成交，那么另一个订单自动取消。任意一个订单取消，则整个`OCO`点单取消。
 
+## 绘制
+
+// TBD
