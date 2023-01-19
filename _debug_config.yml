@@ -9,8 +9,8 @@
 title: 极客算法
 brief-intro: ""
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "https://geemaple.github.io" # the base hostname & protocol for your site
-static: "https://raw.githubusercontent.com/geemaple/geemaple.github.io/master"
+url: "http://127.0.0.1:4000/" # the base hostname & protocol for your site
+static: "http://127.0.0.1:4000/"
 
 permalink: /:categories/:title
 
@@ -33,7 +33,7 @@ description_footer: 极客算法
 duoshuo_shortname: #hygblog
 disqus_shortname: geemaple
 
-google_analytics_id: UA-118279055-1 # google 分析追踪id
+google_analytics_id: #UA-118279055-1 # google 分析追踪id
 
 # Build settings
 markdown: kramdown
@@ -50,6 +50,7 @@ plugins:
  - jekyll-paginate
  - jekyll-sitemap
  - jekyll-seo-tag
+ - jekyll-debug
 
 # excerpt
 excerpt_separator: "\n\n\n\n"
