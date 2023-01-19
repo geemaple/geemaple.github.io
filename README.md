@@ -19,5 +19,5 @@ bundle exec jekyll serve --drafts --unpublished --future --config _debug_config.
 
 ## Why another _debug_config file?
 
-1. It's more easy display images with `static` variable poiting to local disk
+1. It's more easy to display images with `static` variable poiting to local url
 2. Disable google analysis when writing blogs
