@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "OpenGL2.1光影Lighting"
+title: "OpenGL2.1光模型Phong"
 date: 2023-01-14
 categories: Graphics
 tags: OpenGL
