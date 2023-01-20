@@ -217,9 +217,17 @@ vec3 specular = light.specular * spec * vec3(texture(material.specular, TexCoord
 FragColor = vec4(ambient + diffuse + specular, 1.0);   
 ```
 
-> 可以给`镜面光贴图`设置颜色，这样不仅有`镜面光强度`还有`镜面光颜色`， 但从现实角度来说，镜面光大部分(甚至全部)都来自于光源，所以设置颜色会有不真实的效果，这也是为什么贴图通常是黑白的。
-
 ![结果]({{site.static}}/images/opengl-lesson-13-result-02.gif)
+
+可以给`镜面光贴图`设置颜色，这样不仅有`镜面光强度`还有`镜面光颜色`， 但从现实角度来说，镜面光大部分(甚至全部)都来自于光源，所以设置颜色会有不真实的效果，这也是为什么贴图通常是黑白的
+
+![结果]({{site.static}}/images/opengl-lesson-13-result-03.gif)
+
+### 放射光贴图
+
+放射光贴图，通常是游戏里面的效果，物体本身会发光，就可以忽略光源的影响
+
+![结果]({{site.static}}/images/opengl-lesson-13-result-04.gif)
 
 [源码](https://github.com/geemaple/learning/blob/main/learn_opengl/learn_opengl/lesson/lesson_13_maps.cpp)
 
