@@ -5,7 +5,6 @@ date: 2023-01-19
 categories: Investment
 tags: Investment
 excerpt: 时间是最好的朋友
-mathjax: true
 ---
 
 * content
