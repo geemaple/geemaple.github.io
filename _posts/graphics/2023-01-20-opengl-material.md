@@ -134,3 +134,7 @@ glUniform3f(glGetUniformLocation(shaderProgram, "light.specular"), 1.0f, 1.0f, 1
 ![结果]({{site.static}}/images/opengl-lesson-12-result-03.gif)
 
 [源码](https://github.com/geemaple/learning/blob/main/learn_opengl/learn_opengl/lesson/lesson_12_material.cpp)
+
+## 更多
+
+[https://learnopengl.com/Lighting/Materials](https://learnopengl.com/Lighting/Materials)
