@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "K线图与订单"
+title: "技术分析-K线图与订单"
 date: 2023-01-19
 categories: Investment
 tags: Investment
@@ -24,7 +24,7 @@ K线图`Candle Chart`用来显示交易市场的价格信息，其中主体粗�
 
 ## 交易量
 
-K线图下方通常会显示交易量，交易量是交易资产的数量，而不是交易资金量。
+K线图下方通常会显示交易量，交易量是交易资产的`数量`，而不是交易资金量。
 
 ![交易量]({{site.static}}/images/investment-trading-volume.png)
 
@@ -65,8 +65,13 @@ K线图下方通常会显示交易量，交易量是交易资产的数量，而�
 
 1. `OCO`订单(One Cancel the Other)，同时挂`stop-limit`订单和`limit`订单对, 如果任意一个订单成交，那么另一个订单自动取消。任意一个订单取消，则整个`OCO`点单取消。
 
-## 绘制K线
+## 绘制
 
 ![k线图]({{site.static}}/images/investment_lesson_01.png)
 
 [代码](https://github.com/geemaple/learning/blob/main/learn_analysis/lesson-01-k-chart.py)
+
+## 更多
+
+1. [https://pandas.pydata.org/docs/getting_started/intro_tutorials/01_table_oriented.html](https://pandas.pydata.org/docs/getting_started/intro_tutorials/01_table_oriented.html)
+2. [https://nathancarter.github.io/dataframe-animations/](https://nathancarter.github.io/dataframe-animations/)
