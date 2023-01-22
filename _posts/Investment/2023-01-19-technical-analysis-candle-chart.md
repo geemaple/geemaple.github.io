@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "技术分析-K线图与订单"
+title: "技术分析-K线图"
 date: 2023-01-19
 categories: Investment
 tags: Investment

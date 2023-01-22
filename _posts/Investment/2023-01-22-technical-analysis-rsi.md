@@ -56,10 +56,11 @@ RSI在指定时间判断价格变动速度，用来查看市场`超买`和`超�
 
 除了`30/70`规则，有些人也用`RSI`预测`反转`和`支撑位`。
 
-1. 上涨背离，市价格和RSI方向相反，虽然价格低于前低，但是RSI底点高于前低，表明即使价格下跌，购买力增强
 ![上涨背离]({{site.static}}/images/investment-rsi-bullish-divergence.jpg)
 
+1. 上涨背离，市价格和RSI方向相反，虽然价格低于前低，但是RSI底点高于前低，表明即使价格下跌，购买力增强
 2. 下跌背离, 市价格和RSI方向相反，虽然价格高于前高，但是RSI高点低于前高，表明即使价格上涨，购买力减弱
+
 ![下跌背离]({{site.static}}/images/investment-rsi-bearish-divergence.jpg)
 
 ## 绘制
