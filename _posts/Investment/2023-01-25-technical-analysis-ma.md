@@ -92,15 +92,70 @@ $
 
 #### DEMA
 
-注意，后面不是平方，而是算EMA的EMA
+Double EMA. 注意，后面不是平方，而是算EMA的EMA
 
-$Double EMA = 2\times{EMA} - EMA(EMA)$
+$DEMA = 2\times{EMA} - EMA(EMA)$
 
 #### TEMA
 
-注意，后面不是立方，而是算EMA的EMA的EMA
-$Triple EMA = (3\times{EMA} – 3\times{EMA(EMA)}) + EMA(EMA(EMA)))$
+Tripple EMA. 注意，后面不是立方，而是算EMA的EMA的EMA
+$TEMA = (3\times{EMA} – 3\times{EMA(EMA)}) + EMA(EMA(EMA)))$
 
+### 意义
+
+`MA`具有一定的滞后性，时间段越长，滞后性越强。至于**使用多长时间短，取决于交易者, 时间于交易策略匹配才会管用**
+
+通常`t<20天`认为是短期，`t=[20, 60]`认为是中期，`t>60`认为是长期。50，100，200比较常用
+
+还有一个选择是采用哪种`MA`算法，尽管他们大体相同。
+
+`SMA`滞后性比`EMA`强，因为`EMA`越接近最近数据权重越大，越远的数据$\alpha$越接近0，换句话说`EMA`更接近最新价格，反应更快，可能更适合短期交易者
+
+但`SMA`权重相同，更多用来表明`阻力位`和`支撑位`
+
+#### 趋势
+
+长期MA, 例如200SMA, 不容易受短期波动影响, 需要很大量的变动才能影响均线, 常用来显示`牛市`还是`熊市`
+
+1. `牛市`200SMA会上涨，`熊市`下跌
+2. `牛市`价格在200SMA以上，`熊市`在以下
+
+![200SMA]({{site.static}}/images/investment-200-sma.png)
+
+#### 支撑与压力
+
+50MA在上升趋势中，提供支撑位
+
+![50SMA]({{site.static}}/images/investment-50-sma-support.png)
+
+100MA在下降趋势中，提供压力位
+
+![100SMA]({{site.static}}/images/investment-100-sma-resistance.png)
+
+#### 交叉
+
+交叉需要两个不同时间的MA, 例如50SMA与200SMA
+
+牛市交叉, 短期MA向上交叉长期MA, 称作黄金交叉
+
+![golden cross]({{site.static}}/images/investment-sma-golen-cross.png)
+
+熊市交叉, 短期MA向下交叉长期MA，称作死亡交叉
+
+![dead cross]({{site.static}}/images/investment-sma-dead-cross.png)
+
+
+#### 价格交叉
+
+与上面相同，以50SMA与200SMA为例，200MA用来判断长期趋势
+
+看涨交叉，当价格在50SMA之上，并且50SMA在200SMA之上时
+
+![golden cross]({{site.static}}/images/investment-sma-bullish-cross.png)
+
+看跌交叉，当价格在50SMA之下，并且50SMA在200SMA之下时
+
+![golden cross]({{site.static}}/images/investment-sma-bearish-cross.png)
 
 ## 绘制
 
