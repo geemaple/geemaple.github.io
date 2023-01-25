@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "技术分析-均值MA"
-date: 2023-01-22
+date: 2023-01-25
 categories: Investment
 tags: Investment Python
 excerpt: "平均也有权重"
