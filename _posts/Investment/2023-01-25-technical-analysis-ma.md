@@ -118,7 +118,7 @@ $TEMA = (3\times{EMA} – 3\times{EMA(EMA)}) + EMA(EMA(EMA)))$
 长期MA, 例如200SMA, 不容易受短期波动影响, 需要很大量的变动才能影响均线, 常用来显示`牛市`还是`熊市`
 
 1. `牛市`200SMA会上涨，`熊市`下跌
-2. `牛市`价格在200SMA以上，`熊市`在以下
+2. `牛市`价格在200SMA以上，`熊市`价格在200SMA以下
 
 ![200SMA]({{site.static}}/images/investment-200-sma.png)
 
@@ -136,11 +136,11 @@ $TEMA = (3\times{EMA} – 3\times{EMA(EMA)}) + EMA(EMA(EMA)))$
 
 交叉需要两个不同时间的MA, 例如50SMA与200SMA
 
-牛市交叉, 短期MA向上交叉长期MA, 称作黄金交叉
+看涨交叉, 短期MA向上交叉长期MA, 称作黄金交叉
 
 ![golden cross]({{site.static}}/images/investment-sma-golen-cross.png)
 
-熊市交叉, 短期MA向下交叉长期MA，称作死亡交叉
+看跌交叉, 短期MA向下交叉长期MA，称作死亡交叉
 
 ![dead cross]({{site.static}}/images/investment-sma-dead-cross.png)
 
@@ -159,7 +159,7 @@ $TEMA = (3\times{EMA} – 3\times{EMA(EMA)}) + EMA(EMA(EMA)))$
 
 ## 绘制
 
-![MA]({{site.static}}/images/investment_lesson_03.png)
+![MA]({{site.static}}/images/investment-lesson-03.png)
 
 [代码](https://github.com/geemaple/learning/blob/main/learn_analysis/lesson-03-ma.py)
 

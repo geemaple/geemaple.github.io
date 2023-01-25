@@ -67,7 +67,7 @@ K线图下方通常会显示交易量，交易量是交易资产的`数量`，�
 
 ## 绘制
 
-![k线图]({{site.static}}/images/investment_lesson_01.png)
+![k线图]({{site.static}}/images/investment-lesson-01.png)
 
 [代码](https://github.com/geemaple/learning/blob/main/learn_analysis/lesson-01-k-chart.py)
 

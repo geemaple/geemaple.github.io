@@ -3,7 +3,7 @@ layout: post
 title: "技术分析-RSI"
 date: 2023-01-22
 categories: Investment
-tags: Investment Python
+tags: Investment Oscillator Python
 excerpt: 相对强弱指数RSI
 mathjax: true
 ---
@@ -48,20 +48,22 @@ $
 
 ### 意义
 
+#### 超买超卖
+
 RSI在指定时间判断价格变动速度，用来查看市场`超买`和`超卖`，对于默认`14天RSI`天来说。
 1. `RSI <= 30`时，指标认为出现`超卖`，市场可能见底了
 2. `RSI >= 70`时，指标认为出现`超买`，市场可能到顶了
 
 难点是时间跨度不同，结果不同，所以`7天RSI`会更敏感，`21天RSI`敏感度会降低。有些人把`[30, 70]`判断调整到`[20, 80]`.
 
+#### 背离
+
 除了`30/70`规则，有些人也用`RSI`预测`反转`和`支撑位`。
 
-![上涨背离]({{site.static}}/images/investment-rsi-bullish-divergence.jpg)
+1. 上涨背离, 市场价格向下(常用高点比较)，但是RSI底点高于前低，表明即使价格下跌，购买力增强
+2. 下跌背离, 市场价格向上(常用低点比较)，但是RSI高点低于前高，表明即使价格上涨，购买力减弱
 
-1. 上涨背离，市价格和RSI方向相反，虽然价格低于前低，但是RSI底点高于前低，表明即使价格下跌，购买力增强
-2. 下跌背离, 市价格和RSI方向相反，虽然价格高于前高，但是RSI高点低于前高，表明即使价格上涨，购买力减弱
-
-![下跌背离]({{site.static}}/images/investment-rsi-bearish-divergence.jpg)
+![上涨背离]({{site.static}}/images/investment-rsi-bullish-divergence.png)
 
 ## 绘制
 
@@ -89,7 +91,7 @@ print(rsi)
 
 从代码看出RSI，在区间时间内连涨14天，RSI = 1。相反，连跌14天RSI = 0。
 
-![RSI]({{site.static}}/images/investment_lesson_02.png)
+![RSI]({{site.static}}/images/investment-lesson-02.png)
 
 [代码](https://github.com/geemaple/learning/blob/main/learn_analysis/lesson-02-rsi.py)
 
