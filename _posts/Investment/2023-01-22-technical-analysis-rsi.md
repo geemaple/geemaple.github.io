@@ -87,6 +87,8 @@ rsi = 100 * sma_up / (sma_up + sma_down)
 print(rsi)
 ```
 
+从代码看出RSI，在区间时间内连涨14天，RSI = 1。相反，连跌14天RSI = 0。
+
 ![RSI]({{site.static}}/images/investment_lesson_02.png)
 
 [代码](https://github.com/geemaple/learning/blob/main/learn_analysis/lesson-02-rsi.py)

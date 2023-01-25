@@ -4,7 +4,7 @@ title: "OpenGL2.2材质贴图Maps"
 date: 2023-01-20
 categories: Graphics
 tags: OpenGL
-excerpt: ""
+excerpt: "贴图"
 ---
 
 * content
