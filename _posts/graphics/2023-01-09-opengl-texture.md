@@ -3,7 +3,7 @@ layout: post
 title: "OpenGL1.5纹理Texture"
 date: 2023-01-09
 categories: Graphics
-tags: OpenGL
+tags: OpenGL C++
 excerpt: 纹理
 ---
 

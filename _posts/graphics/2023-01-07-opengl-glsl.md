@@ -3,7 +3,7 @@ layout: post
 title: "OpenGL1.3高阶着色语言GLSL"
 date: 2023-01-07
 categories: Graphics
-tags: OpenGL
+tags: OpenGL C++
 excerpt: GLSL语言
 ---
 

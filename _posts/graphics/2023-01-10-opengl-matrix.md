@@ -3,7 +3,7 @@ layout: post
 title: "OpenGL1.6矩阵Matrix"
 date: 2023-01-10
 categories: Graphics
-tags: OpenGL
+tags: OpenGL C++ 
 excerpt: 高等代数
 mathjax: true
 ---

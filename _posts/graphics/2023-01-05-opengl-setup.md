@@ -3,7 +3,7 @@ layout: post
 title: "OpenGL1.1环境设置"
 date: 2023-01-05
 categories: Graphics
-tags: OpenGL
+tags: OpenGL C++
 excerpt: 设置OpenGL环境，显示窗口，处理窗口缩放与键盘事件
 ---
 

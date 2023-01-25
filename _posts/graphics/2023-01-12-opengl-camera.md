@@ -3,7 +3,7 @@ layout: post
 title: "OpenGL1.8相机Camera"
 date: 2023-01-12
 categories: Graphics
-tags: OpenGL
+tags: OpenGL C++
 excerpt: 运动是相对的
 mathjax: true
 ---
