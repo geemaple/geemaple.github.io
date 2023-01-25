@@ -3,7 +3,7 @@ layout: post
 title: "技术分析-K线图"
 date: 2023-01-19
 categories: Investment
-tags: Investment
+tags: Investment Python
 excerpt: 时间是最好的朋友
 ---
 
@@ -14,11 +14,11 @@ excerpt: 时间是最好的朋友
 
 ## K线图
 
-K线图与国际一致，绿色代表上涨，红色代表下跌
+K线图`Candle Chart`与国际一致，绿色代表上涨，红色代表下跌
 
 ![K线图]({{site.static}}/images/investment-kindle-chart.png)
 
-K线图`Candle Chart`用来显示交易市场的价格信息，其中主体粗的部分是指定时间内`开始`和`结束`价格。主体上下的隐线代表`最高`和`最低`价格。
+K线图用来显示交易市场的价格信息，其中主体粗的部分是指定时间内`开始`和`结束`价格。主体上下的隐线代表`最高`和`最低`价格。
 
 注意，两种K线开始和结束价格位置相反
 

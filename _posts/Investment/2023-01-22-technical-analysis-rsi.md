@@ -3,7 +3,7 @@ layout: post
 title: "技术分析-RSI"
 date: 2023-01-22
 categories: Investment
-tags: Investment
+tags: Investment Python
 excerpt: 相对强弱指数RSI
 mathjax: true
 ---

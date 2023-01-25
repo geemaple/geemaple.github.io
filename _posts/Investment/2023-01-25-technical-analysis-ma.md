@@ -3,7 +3,7 @@ layout: post
 title: "技术分析-均值MA"
 date: 2023-01-22
 categories: Investment
-tags: Investment
+tags: Investment Python
 excerpt: "平均也有权重"
 mathjax: true
 ---
@@ -15,7 +15,7 @@ mathjax: true
 
 ## 移动平均线
 
-移动平均线MA是价格在指定时间T的平均价格，常用来确认趋势，阻力位和支撑位
+移动平均线(Moving Average)是价格在指定时间T的平均价格，常用来确认趋势，阻力位和支撑位
 
 MA是比较滞后的技术指标，能够过滤掉价格波动的噪音。用来解释市场而不是预判市场。
 
