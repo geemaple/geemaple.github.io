@@ -235,7 +235,7 @@ specular *= intensity;
 glUniform1f(glGetUniformLocation(shaderProgram, "light.outerCutOff"), glm::cos(glm::radians(17.5f)));
 ```
 
-![结果]({{site.static}}/images/opengl-lesson-15-result-01.gif)
+![结果]({{site.static}}/images/opengl-lesson-15-result-02.gif)
 
 [代码](https://github.com/geemaple/learning/blob/main/learn_opengl/learn_opengl/lesson/lesson_15_spotlight.cpp)
 
