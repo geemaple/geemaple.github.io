@@ -246,6 +246,16 @@ group by 1
 order by 2 desc
 ```
 
+### Filter
+
+```sql
+select count(*) filter (where fee = 100) as pool_count_100,
+    count(*) filter (where fee = 500) as pool_count_500,
+    count(*) filter (where fee = 3000) as pool_count_3000,
+    count(*) filter (where fee = 10000) as pool_count_10000
+from uniswap_v3_ethereum.Factory_evt_PoolCreated
+```
+
 ## 更多
 
 1. [https://sixdegreelab.gitbook.io/mastering-chain-analytics/ru-men-jiao-cheng/02_get_started](https://sixdegreelab.gitbook.io/mastering-chain-analytics/ru-men-jiao-cheng/02_get_started)
