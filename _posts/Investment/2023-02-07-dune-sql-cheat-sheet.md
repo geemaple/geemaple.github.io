@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "数据-SQL小抄"
+title: "数析-SQL小抄"
 date: 2023-02-07
 categories: Investment
 tags: Investment Web3 SQL
-excerpt: "SQL寻宝"
+excerpt: "SQL使用"
 ---
 
 * content
@@ -153,7 +153,7 @@ order by 2 desc -- 对count(*)做倒序排列
 
 ### 子查询
 
-子查询（Sub Query）是嵌套在一个Query中的Query，子查询会返回一个完整的数据集供外层查询
+子查询(Sub Query)是嵌套在一个Query中的Query，子查询会返回一个完整的数据集供外层查询
 
 ```sql
 select count(*) as blockchain_count,
@@ -170,7 +170,7 @@ from (
 
 ### With
 
-公共表表达式，即CTE（Common Table Expression），是一种在SQL语句内执行（且仅执行一次）子查询的好方法。数据库将执行所有的WITH子句，并允许你在整个查询的后续任意位置使用其结果。
+公共表表达式，即CTE(Common Table Expression)，是一种在SQL语句内执行(且仅执行一次)子查询的好方法。数据库将执行所有的WITH子句，并允许你在整个查询的后续任意位置使用其结果。
 
 ```sql
 -- CTE的定义方式为with cte_name as ( sub_query )
@@ -187,6 +187,17 @@ select count(*) as blockchain_count,
     min(token_count) as min_token_count,
     max(token_count) as max_token_count
 from blockchain_token_count
+```
+
+自定义参数
+
+```sql
+with contract_address (address, name) as (
+values 
+('0xb136707642a4ea12fb4bae820f03d2562ebff487', 'The DAO'),
+('0xc5424b857f758e906013f3555dad202e4bdb4567', 'seth_swap (curvefi)'),
+('0xdc24316b9ae028f1497c275eb9192a3ea0f67022', 'steth_swap (curvefi)')
+)
 ```
 
 ## 扩表
@@ -259,3 +270,4 @@ from uniswap_v3_ethereum.Factory_evt_PoolCreated
 ## 更多
 
 1. [https://sixdegreelab.gitbook.io/mastering-chain-analytics/ru-men-jiao-cheng/02_get_started](https://sixdegreelab.gitbook.io/mastering-chain-analytics/ru-men-jiao-cheng/02_get_started)
+2. [https://docs.dune.com/dune-engine-v2-beta/query-engine#changes-in-how-the-database-works](https://docs.dune.com/dune-engine-v2-beta/query-engine#changes-in-how-the-database-works)
