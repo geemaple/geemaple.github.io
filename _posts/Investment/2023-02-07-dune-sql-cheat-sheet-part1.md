@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "数析-SQL小抄"
+title: "数析-SQL小抄(一)"
 date: 2023-02-07
 categories: Investment
 tags: Investment Web3 SQL
@@ -103,6 +103,24 @@ select concat('Hello ', 'world!') as hello_world,
     'Hello' || ' ' || 'world' || '!' as hello_world_again
 ```
 
+### 大小写转换
+
+可以使用`upper`和`lower`进行大小写转换
+
+```sql
+select
+    block_time 
+    ,from
+    ,to
+    ,hash
+    ,value /power(10,18) as value --通过将value除以/power(10,18)来换算精度，18是以太坊的精度
+from ethereum.transactions
+where block_time > '2022-01-01'  
+and from = lower('0x3DdfA8eC3052539b6C9549F12cEA2C295cfF5296') --这里用lower()将字符串里的字母变成小写格式(dune数据库里存的模式是小写，直接从以太坊浏览器粘贴可能大些混着小写)
+and value /power(10,18) >1000
+order by block_time
+```
+
 ### 类型转换
 
 SQL查询种的某些操作要求相关的字段的数据类型一致，比如concat()函数就需要参数都是字符串string类型。
@@ -172,9 +190,10 @@ from (
 
 公共表表达式，即CTE(Common Table Expression)，是一种在SQL语句内执行(且仅执行一次)子查询的好方法。数据库将执行所有的WITH子句，并允许你在整个查询的后续任意位置使用其结果。
 
+通过with as 可以构建一个子查询，把一段SQL的结果变成一个'虚拟表'（可类比为一个视图或者子查询），接下来的SQL中可以直接从这个'虚拟表'中取数据, 也能提高SQL的逻辑的可读性，也可以避免多重嵌套。
+
 ```sql
 -- CTE的定义方式为with cte_name as ( sub_query )
-
 with blockchain_token_count as (
     select blockchain, count(*) as token_count
     from tokens.erc20
@@ -187,6 +206,42 @@ select count(*) as blockchain_count,
     min(token_count) as min_token_count,
     max(token_count) as max_token_count
 from blockchain_token_count
+```
+
+```sql
+-- 按日期查询孙哥eth转账数量与价值
+with transactions_info as --通过with as 建立子查询命名为transactions_info
+(
+    select block_time, transactions_info.stat_minute as stat_minute,
+        from, to, hash, eth_amount, price, eth_amount* price as usd_value
+    from 
+    (
+        select block_time, date_trunc('minute',block_time) as stat_minute,
+            from, to, hash, value / power(10,18) as eth_amount --通过将value除以/power(10,18)来换算精度，18是以太坊的精度
+        from ethereum.transactions
+        where block_time > '2022-01-01'
+        and from = lower('0x3DdfA8eC3052539b6C9549F12cEA2C295cfF5296')
+        and value / power(10,18) > 1000
+        order by block_time
+    ) as transactions_info
+    left join
+    (
+        --prices.usd表里存的是分钟级别的价格数据
+        select date_trunc('minute',minute) as stat_minute,
+            price
+        from prices.usd
+        where blockchain = 'ethereum'
+        and symbol = 'WETH'
+    )price_info
+    on  transactions_info.stat_minute = price_info.stat_minute --left join关联的主键为stat_minute
+)
+
+select date_trunc('day',block_time) as stat_date,
+    sum(eth_amount) as eth_amount,
+    sum(usd_value) as usd_value
+from transactions_info --从子查询形成的‘虚拟表’transactions_info中取需要的数据
+group by 1
+order by 1
 ```
 
 自定义参数
@@ -224,6 +279,33 @@ inner join tokens.erc20 as b on a.symbol = b.symbol
 where a.blockchain = 'ethereum'
     and b.blockchain = 'bnb'
 ```
+
+```sql
+-- 查询孙哥eth转账usd市值, 因为prices.usd是分钟级别的，所以用分钟去关联价格
+select block_time, transactions_info.stat_minute as stat_minute, 
+    from, to, hash, eth_amount, -- ethereum.transactions主要是eth转账信息
+    price, eth_amount* price as usd_value --prices.usd表里存的是分钟级别的价格数据
+from 
+(
+    select block_time, date_trunc('minute',block_time) as stat_minute, --把block_time用date_trunc处理成分钟，方便作为主键去关联
+        from, to, hash, value /power(10,18) as eth_amount --通过将value除以/power(10,18)来换算精度，18是以太坊的精度
+    from ethereum.transactions
+    where block_time > '2022-01-01'
+    and from = lower('0x3DdfA8eC3052539b6C9549F12cEA2C295cfF5296')
+    and value /power(10,18) >1000
+    order by block_time
+) as transactions_info
+left join --讲transactions_info与price_info的数据关联，关联方式为 left join
+(
+    select date_trunc('minute',minute) as stat_minute, --把minute用date_trunc处理成分钟，方便作为主键去关联
+        price
+    from prices.usd
+    where blockchain = 'ethereum'
+    and symbol = 'WETH'
+) as price_info
+on transactions_info.stat_minute = price_info.stat_minute --left join关联的主键为stat_minute
+```
+
 
 ### Union
 
@@ -270,4 +352,5 @@ from uniswap_v3_ethereum.Factory_evt_PoolCreated
 ## 更多
 
 1. [https://sixdegreelab.gitbook.io/mastering-chain-analytics/ru-men-jiao-cheng/02_get_started](https://sixdegreelab.gitbook.io/mastering-chain-analytics/ru-men-jiao-cheng/02_get_started)
+2. [https://sixdegreelab.gitbook.io/mastering-chain-analytics/ru-men-jiao-cheng/sql_syntax_1#3.-ri-qi-shi-jian-han-shu-fen-zu-ju-he](https://sixdegreelab.gitbook.io/mastering-chain-analytics/ru-men-jiao-cheng/sql_syntax_1#3.-ri-qi-shi-jian-han-shu-fen-zu-ju-he)
 2. [https://docs.dune.com/dune-engine-v2-beta/query-engine#changes-in-how-the-database-works](https://docs.dune.com/dune-engine-v2-beta/query-engine#changes-in-how-the-database-works)
