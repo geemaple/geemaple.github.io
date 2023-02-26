@@ -14,9 +14,7 @@ excerpt: "SQL使用"
 
 PS: 本文环境使用Dune数据分析平台，使用Dune Engine V2(Spark SQL)引擎, 不同引擎语法略有差异
 
-## SQL
-
-### 语法
+## SQL语法
 
 ```sql
 select col1, col2, ...
@@ -35,7 +33,7 @@ order by decimals desc, symbol asc  -- 先按代币支持的小数位数降序�
 limit 100
 ```
 
-### 别名
+## 别名
 
 ```sql
 select t.contract_address as `代币合约地址`,
@@ -52,7 +50,7 @@ from tokens.erc20 t
 limit 10
 ```
 
-### 唯一值
+## 唯一值
 
 ```sql
 select distinct blockchain
@@ -61,35 +59,55 @@ from tokens.erc20
 
 ## 时间
 
-### 系统时间
-
-```sql
-select now(), current_date
-```
+**注意**, Dune的查询编辑器默认只显示到`年-月-日 时:分`
 
 ### 年月日
 
-区块链中的日期时间字段通常是以`年-月-日 时:分:秒`的格式保存的
+区块链中的日期时间字段通常是以`年-月-日 时:分:秒`的格式保存的, 常用的有`now()`和`current_date()`
 
 `Date_Trunc`通常用表数据段`block_time`作为第二个参数，这里用系统事件代替
 
 第一个参数可选`minute, day, week, month`
 
 ```sql
-select now(), -- 系统事件
+select now(), -- 系统时间
+    current_date(), -- 日期
     date_trunc('day', now()) as today,  -- 日期
     date_trunc('month', now()) as current_month  -- 月份
 ```
 
 ### 时间段
 
-使用`interval '2 days'`这样的语法，我们可以指定一个时间间隔。支持多种不同的时间间隔表示方式，比如`'12 hours'，'7 days'，'3 months', '1 year'`等
+使用`interval '2 days'`这样的语法，我们可以指定一个时间间隔。支持多种不同的时间间隔表示方式，比如`'12 hours'，'7 days'， '1 week'， '3 months', '1 year'`等
 
 ```sql
 select now() as current_time, 
     (now() - interval '2 hours') as two_hours_ago, 
     (now() - interval '2 days') as two_days_ago,
     (current_date - interval '1 year') as one_year_ago
+```
+
+```sql
+select now() as `now`,
+ current_date as `current_date`,  -- 函数也可以省略括号写成current_date， 等于date_trunc('day', now())
+ block_time
+from ethereum.transactions
+where block_time >= '2023-01-01'
+limit 10
+```
+
+### 日期运算
+
+```sql
+select dateadd(MONTH, 2, current_date) -- 当前日期加2个月后的日期
+    ,dateadd(HOUR, 12, now()) -- 当前日期时间加12小时
+    ,dateadd(DAY, -2, current_date) -- 当前日期减去2天
+    ,date_add(current_date, 2) -- 当前日期加上2天
+    ,date_sub(current_date, -2) -- 当前日期减去-2天，相当于加上2天
+    ,date_add(current_date, -5) -- 当前日期加上-5天，相当于减去5天
+    ,date_sub(current_date, 5) -- 当前日期减去5天
+    ,datediff('2022-11-22', '2022-11-25') -- 结束日期早于开始日期，返回负值
+    ,datediff('2022-11-25', '2022-11-22') -- 结束日期晚于开始日期，返回正值
 ```
 
 ## 字符串
@@ -103,9 +121,9 @@ select concat('Hello ', 'world!') as hello_world,
     'Hello' || ' ' || 'world' || '!' as hello_world_again
 ```
 
-### 大小写转换
+### 字符串大小写
 
-可以使用`upper`和`lower`进行大小写转换
+可以使用`upper`和`lower`进行大小写转换, Dune V2引擎中，交易哈希值（hash）、用户地址、智能合约地址这些全部以小写字符格式保存
 
 ```sql
 select
@@ -121,7 +139,53 @@ and value /power(10,18) >1000
 order by block_time
 ```
 
-### 类型转换
+### Json与正则
+
+在Dune V2中，我们可以直接使用`:`符号来访问json字符串中的元素的值
+
+```sql
+-- 查询Lens协议ENS类型
+select vars:to as user_address,
+    vars:handle as handle_name,
+    replace(vars:handle, '.lens', '') as short_name,
+    (case when replace(vars:handle, '.lens', '') rlike '^[0-9]+$' then 'Pure Digits'
+        when replace(vars:handle, '.lens', '') rlike '^[a-z]+$' then 'Pure Letters'
+        else 'Mixed'
+    end) as handle_type,
+    call_block_time,
+    output_0 as profile_id,
+    call_tx_hash
+from lens_polygon.LensHub_call_createProfile
+where call_success = true
+```
+
+### 子字符串
+
+```sql
+select substring('hhello-world', 2), --  hello world,  substring(expr, pos [, len])
+    substring('hhello-world', 2, 5),  -- hello
+    right('hhello-world', 5) -- world
+```
+
+### 进制转换
+
+```sql
+select date_trunc('day', block_time) as block_date, --截取日期
+    concat('0x', right(substring(data, 3 + 64 * 2, 64), 40)) as address, -- 提取data中的第3部分转换为用户地址，从第3个字符开始，每64位为一组
+    concat('0x', right(substring(data, 3 + 64 * 3, 64), 40)) as token, -- 提取data中的第4部分转换为用户地址
+    substring(data, 3 + 64 * 4, 64) as hex_amount, -- 提取data中的第5部分
+    bytea2numeric_v2(substring(data, 3 + 64 * 4, 64)) as amount, -- 提取data中的第5部分，转换为10进制数值
+    tx_hash
+from ethereum.logs
+where contract_address = '0x5427fefa711eff984124bfbb1ab6fbf5e3da1820'   -- Celer Network: cBridge V2 
+    and topic1 = '0x89d8051e597ab4178a863a5190407b98abfeff406aa8db90c59af76612e58f01'  -- Send
+    and substring(data, 3 + 64 * 5, 64) = '000000000000000000000000000000000000000000000000000000000000a4b1'   -- 42161，直接判断16进制值
+    and substring(data, 3 + 64 * 3, 64) = '000000000000000000000000c02aaa39b223fe8d0a0e5c4f27ead9083c756cc2' -- WETH，直接判断16进制值
+    and block_time >= now() - interval '7 days'
+limit 10
+```
+
+### 字符转数字
 
 SQL查询种的某些操作要求相关的字段的数据类型一致，比如concat()函数就需要参数都是字符串string类型。
 
@@ -145,7 +209,7 @@ select 1.23 * power(10, 18) as raw_amount,
     7890000 / 1e6 as usd_amount
 ```
 
-### 类型转换
+### 数字转字符
 
 SQL查询种的某些操作要求相关的字段的数据类型一致，比如`加法`就需要参数都是数字类型。
 
@@ -156,103 +220,41 @@ select (cast('123'as numeric) + 55) as digital_count,
   ('123'::numeric + 55) as digital_count_again
 ```
 
-## 分组
+## 条件
 
-分组`group by`需要聚合函数，常用的聚合函数，count()计数，sum()求和，avg()求平均值，min()求最小值，max()求最大值等。
+### Case
+
+`Case`中的`else`部分还可以省略，此时返回`NULL`
 
 ```sql
-select blockchain, count(*) as token_count
+select (case when decimals >= 10 then 'High precision'
+            when decimals >= 5 then 'Middle precision'
+            when decimals >= 1 then 'Low precision'
+            else 'No precision'
+        end) as precision_type,
+    count(*) as token_count
 from tokens.erc20
-group by blockchain
-order by 2 desc -- 对count(*)做倒序排列
-```
-
-## 查询
-
-### 子查询
-
-子查询(Sub Query)是嵌套在一个Query中的Query，子查询会返回一个完整的数据集供外层查询
-
-```sql
-select count(*) as blockchain_count,
-    sum(token_count) as total_token_count,
-    avg(token_count) as average_token_count,
-    min(token_count) as min_token_count,
-    max(token_count) as max_token_count
-from (
-    select blockchain, count(*) as token_count
-    from tokens.erc20
-    group by blockchain
-)
-```
-
-### With
-
-公共表表达式，即CTE(Common Table Expression)，是一种在SQL语句内执行(且仅执行一次)子查询的好方法。数据库将执行所有的WITH子句，并允许你在整个查询的后续任意位置使用其结果。
-
-通过with as 可以构建一个子查询，把一段SQL的结果变成一个'虚拟表'（可类比为一个视图或者子查询），接下来的SQL中可以直接从这个'虚拟表'中取数据, 也能提高SQL的逻辑的可读性，也可以避免多重嵌套。
-
-```sql
--- CTE的定义方式为with cte_name as ( sub_query )
-with blockchain_token_count as (
-    select blockchain, count(*) as token_count
-    from tokens.erc20
-    group by blockchain
-)
-
-select count(*) as blockchain_count,
-    sum(token_count) as total_token_count,
-    avg(token_count) as average_token_count,
-    min(token_count) as min_token_count,
-    max(token_count) as max_token_count
-from blockchain_token_count
-```
-
-```sql
--- 按日期查询孙哥eth转账数量与价值
-with transactions_info as --通过with as 建立子查询命名为transactions_info
-(
-    select block_time, transactions_info.stat_minute as stat_minute,
-        from, to, hash, eth_amount, price, eth_amount* price as usd_value
-    from 
-    (
-        select block_time, date_trunc('minute',block_time) as stat_minute,
-            from, to, hash, value / power(10,18) as eth_amount --通过将value除以/power(10,18)来换算精度，18是以太坊的精度
-        from ethereum.transactions
-        where block_time > '2022-01-01'
-        and from = lower('0x3DdfA8eC3052539b6C9549F12cEA2C295cfF5296')
-        and value / power(10,18) > 1000
-        order by block_time
-    ) as transactions_info
-    left join
-    (
-        --prices.usd表里存的是分钟级别的价格数据
-        select date_trunc('minute',minute) as stat_minute,
-            price
-        from prices.usd
-        where blockchain = 'ethereum'
-        and symbol = 'WETH'
-    )price_info
-    on  transactions_info.stat_minute = price_info.stat_minute --left join关联的主键为stat_minute
-)
-
-select date_trunc('day',block_time) as stat_date,
-    sum(eth_amount) as eth_amount,
-    sum(usd_value) as usd_value
-from transactions_info --从子查询形成的‘虚拟表’transactions_info中取需要的数据
 group by 1
-order by 1
+order by 2 desc
 ```
 
-自定义参数
+### If
 
 ```sql
-with contract_address (address, name) as (
-values 
-('0xb136707642a4ea12fb4bae820f03d2562ebff487', 'The DAO'),
-('0xc5424b857f758e906013f3555dad202e4bdb4567', 'seth_swap (curvefi)'),
-('0xdc24316b9ae028f1497c275eb9192a3ea0f67022', 'steth_swap (curvefi)')
-)
+select if(1 < 2, 'a', 'b') -- 条件评估结果为真，返回第一个表达式
+    ,iff('x' > 'z', 'x > z', 'x <= z') -- 跟if()功能相同
+    ,if('a' = 'A', 'case-insensitive', 'case-sensitive') -- 字符串值区分大小写
+```
+
+
+### Filter
+
+```sql
+select count(*) filter (where fee = 100) as pool_count_100,
+    count(*) filter (where fee = 500) as pool_count_500,
+    count(*) filter (where fee = 3000) as pool_count_3000,
+    count(*) filter (where fee = 10000) as pool_count_10000
+from uniswap_v3_ethereum.Factory_evt_PoolCreated
 ```
 
 ## 扩表
@@ -321,32 +323,6 @@ union all
 select contract_address, symbol, decimals
 from tokens.erc20
 where blockchain = 'bnb'
-```
-
-## 条件
-
-### Case
-
-```sql
-select (case when decimals >= 10 then 'High precision'
-            when decimals >= 5 then 'Middle precision'
-            when decimals >= 1 then 'Low precision'
-            else 'No precision'
-        end) as precision_type,
-    count(*) as token_count
-from tokens.erc20
-group by 1
-order by 2 desc
-```
-
-### Filter
-
-```sql
-select count(*) filter (where fee = 100) as pool_count_100,
-    count(*) filter (where fee = 500) as pool_count_500,
-    count(*) filter (where fee = 3000) as pool_count_3000,
-    count(*) filter (where fee = 10000) as pool_count_10000
-from uniswap_v3_ethereum.Factory_evt_PoolCreated
 ```
 
 ## 更多
