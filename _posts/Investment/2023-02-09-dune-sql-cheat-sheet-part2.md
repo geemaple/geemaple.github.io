@@ -152,6 +152,58 @@ group by 1 --按照stat_date去分组，stat_date是用 'as'对date_trunc('day',
 order by 1 --按照stat_date去排序
 ```
 
+### 分组条件
+
+分组的时候要使用`having`, 与`where`类似
+
+```sql
+with nft_trade_details as ( --获取交易的买入卖出方详细信息表，卖出方是负数，买入方是
+    select seller as trader,
+        -1 * number_of_items as hold_item_count
+    from nft.trades
+    where nft_contract_address = '0xed5af388653567af2f388e6224dc7c4b3241c544'
+
+    union all
+    
+    select buyer as trader,
+        number_of_items as hold_item_count
+    from nft.trades
+    where nft_contract_address = '0xed5af388653567af2f388e6224dc7c4b3241c544'
+),
+
+nft_traders as (
+    select trader,
+    sum(hold_item_count) as hold_item_count
+    from nft_trade_details
+    group by trader
+    having sum(hold_item_count) > 0
+    order by 2 desc
+),
+
+nft_traders_summary as (
+    select (case when hold_item_count >= 100 then 'Hold >= 100 NFT'
+                when hold_item_count >= 20 and hold_item_count < 100 then 'Hold 20 - 100'
+                when hold_item_count >= 10 and hold_item_count < 20 then 'Hold 10 - 20'
+                when hold_item_count >= 3 and hold_item_count < 10 then 'Hold 3 - 10'
+                else 'Hold 1 or 2 NFT'
+            end) as hold_count_type,
+        count(*) as holders_count
+    from nft_traders
+    group by 1
+    order by 2 desc
+),
+
+total_traders_count as (
+    select count(*) as total_holders_count,
+        max(hold_item_count) as max_hold_item_count
+    from nft_traders
+)
+
+select *
+from nft_traders_summary
+join total_traders_count on true
+```
+
 ## 窗口函数
 
 窗口函数对于处理任务很有用，例如计算移动平均值、计算累积统计量或在给定当前行的相对位置的情况下访问行的值。窗口函数的常用语法格式：
