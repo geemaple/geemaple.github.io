@@ -219,7 +219,74 @@ join total_traders_count on true
 
 除了把所有行当作同一个分组的情况外，分组函数必须配合 order by来使用。
 
-### lead over
+### Rank函数
+
+![Rank Function]({{site.static}}/images/sql-window-funtion-rank.png)
+
+#### row_number()
+
+`row_number`将每个窗口行从`1`开始编号
+
+有一组Token地址，需要计算并返回他们最近1小时内的平均价格。
+
+考虑到Dune的数据会存在一到几分钟的延迟，如果按当前系统日期的“小时”数值筛选，并不一定总是能返回需要的价格数据。
+
+相对更安全的方法是扩大取值的时间范围，然后从中筛选出每个Token最近的那条记录。这样即使出现数据有几个小时的延迟的特殊情况，我们的查询仍然可以工作良好。
+
+```sql
+with latest_token_price as (
+    select date_trunc('hour', minute) as price_date, -- 按小时分组计算
+        contract_address,
+        symbol,
+        decimals,
+        avg(price) as price -- 计算平均价格
+    from prices.usd
+    where contract_address in (
+        '0xdac17f958d2ee523a2206206994597c13d831ec7',
+        '0x2260fac5e5542a773aa44fbcfedf7c193bc2c599',
+        '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
+        '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
+        '0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9'
+    )
+    and minute > now() - interval '1 day' -- 取最后一天内的数据，确保即使数据有延迟也工作良好
+    group by 1, 2, 3, 4
+),
+
+latest_token_price_row_num as (
+    select  price_date,
+        contract_address,
+        symbol,
+        decimals,
+        price,
+        row_number() over (partition by contract_address order by price_date desc) as row_num -- 按分区单独生成行号
+    from latest_token_price
+)
+
+select contract_address,
+    symbol,
+    decimals,
+    price
+from latest_token_price_row_num
+where row_num = 1 -- 按行号筛选出每个token最新的平均价格
+```
+
+#### rank()
+#### dense_rank()
+
+### Distribution函数
+
+![Distribution function]({{site.static}}/images/sql-window-function-distribution.png)
+
+#### percent_rank()
+
+#### cume_dist()
+
+
+### Analytic函数
+
+#### lead() + Lag()
+
+![Lead Lag function]({{site.static}}/images/sql-window-function-analytic-lead-lag.png)
 
 当我们需要将结果集中某一列的值，根下一行(offset=1)的相同列的值进行比较时
 
@@ -270,12 +337,9 @@ from top_post_profiles
 order by post_count desc
 ```
 
-### lag over
-
 当我们需要将结果集中某一列的值，根上一行(offset=1)的相同列的值进行比较时
 
 `Lag()`函数从分区内的后续行返回指定表达式的值。其语法为`Lag(expr [, offset [, default] ] )`。`Lag`函数将列向下移动`offset`
-
 
 
 ```sql
@@ -302,54 +366,22 @@ from pool_summary
 order by block_date
 ```
 
-### row_number over
+#### ntile()
 
-`row_number`将每个窗口行从`1`开始编号
+![ntile function]({{site.static}}/images/sql-window-function-analytic-ntile.png)
 
-有一组Token地址，需要计算并返回他们最近1小时内的平均价格。
+#### first_value() + last_value()
 
-考虑到Dune的数据会存在一到几分钟的延迟，如果按当前系统日期的“小时”数值筛选，并不一定总是能返回需要的价格数据。
+![first last value function]({{site.static}}/images/sql-window-function-analytic-first-last-value.png)
 
-相对更安全的方法是扩大取值的时间范围，然后从中筛选出每个Token最近的那条记录。这样即使出现数据有几个小时的延迟的特殊情况，我们的查询仍然可以工作良好。
+#### nth_value()
 
-```sql
-with latest_token_price as (
-    select date_trunc('hour', minute) as price_date, -- 按小时分组计算
-        contract_address,
-        symbol,
-        decimals,
-        avg(price) as price -- 计算平均价格
-    from prices.usd
-    where contract_address in (
-        '0xdac17f958d2ee523a2206206994597c13d831ec7',
-        '0x2260fac5e5542a773aa44fbcfedf7c193bc2c599',
-        '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
-        '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
-        '0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9'
-    )
-    and minute > now() - interval '1 day' -- 取最后一天内的数据，确保即使数据有延迟也工作良好
-    group by 1, 2, 3, 4
-),
+![nth value function]({{site.static}}/images/sql-window-function-analytic-nth_value.png)
 
-latest_token_price_row_num as (
-    select  price_date,
-        contract_address,
-        symbol,
-        decimals,
-        price,
-        row_number() over (partition by contract_address order by price_date desc) as row_num -- 按分区单独生成行号
-    from latest_token_price
-)
+### Aggregate函数
 
-select contract_address,
-    symbol,
-    decimals,
-    price
-from latest_token_price_row_num
-where row_num = 1 -- 按行号筛选出每个token最新的平均价格
-```
+聚合函数由`avg()`, `count()`, `max()`, `min()`, `sum()`等
 
-### sum over
 ```sql
 -- 统计lens协议用户与交易+累计用户与累计交易
 with daily_count as (
