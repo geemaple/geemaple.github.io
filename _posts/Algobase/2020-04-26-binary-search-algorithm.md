@@ -80,78 +80,146 @@ Arr[0], Arr[1], Arr[3], ... Arr[2^(K-1) - 1], Arr[2^K -1]...
 
 注意，**start=0, end=1. mid=(start + end) // 2**, 这里mid=0，也就是说，这个表达式的结果是***偏左的***
 
-第一种：**left + 1 < right**, 不用考虑mid是+1还是-1，只是结果需要额外判断边界, 最好记
+第一种：**left + 1 < right**, 不用考虑mid是+1还是-1，只是结果需要额外判断边界
 
-```python
-int binarySearch(vector<int>& nums, int target){
-    if (nums.size() == 0)
-        return -1;
+```cpp
+class Solution {
+public:
+    int search(vector<int>& nums, int target) {
+        int start = 0;
+        int end = nums.size() - 1;
 
-    int left = 0, right = nums.size() - 1;
-    while (left + 1 < right){
-        // Prevent (left + right) overflow
-        int mid = left + (right - left) / 2;
-        if (nums[mid] == target) {
-            return mid;
-        } else if (nums[mid] < target) {
-            left = mid;
+        while (start + 1 < end) {
+            int mid = start + (end - start) / 2;
+            if (nums[mid] == target) {
+                return mid;
+            }
+
+            if (nums[mid] < target) {
+                start = mid;
+            } else {
+                end = mid;
+            }
+        }
+
+        if (nums[start] == target ) { // 额外判断
+            return start;
+        } else if (nums[end] == target) {
+            return end;
         } else {
-            right = mid;
+            return -1;
         }
     }
+};
+```
 
-    // Post-processing:
-    // End Condition: left + 1 == right
-    if(nums[left] == target) return left;
-    if(nums[right] == target) return right;
-    return -1;
-}
+```cpp
+class Solution {
+public:
+    int search(vector<int>& nums, int target) {
+        int start = -1;
+        int end = nums.size(); // 左开右开 (start, end)
+
+        while (start + 1 < end) {
+            int mid = start + (end - start) / 2;
+            if (nums[mid] == target) {
+                return mid;
+            }
+
+            if (nums[mid] < target) {
+                start = mid;
+            } else {
+                end = mid;
+            }
+        }
+
+        return -1;
+    }
+};
 ```
 
 第二种：**left < right**, 终止条件**left==right**, 因为中值偏左, 所以mid = left + 1, 比较简洁
 
-```python
-int binarySearch(vector<int>& nums, int target){
-  if(nums.size() == 0)
-    return -1;
+```cpp
+class Solution {
+public:
+    int search(vector<int>& nums, int target) {
+        int start = 0;
+        int end = nums.size() - 1;
 
-  int left = 0, right = nums.size();
-  while(left < right){
-    // Prevent (left + right) overflow
-    int mid = left + (right - left) / 2;
-    if(nums[mid] == target){ return mid; }
-    else if(nums[mid] < target) { left = mid + 1; }
-    else { right = mid; }
-  }
+        while (start < end) {
+            int mid = start + (end - start) / 2;
+            if (nums[mid] == target) {
+                return mid;
+            }
 
-  // Post-processing:
-  // End Condition: left == right
-  if(left != nums.size() && nums[left] == target) return left;
-  return -1;
-}
+            if (nums[mid] < target) {
+                start = mid + 1;
+            } else {
+                end = mid;
+            }
+        }
+
+        if (nums[start] == target) { // 额外判断
+            return start;
+        } else {
+            return -1;
+        }
+    }
+};
+```
+
+```cpp
+class Solution {
+public:
+    int search(vector<int>& nums, int target) {
+        int start = 0;
+        int end = nums.size();  // 左闭右开 [start, end)
+
+        while (start < end) {
+            int mid = start + (end - start) / 2;
+            if (nums[mid] == target) {
+                return mid;
+            }
+
+            if (nums[mid] < target) {
+                start = mid + 1;
+            } else {
+                end = mid;
+            }
+        }
+
+        return -1;
+    }
+};
 ```
 
 第三种：**left <= right**, 终止条件是**left > right**, 结合上一条, right = mid - 1也要让一步, 比较简洁
 
-```python
-int binarySearch(vector<int>& nums, int target){
-  if(nums.size() == 0)
-    return -1;
+```cpp
+class Solution {
+public:
+    int search(vector<int>& nums, int target) {
+        int start = 0;
+        int end = nums.size() - 1;  // 闭区间[start, end]
 
-  int left = 0, right = nums.size() - 1;
-  while(left <= right){
-    // Prevent (left + right) overflow
-    int mid = left + (right - left) / 2;
-    if(nums[mid] == target){ return mid; }
-    else if(nums[mid] < target) { left = mid + 1; }
-    else { right = mid - 1; }
-  }
+        while (start <= end) {
+            int mid = start + (end - start) / 2;
+            if (nums[mid] == target) {
+                return mid;
+            }
 
-  // End Condition: left > right
-  return -1;
-}
+            if (nums[mid] < target) {
+                start = mid + 1;
+            } else {
+                end = mid - 1;
+            }
+        }
+
+        return -1;
+    }
+};
 ```
-
 
 ## 额外技巧
 
@@ -161,4 +229,4 @@ int binarySearch(vector<int>& nums, int target){
 4. 如果数组中，每个元素都发生了改变，那至少需要O(N)的时间复杂度
 5. 如何恢复[4,5,6,1,2,3]到[1,2,3,4,5,6]三步翻转法
 
--End- 素质三连(在看，评论，转发)
+-End-
