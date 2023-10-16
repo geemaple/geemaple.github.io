@@ -1,8 +1,8 @@
 ---
 layout: post
 title: "二分查找算法"
-categories: Algobase
-tags: Algobase BinarySearch
+categories: Algorithm
+tags: Algorithm BinarySearch
 excerpt: "锤子，可以用来敲各种钉子"
 ---
 

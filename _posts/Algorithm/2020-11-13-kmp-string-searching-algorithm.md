@@ -1,8 +1,8 @@
 ---
 layout: post
 title: "KMP字符串匹配搜索算法"
-categories: Algobase
-tags: Algobase String KMP
+categories: Algorithm
+tags: Algorithm String KMP
 excerpt: "一米阳光的幸福"
 ---
 

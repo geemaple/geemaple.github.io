@@ -1,8 +1,8 @@
 ---
 layout: post
 title: "二叉树与分治算法"
-categories: Algobase
-tags: Algobase Divide&Conquer Recursion
+categories: Algorithm
+tags: Algorithm Divide&Conquer Recursion
 excerpt: "顾名思义，分而治之"
 ---
 

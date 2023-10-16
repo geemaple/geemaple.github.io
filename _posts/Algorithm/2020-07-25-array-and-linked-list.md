@@ -1,8 +1,8 @@
 ---
 layout: post
 title: "数组与链表"
-categories: Algobase
-tags: Algobase Array LinkedList
+categories: Algorithm
+tags: Algorithm Array LinkedList
 excerpt: "一线之间"
 ---
 

@@ -1,8 +1,8 @@
 ---
 layout: post
 title: "深度优先搜索算法DFS"
-categories: Algobase
-tags: Algobase DFS
+categories: Algorithm
+tags: Algorithm DFS
 excerpt: "爆破专家"
 ---
 

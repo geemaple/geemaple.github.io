@@ -1,8 +1,8 @@
 ---
 layout: post
 title: "动态规划"
-categories: Algobase
-tags: Algobase DP
+categories: Algorithm
+tags: Algorithm DP
 excerpt: "纸上得来终觉浅，绝知此事要躬行"
 ---
 

@@ -1,8 +1,8 @@
 ---
 layout: post
 title: "广度优先搜索算法BFS"
-categories: Algobase
-tags: Algobase BFS
+categories: Algorithm
+tags: Algorithm BFS
 excerpt: "拓扑排序"
 ---
 

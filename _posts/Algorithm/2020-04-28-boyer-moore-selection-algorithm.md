@@ -1,8 +1,8 @@
 ---
 layout: post
 title: "Boyer-Moore大多数选择算法"
-categories: Algobase
-tags: Algobase BoyerMoore
+categories: Algorithm
+tags: Algorithm BoyerMoore
 excerpt: "把O(N*logN)优化成O(N)都不容易"
 ---
 

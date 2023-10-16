@@ -1,8 +1,8 @@
 ---
 layout: post
 title: "计算机数学, 边界与数量级"
-categories: Algobase
-tags: Algobase Math
+categories: Algorithm
+tags: Algorithm Math
 excerpt: "边界与数量级"
 ---
 

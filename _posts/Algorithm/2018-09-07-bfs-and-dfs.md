@@ -1,8 +1,8 @@
 ---
 layout: post
 title: "深度优先与广度优先搜索"
-categories: Algobase
-tags: Algobase BFS DFS
+categories: Algorithm
+tags: Algorithm BFS DFS
 excerpt: "图的搜索遍历，深度优先与广度优先"
 ---
 

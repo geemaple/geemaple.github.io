@@ -1,8 +1,8 @@
 ---
 layout: post
 title: "树的三种DFS策略(前序、中序、后序)遍历"
-categories: Algobase
-tags: Algobase DFS
+categories: Algorithm
+tags: Algorithm DFS
 excerpt: "树的前序遍历，中序遍历，后序遍历"
 ---
 

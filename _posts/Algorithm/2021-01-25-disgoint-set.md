@@ -1,8 +1,8 @@
 ---
 layout: post
 title: "并查集"
-categories: Algobase
-tags: Algobase DisjointSet
+categories: Algorithm
+tags: Algorithm DisjointSet
 excerpt: "Big Brother"
 ---
 

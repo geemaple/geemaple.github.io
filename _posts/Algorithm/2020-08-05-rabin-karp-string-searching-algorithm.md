@@ -1,8 +1,8 @@
 ---
 layout: post
 title: "Rabin–Karp字符串匹配搜索算法"
-categories: Algobase
-tags: Algobase String RabinKarp
+categories: Algorithm
+tags: Algorithm String RabinKarp
 excerpt: "感谢上帝，我还活着"
 ---
 
