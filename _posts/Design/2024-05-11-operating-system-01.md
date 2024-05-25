@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "操作系统-汇编语言"
+title: "操作系统1.1-汇编语言"
 categories: OS
-tags: Operating System
+tags: Operating System Assembly
 excerpt: ""
 ---
 
@@ -408,4 +408,4 @@ asm_main:
         ret
 ```
 
-# More
+--END--
