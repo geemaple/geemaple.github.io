@@ -1,8 +1,8 @@
 ---
 layout: post
 index: 4
-title: "算法 - C++排序常用比较实现"
-categories: Algorithm
+title: "C++算法排序中常用cmp的三种实现"
+categories: 
 tags: C++
 excerpt: “行走江湖必备，C++三种常用的cmp方式实现”
 ---
