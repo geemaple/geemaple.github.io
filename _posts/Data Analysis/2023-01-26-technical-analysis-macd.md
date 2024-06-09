@@ -1,9 +1,8 @@
 ---
 layout: post
-title: "技术分析-MACD"
-date: 2023-01-26
-categories: Investment
-tags: Investment Oscillator Python
+title: "技术分析 - MACD"
+categories: Data-Analysis
+tags: Oscillator Python
 excerpt: "指标的指标"
 ---
 

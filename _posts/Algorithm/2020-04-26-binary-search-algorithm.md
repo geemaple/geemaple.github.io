@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "二分查找算法"
+title: "算法 - 二分查找"
 categories: Algorithm
-tags: Algorithm BinarySearch
+tags: Binary-Search
 excerpt: "锤子，可以用来敲各种钉子"
 ---
 
@@ -80,7 +80,9 @@ Arr[0], Arr[1], Arr[3], ... Arr[2^(K-1) - 1], Arr[2^K -1]...
 
 注意，**start=0, end=1. mid=(start + end) // 2**, 这里mid=0，也就是说，这个表达式的结果是***偏左的***
 
-第一种：**left + 1 < right**, 不用考虑mid是+1还是-1，只是结果需要额外判断边界
+### left + 1 < right
+ 
+不用考虑mid是+1还是-1，只是结果需要额外判断边界
 
 ```cpp
 class Solution {
@@ -138,7 +140,9 @@ public:
 };
 ```
 
-第二种：**left < right**, 终止条件**left==right**, 因为中值偏左, 所以mid = left + 1, 比较简洁
+### left < right
+
+终止条件**left==right**, 因为中值偏左, 所以mid = left + 1, 比较简洁, 个人喜欢这个
 
 ```cpp
 class Solution {
@@ -194,7 +198,9 @@ public:
 };
 ```
 
-第三种：**left <= right**, 终止条件是**left > right**, 结合上一条, right = mid - 1也要让一步, 比较简洁
+### left <= right
+
+终止条件是**left > right**, 结合上一条, right = mid - 1也要让一步, 比较简洁
 
 ```cpp
 class Solution {
@@ -227,6 +233,6 @@ public:
 2. 优化一个暴力破解为O(N)的算法，那基本上就只能和二分相关了
 3. 问题答案的个数，是该问题算法复杂度的下限
 4. 如果数组中，每个元素都发生了改变，那至少需要O(N)的时间复杂度
-5. 如何恢复[4,5,6,1,2,3]到[1,2,3,4,5,6]三步翻转法
+5. 如何恢复[4,5,6,1,2,3]到[1,2,3,4,5,6]三步翻转法, 中间两步:`[6,5,4,1,2,3]=>[6,5,4,3,2,1]`
 
 -End-

@@ -1,9 +1,8 @@
 ---
 layout: post
-title: "OpenGL2.3投光Caster"
-date: 2023-01-27
+title: "OpenGL2.3 - 投光Caster"
 categories: Graphics
-tags: OpenGL C++
+tags: C++
 excerpt: "光源种类"
 mathjax: true
 ---

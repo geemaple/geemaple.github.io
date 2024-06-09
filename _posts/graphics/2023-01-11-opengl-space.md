@@ -1,9 +1,8 @@
 ---
 layout: post
-title: "OpenGL1.7空间Space"
-date: 2023-01-11
+title: "OpenGL1.7 - 空间Space"
 categories: Graphics
-tags: OpenGL C++
+tags: C++
 excerpt: 坐标系
 mathjax: true
 ---

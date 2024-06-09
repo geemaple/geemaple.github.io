@@ -1,9 +1,8 @@
 ---
 layout: post
-title: "OpenGL2.2材质贴图Maps"
-date: 2023-01-20
+title: "OpenGL2.2 - 材质贴图Maps"
 categories: Graphics
-tags: OpenGL C++
+tags: C++
 excerpt: "贴图"
 ---
 

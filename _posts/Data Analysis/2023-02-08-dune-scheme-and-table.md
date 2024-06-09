@@ -1,9 +1,8 @@
 ---
 layout: post
-title: "数析-Dune数据表"
-date: 2023-02-08
-categories: Investment
-tags: Investment Web3 SQL
+title: "平台介绍 - Dune"
+categories: Data-Analysis
+tags: Web3
 excerpt: "数据表"
 ---
 

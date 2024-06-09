@@ -1,9 +1,8 @@
 ---
 layout: post
-title: "数析-SQL小抄(一)"
-date: 2023-02-07
-categories: Investment
-tags: Investment Web3 SQL
+title: "SQL语言01 - 基本查询"
+categories: Data-Analysis
+tags: SQL
 excerpt: "SQL使用"
 ---
 

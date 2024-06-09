@@ -1,9 +1,8 @@
 ---
 layout: post
-title: "Python常用数据结构"
-date:   2021-01-12
-categories: Lang
-tags: Lang Python
+title: "算法 - Python数据结构"
+categories: Algorithm
+tags: Python
 excerpt: Life is short, I use python
 ---
 

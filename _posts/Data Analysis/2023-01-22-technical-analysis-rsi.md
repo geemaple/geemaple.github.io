@@ -1,9 +1,8 @@
 ---
 layout: post
-title: "技术分析-RSI"
-date: 2023-01-22
-categories: Investment
-tags: Investment Oscillator Python
+title: "技术分析 - RSI"
+categories: Data-Analysis
+tags: Oscillator Python
 excerpt: 相对强弱指数RSI
 mathjax: true
 ---

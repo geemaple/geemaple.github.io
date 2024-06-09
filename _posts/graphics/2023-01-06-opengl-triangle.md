@@ -1,9 +1,8 @@
 ---
 layout: post
-title: "OpenGL1.2绘制三角形Triangle"
-date: 2023-01-06
+title: "OpenGL1.2 - 绘制三角形Triangle"
 categories: Graphics
-tags: OpenGL C++
+tags: C++
 excerpt: 三角形是最稳定的
 ---
 

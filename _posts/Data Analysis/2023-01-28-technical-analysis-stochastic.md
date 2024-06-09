@@ -1,9 +1,8 @@
 ---
 layout: post
-title: "技术分析-Stochastic"
-date: 2023-01-28
-categories: Investment
-tags: Investment Oscillator Python
+title: "技术分析 - Stochastic"
+categories: Data-Analysis
+tags: Oscillator Python
 excerpt: "市场永远是对的"
 mathjax: true
 ---

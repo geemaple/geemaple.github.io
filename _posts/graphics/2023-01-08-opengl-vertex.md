@@ -1,9 +1,8 @@
 ---
 layout: post
-title: "OpenGL1.4自定义Vertex"
-date: 2023-01-08
+title: "OpenGL1.4 - 自定义Vertex"
 categories: Graphics
-tags: OpenGL C++
+tags: C++
 excerpt: Vertex不止坐标
 ---
 

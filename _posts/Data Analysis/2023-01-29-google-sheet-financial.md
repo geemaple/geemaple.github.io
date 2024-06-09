@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "工具- Numbers Exel Sheet"
+title: "Excel工具 - 利率计算"
 date: 2023-01-29
-categories: Investment
-tags: Investment Sheet Excel
+categories: Data-Analysis
+tags: Excel
 excerpt: "生产力三件套"
 ---
 

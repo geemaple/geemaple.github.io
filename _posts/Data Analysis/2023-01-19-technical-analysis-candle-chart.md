@@ -1,9 +1,8 @@
 ---
 layout: post
-title: "技术分析-K线图"
-date: 2023-01-19
-categories: Investment
-tags: Investment Python
+title: "技术分析 - K线图"
+categories: Data-Analysis
+tags: Python
 excerpt: 时间是最好的朋友
 ---
 

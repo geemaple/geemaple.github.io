@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "研报-Dex历史"
+title: "Web3分析-Dex历史"
 date: 2023-02-05
-categories: Investment
-tags: Investment Web3 DeFi
+categories: Data-Analysis
+tags: Web3 Dex
 excerpt: "去中心化交易所"
 mathjax: true
 ---
@@ -119,8 +119,6 @@ Uniswap V1的全新的解决方案，完全去掉了订单簿，使用`AMMs(Auto
 5. Balancer允许超过2种资产作为交易对。
 
 除了一些Fork项目几乎没什么创新之外，这是一个快速发展的领域，Dex只是DeFi交易所部分，DeFi包含稳定币, 借贷，质押，交易，合约，聚合器，合成资产，隐私，支付，保险等
-
-> 再次声明，本教程不作为投资建议或意见，不为任何上诉产品背书，使用需自行承担风险，使用任何DeFi产品，请通过可信渠道的官方地址访问，并将地址加入收藏夹，不要信任Google第一搜索结果, 因为可能是诈骗广告。
 
 ## 更多
 

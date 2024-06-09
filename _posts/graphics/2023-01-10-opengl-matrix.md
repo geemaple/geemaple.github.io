@@ -1,9 +1,8 @@
 ---
 layout: post
-title: "OpenGL1.6矩阵Matrix"
-date: 2023-01-10
+title: "OpenGL1.6 - 矩阵Matrix"
 categories: Graphics
-tags: OpenGL C++ 
+tags: C++ 
 excerpt: 高等代数
 mathjax: true
 ---
