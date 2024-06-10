@@ -2,7 +2,7 @@
 layout: post
 title: "ObjC - Category的实现细节"
 categories: Macintosh
-tags: Objective-C
+tags: ObjC
 excerpt: Objective-C Category可算是独门利器，不需要继承，就能够为类动态添加方法。
 ---
 

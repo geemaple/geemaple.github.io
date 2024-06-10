@@ -2,7 +2,7 @@
 layout: post
 title: "并查集"
 categories: Algorithm
-tags: Algorithm DisjointSet
+tags: DisjointSet
 excerpt: "Big Brother"
 ---
 

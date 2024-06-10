@@ -2,7 +2,7 @@
 layout: post
 title: "OpenGL1.3 - 高阶着色语言GLSL"
 categories: Graphics
-tags: C++
+tags: C++ OpenGL
 excerpt: GLSL语言
 ---
 

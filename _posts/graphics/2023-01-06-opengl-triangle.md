@@ -2,7 +2,7 @@
 layout: post
 title: "OpenGL1.2 - 绘制三角形Triangle"
 categories: Graphics
-tags: C++
+tags: C++ OpenGL
 excerpt: 三角形是最稳定的
 ---
 

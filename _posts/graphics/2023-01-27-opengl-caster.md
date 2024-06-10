@@ -2,7 +2,7 @@
 layout: post
 title: "OpenGL2.3 - 投光Caster"
 categories: Graphics
-tags: C++
+tags: C++ OpenGL
 excerpt: "光源种类"
 mathjax: true
 ---

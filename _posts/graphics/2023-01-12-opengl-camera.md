@@ -2,7 +2,7 @@
 layout: post
 title: "OpenGL1.8 - 相机Camera"
 categories: Graphics
-tags: C++
+tags: C++ OpenGL
 excerpt: 运动是相对的
 mathjax: true
 ---

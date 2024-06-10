@@ -2,7 +2,7 @@
 layout: post
 title: "ObjC - 多线程编程GCD"
 categories: Macintosh
-tags: GCD
+tags: ObjC
 excerpt: 主要了解GCD编程，以及如何用GCD完成一些经典多线程问题
 ---
 

@@ -2,7 +2,7 @@
 layout: post
 title: "KMP字符串匹配搜索算法"
 categories: Algorithm
-tags: Algorithm String KMP
+tags: String KMP
 excerpt: "一米阳光的幸福"
 ---
 

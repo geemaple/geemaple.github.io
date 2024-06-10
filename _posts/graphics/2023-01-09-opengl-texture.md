@@ -2,7 +2,7 @@
 layout: post
 title: "OpenGL1.5 - 纹理Texture"
 categories: Graphics
-tags: C++
+tags: C++ OpenGL
 excerpt: 纹理
 ---
 

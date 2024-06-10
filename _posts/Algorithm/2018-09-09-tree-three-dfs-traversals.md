@@ -1,13 +1,15 @@
 ---
 layout: post
-title: "树的三种DFS策略(前序、中序、后序)遍历"
+title: "算法 - 二叉树前序，中序，后序遍历"
 categories: Algorithm
-tags: Algorithm DFS
+tags: DFS
 excerpt: "树的前序遍历，中序遍历，后序遍历"
 ---
 
 * content
 {:toc}
+
+## 二叉树DFS
 
 之前刷leetcode的时候，知道求排列组合都需要深度优先搜索(DFS), 那么前序、中序、后序遍历是什么鬼，一直傻傻的分不清楚。直到后来才知道，原来它们只是DFS的三种不同策略。
 
@@ -25,29 +27,31 @@ R = Right(右节点)
 
 后序遍历：左子树 ---> 右子树 ---> 结点
 
-##前序遍历
+### 前序遍历
 
 ![前序遍历]({{site.static}}/images/pre-order-search.png)
 
 Pre-order: F, B, A, D, C, E, G, I, H.
 
-##中序遍历
+### 中序遍历
 ![中序遍历]({{site.static}}/images/in-order-search.png)
 
 In-order: A, B, C, D, E, F, G, H, I.
 
 在二叉搜索树(BST)中，中序遍历返回递增的一个序列
 
-##后序遍历
+### 后序遍历
 ![后序遍历]({{site.static}}/images/post-order-search.png)
 
 Post-order: A, C, E, D, B, H, I, G, F.
 
-##递归代码
+## 代码实现
+
+### 递归代码
 
 递归实现比较直观容易，通常DFS遍历，都需要传递一个参数 or 设置一个全局变量，来保存结果
 
-```
+```python
 def pre_order(self, node, results):
     if node is None:
         return
@@ -56,7 +60,7 @@ def pre_order(self, node, results):
     self.pre_order(node.right, results)
 ```
 
-```
+```python
 def in_order(self, node, results):
     if node is None:
         return
@@ -65,7 +69,7 @@ def in_order(self, node, results):
     self.in_order(node.right, results)
 ```
 
-```
+```python
 def post_order(self, node, results):
     if node is None:
         return
@@ -74,7 +78,7 @@ def post_order(self, node, results):
     results.append(node.val)
 ```
 
-##非递归代码
+### 非递归代码
 
 深度优先遍历的非递归代码，一定用到的是**stack**数据接口
 
@@ -84,7 +88,7 @@ def post_order(self, node, results):
 
 中序遍历，由于对于BST有一个递增的特性，所以还是比较常用的
 
-```
+```python
 def preorderTraversal(self, root):
     results = []
     if root is None:
@@ -101,7 +105,7 @@ def preorderTraversal(self, root):
     return results
 ```
 
-```
+```python
 def inorderTraversal(self, root):
     results = []
     if root is None:
@@ -119,7 +123,7 @@ def inorderTraversal(self, root):
     return results
 ```
 
-```
+```python
 def postorderTraversal(self, root):
     results = []
     if root is None:

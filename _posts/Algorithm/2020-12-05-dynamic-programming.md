@@ -2,7 +2,7 @@
 layout: post
 title: "动态规划"
 categories: Algorithm
-tags: Algorithm DP
+tags: DP
 excerpt: "纸上得来终觉浅，绝知此事要躬行"
 ---
 

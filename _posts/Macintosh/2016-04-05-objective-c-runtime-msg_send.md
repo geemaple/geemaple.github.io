@@ -2,7 +2,7 @@
 layout: post
 title: "ObjC - 消息和转发机制"
 categories: Macintosh
-tags: Objective-C
+tags: ObjC
 excerpt: Objective-C消息分发，拦截与转发机制。
 ---
 

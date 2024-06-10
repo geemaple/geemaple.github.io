@@ -2,7 +2,7 @@
 layout: post
 title: "OpenGL2.1 - 光模型Phong"
 categories: Graphics
-tags: C++
+tags: C++ OpenGL
 excerpt: 想要彻底摆脱黑暗就努力站在有光的地方
 mathjax: true
 ---

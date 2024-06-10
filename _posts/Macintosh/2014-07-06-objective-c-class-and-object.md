@@ -2,7 +2,7 @@
 layout: post
 title: "ObjC - Class与Object的关系"
 categories: Macintosh
-tags: Objective-C
+tags: ObjC
 excerpt: 苹果用尽全力，隐藏ISA
 ---
 

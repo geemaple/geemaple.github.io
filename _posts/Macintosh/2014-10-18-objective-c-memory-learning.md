@@ -2,7 +2,7 @@
 layout: post
 title: "ObjC - 内存管理"
 categories: Macintosh
-tags: Objective-C
+tags: ObjC
 excerpt: Objective-C内存管理MRC和ARC
 ---
 

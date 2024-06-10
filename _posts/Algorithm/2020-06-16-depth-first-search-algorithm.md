@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "深度优先搜索算法DFS"
+title: "算法 - 深度优先搜索DFS"
 categories: Algorithm
-tags: Algorithm DFS
+tags: DFS
 excerpt: "爆破专家"
 ---
 
@@ -20,17 +20,16 @@ excerpt: "爆破专家"
 
 DFS适用：排列+组合 + 暴力破解 + 切割问题
 
-## 图的深度优先搜索
+## 图搜索
 
 对于图的深度优先遍历，一定要记得去重(也就是递归出口)。
 
-> 对于去重使用的哈希算法，它的时间复杂度为O(N), 大多数的时候我们认为它的时间复杂度为O(1), 是因为我们假定输入长度在常量范围内。比如最长的单词也只有45个字母, O(45) = O(1)
-
 ```python
+# 对于去重使用的哈希算法，它的时间复杂度为O(N), 大多数的时候我们认为它的时间复杂度为O(1), 是因为我们假定输入长度在常量范围内。比如最长的单词也只有45个字母, O(45) = O(1)
 len("pneumonoultramicroscopicsilicovolcanoconiosis") = 45
 ```
 
-### 矩阵是一种特殊的图
+**矩阵是一种特殊的图:**
 
 ```python
                                 |-------------------  x
@@ -54,7 +53,7 @@ for i in range(len(y)):
   targetY = b + y[i]
 ```
 
-### 树的深度优先搜索
+## 树搜索
 
 树是一种特殊的图(树没有环状结构，不需要去重)，它的深度优先搜索以二叉树为例，有三种遍历策略，是以遍历root的三种策略命名的
 
@@ -62,15 +61,13 @@ for i in range(len(y)):
 2. 中序遍历(左**根**右)
 3. 后续遍历(左右**根**)
 
-具体遍历，参考之前的文章[《树的三种DFS策略(前序、中序、后序)遍历》](http://geemaple.github.io/2018/09/09/树的三种DFS策略(前序-中序-后序)遍历/)
-
-### 拓扑排序
+**拓扑排序**
 
 这里提一下，如果谷歌"Topological Sort", 靠前面的答案，给的都是DFS解决。
 
-但从实现上，推荐更简单的[《宽度优先搜索算法BFS》](http://geemaple.github.io/2020/05/21/breath-first-search-algorithm/)
+但从实现上，推荐更简单的宽度优先搜索算法BFS
 
-## 穷举暴力破解
+## 暴力破解
 
 DFS另一个擅长的领域是，排列组合(Permutation/Combination)，也可以说通过穷举所有可能，来达到搜索的目的。
 
@@ -78,18 +75,18 @@ DFS另一个擅长的领域是，排列组合(Permutation/Combination)，也可�
 
 时间复杂度 = 答案个数 * 构造每个答案的时间, 可以通过预处理，或者剪枝来达到优化的效果， 时间复杂度在2^N~N!级别
 
-### 答案代表
+**列举了所有适用情况，最好的方式是通过代码学习:**
 
-```
+### 排列
+
+```python
 [1, 1', 1'', 2] [1, 1'' ,1', 2] [1', 1, 1'', 2] [1', 1'', 1, 2] [1'', 1, 1', 2] [1'', 1', 1, 2]
 ```
 
 对于上述重复答案，我们当然选择[1, 1', 1'', 2]作为答案代表。它的特点是，重复数据**1**，必须递增连续出现**1，1'，1''**
 
-### [排列](https://leetcode.com/problems/permutations-ii/)
-
 ```python
-# leetcode-047(permutations-ii)
+# https://leetcode.com/problems/permutations-ii/
 class Solution(object):
   def permuteUnique(self, nums):
     """
@@ -126,10 +123,10 @@ class Solution(object):
       visited.remove(i)
 ```
 
-### [组合](https://leetcode.com/problems/subsets-ii/)
+### 组合
 
 ```python
-# leetcode-090(subsets-ii​)
+# https://leetcode.com/problems/subsets-ii/
 class Solution(object):
   def subsetsWithDup(self, nums):
     """
@@ -157,7 +154,7 @@ class Solution(object):
 ```
 
 
-### 子组数 vs. 子序列
+## 子组数 vs. 子序列
 
 子组数(subarray)，子串(substring), 窗口(window): 原数组，起点i到终点j*连续的*部分，数量级为N^2
 

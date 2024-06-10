@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "算法 - 数字与大小"
+title: "数学 - 数字与大小"
 categories: Algorithm
 tags: Math
 excerpt: "边界与数量级"

@@ -2,7 +2,7 @@
 layout: post
 title: "OpenGL1.6 - 矩阵Matrix"
 categories: Graphics
-tags: C++ 
+tags: C++ OpenGL 
 excerpt: 高等代数
 mathjax: true
 ---

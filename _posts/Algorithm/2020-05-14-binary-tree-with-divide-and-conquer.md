@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "二叉树与分治算法"
+title: "算法 - 二叉树的分治算法"
 categories: Algorithm
-tags: Algorithm Divide&Conquer Recursion
+tags: D&C
 excerpt: "顾名思义，分而治之"
 ---
 
@@ -26,8 +26,6 @@ excerpt: "顾名思义，分而治之"
 1. 前序遍历(**根**左右)
 2. 中序遍历(左**根**右)
 3. 后续遍历(左右**根**)
-
-具体遍历，参考之前的文章[《树的三种DFS策略(前序、中序、后序)遍历》](http://geemaple.github.io/2018/09/09/树的三种DFS策略(前序-中序-后序)遍历/)
 
 ## 递归思想
 
@@ -96,7 +94,7 @@ python更小，只有1K层，左右。有兴趣可以文末链接
 
 问题：给出一棵二叉树，返回其节点值的前序遍历
 
-### 分治算法(Divide and Conquer)
+### 分治算法
 
 特点：
 
@@ -125,7 +123,7 @@ def traverse(self, root): # 递归的定义
     # 递归的拆解-End
 ```
 
-### 遍历算法(Traverse)
+### 遍历算法
 
 特点：
 

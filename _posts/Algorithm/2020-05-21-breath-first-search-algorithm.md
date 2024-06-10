@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "广度优先搜索算法BFS"
+title: "算法 - 广度优先搜索BFS"
 categories: Algorithm
-tags: Algorithm BFS
+tags: BFS
 excerpt: "拓扑排序"
 ---
 
@@ -140,10 +140,10 @@ B = deepcopy(A) = C1
 
 常见的问题有，对于给定的一组依赖关系，有没有可能拓扑排序，如果有，输出其中一个结果
 
-### [课程排序](https://leetcode.com/problems/course-schedule-ii/)
+### 课程排序
 
 ```python
-# leetcode-210(Course-Schedule-II)
+# https://leetcode.com/problems/course-schedule-ii/
 # 现在你总共有 n 门课需要选，记为 0 到 n-1。
 # 在选修某些课程之前需要一些先修课程。 例如，想要学习课程 0 ，你需要先完成课程 1 ，我们用一个匹配来表示他们: [0,1]
 # 给定课程总量以及它们的先决条件，返回你为了学完所有课程所安排的学习顺序。

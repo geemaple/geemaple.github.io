@@ -2,7 +2,7 @@
 layout: post
 title: "OpenGL2.2 - 材质贴图Maps"
 categories: Graphics
-tags: C++
+tags: C++ OpenGL
 excerpt: "贴图"
 ---
 

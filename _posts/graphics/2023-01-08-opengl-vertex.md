@@ -2,7 +2,7 @@
 layout: post
 title: "OpenGL1.4 - 自定义Vertex"
 categories: Graphics
-tags: C++
+tags: C++ OpenGL
 excerpt: Vertex不止坐标
 ---
 

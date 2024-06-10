@@ -2,7 +2,7 @@
 layout: post
 title: "OpenGL1.7 - 空间Space"
 categories: Graphics
-tags: C++
+tags: C++ OpenGL
 excerpt: 坐标系
 mathjax: true
 ---

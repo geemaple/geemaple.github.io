@@ -2,7 +2,7 @@
 layout: post
 title: "OpenGL1.1 - 环境设置"
 categories: Graphics
-tags: C++
+tags: C++ OpenGL
 excerpt: 设置OpenGL环境，显示窗口，处理窗口缩放与键盘事件
 ---
 
