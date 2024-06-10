@@ -2,7 +2,7 @@
 layout: post
 title: "操作系统01 - 多线程编程"
 categories: OS
-tags: Operating System
+tags: C++ pthreads
 excerpt: ""
 
 ---
@@ -98,7 +98,7 @@ Singleton* Singleton::instance() {
     return pInstance;
 }
 ```
-该代码在单线程下没有什么问题，除非在interupt handler中也调用了单例，根据模版如下
+该代码在单线程下没有什么问题，除非在interupt handler中也调用了单例，根据模版，第一个版本多线程代码如下:
 
 ```cpp
 Singleton* Singleton::instance() {
@@ -135,7 +135,7 @@ Singleton* Singleton::instance() {
 
 即使没有recorder，多核CPU或内存系统可能以不同顺序写入内存，这样另一个CPU从内存上看到的结果就和上面一样了
 
-例如，上面代码，编译器可能认为在锁的保护下，里面的内容重排序是安全的，只要保证最终的结果即可
+例如，上面代码，编译器可能认为在锁的保护下，里面的内容重排序是安全的，只要保证最终的结果即可(编译器没想到，会在临界区外，还有pInstance被访问)
 
 ```cpp
 Singleton* Singleton::instance() { 
@@ -152,7 +152,7 @@ Singleton* Singleton::instance() {
 }
 ```
 
-此时，如果在1-3处中断，另一个线程会拿到未初始化的实例。
+此时，如果在1处中断，另一个线程会拿到未初始化的实例。
 
 > 编译链接器有自己的语言标准，而且是单线程条线下的环境标准。编译链接可能会消除不必要的临时变量，重新排序一些指令来达到优化的目标。C和C++都没有线程。所以不奇怪编译后的代码有时会破坏多线程的逻辑
 
@@ -162,7 +162,7 @@ Singleton* Singleton::instance() {
 
 若没有系统库的支持，上面的代码只使用语言级别的技巧，论文指出临时变量，分模块，volatile，假装初始化有异常等，都是和编译器做无用了拉锯战，无法确保赢得战争
 
-> 论文指出使用`memory barrier`可以解决，不过这个平台相关(可能是汇编语言)，不利于移植，可读性也极差。而且我压根不知道`memory barrier`是啥玩意
+> 论文指出使用`memory barrier`可以解决，不过这个平台相关(可能是汇编语言)，不利于移植，可读性也极差
 
 ## 案例
 
