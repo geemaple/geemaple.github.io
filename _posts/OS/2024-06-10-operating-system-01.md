@@ -78,9 +78,9 @@ SharedObject::someMethodThatSignals() {
 
 ```
 
-## 反例
+## 反例LLCP
 
-### 单例
+这个反例不止出现在单例上
 
 ```cpp
 class Singleton {
@@ -129,23 +129,19 @@ Singleton* Singleton::instance() {
 }
 ```
 
+现代CPU有多个执行单元(多个ALU也比较常见)，编译器会仔细分析和重新排序代码，使得代码可以快速执行(尽可能一次执行更多)。如果步骤2会有异常，pInstance要保持null，通常编译器不会这样翻译。一种情况是，如果编译器通过流程分析发现2没有异常，步骤2，3可能会颠倒。
+
+其他重排序，编译连接可能会使最终代码，更充分利用CPU的Pipeline
+
+即使没有recorder，多核CPU或内存系统可能以不同顺序写入内存，这样另一个CPU从内存上看到的结果就和上面一样了
+
+例如，上面代码，编译器可能认为在锁的保护下，里面的内容重排序是安全的，只要保证最终的结果即可
+
 ```cpp
-Singleton* Singleton::instance() {
+Singleton* Singleton::instance() { 
     if (pInstance == NULL) {
         lock.acquire();
-        if (pInstance == NULL){
-            pInstance = new Instance();
-            // 1. 分配内存 2. 初始化 3. pInstance指向新实例
-        }
-        lock.release();
-    }
-    return pInstance;
-}
-
-Singleton* Singleton::instance() { 
-    if (pInstance == 0) {
-        lock.acquire();
-        if (pInstance == 0) {
+        if (pInstance == NULL) {
             pInstance =                          // 3
             operator new(sizeof(Singleton));     // 1
             new (pInstance) Singleton;           // 2
@@ -156,12 +152,6 @@ Singleton* Singleton::instance() {
 }
 ```
 
-现代CPU有多个执行单元(多个ALU也比较常见)，编译器会仔细分析和重新排序代码，使得代码可以快速执行(尽可能一次执行更多)。如果步骤2会有异常，pInstance要保持null，通常编译器不会这样翻译。一种情况是，如果编译器通过流程分析发现2没有异常，步骤2，3可能会颠倒。
-
-其他重排序，编译连接可能会使最终代码，更充分利用CPU的Pipeline
-
-例如，上面代码，编译器可能认为在锁的保护下，里面的内容重排序是安全的，只要保证最终的结果即可
-
 此时，如果在1-3处中断，另一个线程会拿到未初始化的实例。
 
 > 编译链接器有自己的语言标准，而且是单线程条线下的环境标准。编译链接可能会消除不必要的临时变量，重新排序一些指令来达到优化的目标。C和C++都没有线程。所以不奇怪编译后的代码有时会破坏多线程的逻辑
@@ -170,11 +160,19 @@ Singleton* Singleton::instance() {
 
 > 现代C++（从C++11开始）引入了一个标准化的线程库（<thread>、<mutex>、<condition_variable>等），提供类似于pthread的功能。然而，基本原理仍然是相同的：使用特定于系统的线程库来表达多线程程序所需的执行顺序约束
 
-若没有系统库的支持，上面的代码只使用语言级别的技巧，比如临时变量，分模块，假装初始化有异常等，都是和编译器做无用了拉锯战，无法确保赢得战争
+若没有系统库的支持，上面的代码只使用语言级别的技巧，论文指出临时变量，分模块，volatile，假装初始化有异常等，都是和编译器做无用了拉锯战，无法确保赢得战争
+
+> 论文指出使用`memory barrier`可以解决，不过这个平台相关(可能是汇编语言)，不利于移植，可读性也极差。而且我压根不知道`memory barrier`是啥玩意
 
 ## 案例
 
+今天读到这里，就停止了
 
+### 读写锁
+
+### 同步屏障
+
+### FIFO阻塞有界队列
 
 * [https://www.aristeia.com/Papers/DDJ_Jul_Aug_2004_revised.pdf](https://www.aristeia.com/Papers/DDJ_Jul_Aug_2004_revised.pdf)
 * [http://www.cs.umd.edu/~pugh/java/memoryModel/DoubleCheckedLocking.html](http://www.cs.umd.edu/~pugh/java/memoryModel/DoubleCheckedLocking.html)
