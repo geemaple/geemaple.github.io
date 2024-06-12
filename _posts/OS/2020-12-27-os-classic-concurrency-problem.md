@@ -2,7 +2,7 @@
 layout: post
 title: "并发经典问题"
 categories: OS
-tags: OS
+tags: 
 excerpt: "奇怪的经典问题"
 ---
 

@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "信号量"
+title: "操作系统03 - 信号量"
 categories: OS
-tags: OS
+tags: C++
 excerpt: "万能的信号量"
 ---
 
