@@ -162,17 +162,297 @@ Singleton* Singleton::instance() {
 
 若没有系统库的支持，上面的代码只使用语言级别的技巧，论文指出临时变量，分模块，volatile，假装初始化有异常等，都是和编译器做无用了拉锯战，无法确保赢得战争
 
-> 论文指出使用`memory barrier`可以解决，不过这个平台相关(可能是汇编语言)，不利于移植，可读性也极差
+> 论文指出使用`memory barrier`可以解决，不过这个平台相关(可能是汇编语言)，不利于移植，可读性也极差。内存屏障保证屏障之内的内存操作不会相互重排序，但屏障前和屏障后的操作内部依然可能发生重排序
 
 ## 案例
 
-今天读到这里，就停止了
-
 ### 读写锁
+
+常用于读取较多，写入较少的场景，比如数据库
+
+* 优先读：在优先读的实现中，读者在没有活动的写者和等待的写者时可以获取锁。写者只有在没有活动的读者和写者时才能获取锁。
+* 优先写：在优先写的实现中，读者只有在没有活动的写者时才能获取锁。写者在没有活动的读者和写者时可以获取锁。
+
+代码示例读写有同等优先级
+
+```cpp
+#include <cassert>
+
+class RWLock{
+private:
+    // Synchronization variables
+    Lock lock;
+    CV readGo;
+    CV writeGo;
+    
+    // State variables
+    int activeReaders;
+    int activeWriters;
+    int waitingReaders;
+    int waitingWriters;
+    
+public:
+    RWLock();
+    ~RWLock() {};
+    void startRead();
+    void doneRead();
+    void startWrite();
+    void doneWrite();
+    
+private:
+    bool readShouldWait();
+    bool writeShouldWait();
+};
+
+// Wait until no active or waiting
+// writes, then proceed.
+void RWLock::startRead() {
+    lock.acquire();
+    waitingReaders++;
+    while (readShouldWait()) {
+        readGo.Wait(&lock);
+    }
+    waitingReaders--;
+    activeReaders++;
+    lock.release();
+}
+
+// Done reading. If no other active
+// reads, a write may proceed.
+void RWLock::doneRead() {
+    lock.acquire();
+    activeReaders--;
+    if (activeReaders == 0 && waitingWriters > 0) {
+        writeGo.signal();
+    }
+    lock.release();
+}
+
+// Read waits if any active or waiting
+// write ("writers preferred").
+bool RWLock::readShouldWait() {
+    return (activeWriters > 0 || waitingWriters > 0);
+}
+
+
+// Wait until no active read or
+// write then proceed.
+void RWLock::startWrite() {
+    lock.acquire();
+    waitingWriters++;
+    while (writeShouldWait()) {
+        writeGo.Wait(&lock);
+    }
+    waitingWriters--;
+    activeWriters++;
+    lock.release();
+}
+
+// Done writing. A waiting write or
+// read may proceed.
+void RWLock::doneWrite() {
+    lock.acquire();
+    activeWriters--;
+    assert(activeWriters == 0);
+    if (waitingWriters > 0) {
+        writeGo.signal();
+    }
+    else {
+        readGo.broadcast();
+    }
+    lock.release();
+}
+
+// Write waits for active read or write.
+bool RWLock::writeShouldWait() {
+    return (activeWriters > 0 || activeReaders > 0);
+}
+```
+
+使用:
+
+```cpp
+void read() {
+    rwLock->startRead();
+    // Read shared data
+    rwLock->doneRead();
+}
+
+void write() {
+    rwLock->startWrite();
+    // Read and write shared data
+    rwLock->doneWrite();
+}
+```
 
 ### 同步屏障
 
+Synchronization Barriers: 在并行计算中，多个线程完成任务的各自部分，当所有子任务完成，就可以安全的执行并行计算的下一步，MapReduce是并行结算的一个例子
+
+同步屏障：一种高效的方式来检查是否所有子任务都完成了, 同步屏障会被多个线程并行的调用`checkin`
+
+内存屏障: 只被一个线程调用，用来保证屏障内的操作有确定的结果
+
+虽然创建n个线程，然后main调用thread_join同样正确，但是问题是需要每次需要创建n个线程，重复切割任务。如果使用并行计算，每个线程可以多次对数据进行操作，最大效率利用各自的CPU缓存
+
+可重复使用的`Barrier`代码
+
+```cpp
+// A re-usable synch barrier.
+class Barrier{
+private:
+    // Synchronization variables
+    Lock lock;
+    CV allCheckedIn;
+    CV allLeaving;
+    
+    // State variables
+    int numEntered;
+    int numLeaving;
+    int numThreads;
+    
+public:
+    Barrier(int n);
+    ~Barrier();
+    void checkin();
+};
+
+Barrier::Barrier(int n) {
+    numEntered = 0;
+    numLeaving = 0;
+    numThreads = n;
+}
+
+// No one returns until all threads
+// have called checkin.
+void checkin() {
+    lock.acquire();
+    numEntered++;
+    if (numEntered < numThreads) {
+        while (numEntered < numThreads) {
+            allCheckedIn.wait(&lock);
+        }
+    } else {
+        // no threads in allLeaving.wait
+        numLeaving = 0;
+        allCheckedIn.broadcast();
+    }
+    numLeaving++;
+    if (numLeaving < numThreads) {
+        while (numLeaving < numThreads) {
+            allLeaving.wait(&lock);
+        }
+    } else {
+        // no threads in allCheckedIn.wait
+        numEntered = 0;
+        allLeaving.broadcast();
+    }
+    lock.release();
+}
+```
+
 ### FIFO阻塞有界队列
+
+常用于生产者消费者
+
+```cpp
+// Thread-safe blocking queue.
+
+const int MAX = 10;
+
+class BBQ{
+    // Synchronization variables
+    Lock lock;
+    CV itemAdded;
+    CV itemRemoved;
+    
+    // State variables
+    int items[MAX];
+    int front;
+    int nextEmpty;
+    
+public:
+    BBQ();
+    ~BBQ() {};
+    void insert(int item);
+    int remove();
+};
+
+// Initialize the queue to empty,
+// the lock to free, and the
+// condition variables to empty.
+BBQ::BBQ() {
+    front = nextEmpty = 0;
+}
+
+// Wait until there is room and
+// then insert an item.
+void BBQ::insert(int item) {
+    lock.acquire();
+    while ((nextEmpty - front) == MAX) {
+        itemRemoved.wait(&lock);
+    }
+    items[nextEmpty % MAX] = item;
+    nextEmpty++;
+    itemAdded.signal();
+    lock.release();
+}
+
+// Wait until there is an item and
+// then remove an item.
+int BBQ::remove() {
+    int item;
+    
+    lock.acquire();
+    while (front == nextEmpty) {
+        itemAdded.wait(&lock);
+    }
+    item = items[front % MAX];
+    front++;
+    itemRemoved.signal();
+    lock.release();
+    return item;
+}
+```
+
+上面的，可能有些线程会饿死，假设每生产一个，都被其他线程抢走。通常无关紧要，只要队列有持续的生产消费，切不总是空或者满的状态即可
+
+但如果确实需要，可以考虑更精细的唤醒，但注意，这已经偏离了基本的模版代码，需要更多的技能。
+
+```cpp
+ConditionQueue insertQueue;
+ConditionQueue removeQueue;
+int numRemoveCalled = 0; // # of times remove has been called
+int numInsertCalled = 0; // # of times insert has been called
+
+int FIFOBBQ::remove() {
+    int item;
+    int myPosition;
+    CV *myCV, *nextWaiter;
+    
+    lock.acquire();
+    
+    myPosition = numRemoveCalled++;
+    mycv = new CV;  // Create a new condition variable to wait on.
+    removeQueue.append(myCV);
+    
+    // Even if I am woken up, wait until it is my turn.
+    while (front < myPosition || front == nextEmpty) {
+        mycv->Wait(&lock);
+    }
+    
+    delete myCV;    // The condition variable is no longer needed.
+    item = items[front % size];
+    front++;
+    
+    // Wake up the next thread waiting in insert, if any.
+    nextWaiter = insertQueue.removeFromFront();
+    if (nextWaiter != NULL)
+        nextWaiter->Signal(&lock);
+    lock.release();
+    return item;
+}
+```
 
 * [https://www.aristeia.com/Papers/DDJ_Jul_Aug_2004_revised.pdf](https://www.aristeia.com/Papers/DDJ_Jul_Aug_2004_revised.pdf)
 * [http://www.cs.umd.edu/~pugh/java/memoryModel/DoubleCheckedLocking.html](http://www.cs.umd.edu/~pugh/java/memoryModel/DoubleCheckedLocking.html)

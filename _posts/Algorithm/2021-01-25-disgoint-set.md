@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "并查集"
+title: "算法 - 并查集Disjoint-Set"
 categories: Algorithm
 tags: DisjointSet
 excerpt: "Big Brother"
@@ -56,6 +56,8 @@ dict['FitBit'] = 'Google'
 1. 跟节点的父节点指向Null, 和上图中表示一致
 2. 跟节点的父节点指向自己, **下面讲解偏好这一种**
 
+## 方法
+
 ### 查找
 
 O(log*N), 即均摊复杂度为O(1)
@@ -92,7 +94,7 @@ O(1)
 合并操作，**首先找到跟节点，再将跟节点合并**
 
 
-### 代码实现
+## 代码实现
 
 以下是将并查集的代码放入一个Class中, 实际操作可以只用两个函数+变量
 
@@ -121,10 +123,8 @@ class UnionFind:
 
 PS: 代码中用数组实现的，你也可以尝试用Hash来实现
 
-### 参考链接
-
 [https://en.wikipedia.org/wiki/Iterated_logarithm](https://en.wikipedia.org/wiki/Iterated_logarithm)
 
-[并查集时间复杂度][https://en.wikipedia.org/wiki/Disjoint-set_data_structure#Proof_of_O(m_log*_n)_time_complexity_of_Union-Find]
+[https://en.wikipedia.org/wiki/Disjoint-set_data_structure](https://en.wikipedia.org/wiki/Disjoint-set_data_structure#Proof_of_O(m_log*_n)_time_complexity_of_Union-Find)
 
 --End--

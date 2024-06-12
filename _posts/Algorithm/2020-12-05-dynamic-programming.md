@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "动态规划"
+title: "算法 - 动态规划DP"
 categories: Algorithm
 tags: DP
 excerpt: "纸上得来终觉浅，绝知此事要躬行"
@@ -141,8 +141,6 @@ class Solution:
             
         return cur
 ```
-
-## One More Thing
 
 算法能够解决的问题非常有限，而思想应对的问题却千变万化
 
