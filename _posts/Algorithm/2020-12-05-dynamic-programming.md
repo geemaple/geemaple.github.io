@@ -37,7 +37,7 @@ excerpt: "纸上得来终觉浅，绝知此事要躬行"
 1. 其中F(5)可以通过子问题F(3) + F(4)得出
 2. 关键是，图中f(3)等节点的计算包含重复，而且是整棵树的重复
 
-## 至顶向下
+### 记忆化搜索
 
 方向: 从"大问题"到"小问题"
 
@@ -58,32 +58,12 @@ class Solution:
         return self.fib(N - 2) + self.fib(N - 1) 
 ```
 
-## 至底向上
+### 状态数组
 
 方向: 从"小问题"到"大问题"
 
 1. **最后一步**(是怎样能够得到答案的)
 2. **化成子问题**(得到初始条件与边界)
-
-### 状态定义
-
-F(N) = 斐波那契额数列中第N个值
-
-### 状态转换
-
-F(N) = F(N - 2) + F(N - 1)
-
-### 初始与边界条件
-
-F(0) = 0, F(1) = 1
-
-如果只求第一个，那么注意F(1)的初始化边界
-
-### 计算方向
-
-从0到N
-
-### 代码实现
 
 ```python
 class Solution:
@@ -100,12 +80,30 @@ class Solution:
         return dp[N]
 ```
 
-### 空间优化
+## 四要素
 
-至底向上的好处是：
+**状态定义：**
 
-1. 时间复杂度好计算
-2. 有空间压缩的可能
+F(N) = 斐波那契额数列中第N个值
+
+**状态转换：**
+
+F(N) = F(N - 2) + F(N - 1)
+
+**初始与边界条件：**
+
+F(0) = 0, F(1) = 1
+
+如果只求第一个，那么注意F(1)的初始化边界
+
+**计算方向：**
+
+推倒方向，从0到N
+
+
+## 空间优化
+
+状态数组的好处是，有空间压缩的可能
 
 由于动态规划计算都是有一定方向的，那么对于前面的dp数组保存的值，可能就用不上了，可以空间压缩
 
@@ -114,7 +112,6 @@ class Solution:
 ```python
 class Solution:
     def fib(self, N: int) -> int:
-        
         dp = [0 for _ in range(2)]
         
         if len(dp) > 1:
@@ -131,7 +128,6 @@ class Solution:
 ```python
 class Solution:
     def fib(self, N: int) -> int:
-        
         if N < 2:
             return N
         
@@ -142,12 +138,107 @@ class Solution:
         return cur
 ```
 
-算法能够解决的问题非常有限，而思想应对的问题却千变万化
+## 背包问题
 
-所以，这篇介绍非常简单，但实战远不止这些。
+定义`dp[i][j]`为，前i个物品，重量不超过j的情况下能达到的最大值。
 
-而真正思想的锻炼，是在实战中不断积累提高的
+假设第i个物品的重量为W，价值为V
 
-一个真正量变引起质变的过程
+### 0～1背包问题
+
+每个只能取一次
+
+选择1. 不装第i个物品: `dp[i][j] = dp[i - 1][j]`
+
+选择2，装第i个物品：`dp[i][j] = dp[i - 1][j - W] + V`
+
+```python
+class Solution:
+    def back_pack(self, a: List[int], v: List[int], m: int) -> int:
+        # write your code here
+        n = len(a)
+        dp = [[0 for j in range(m + 1)] for i in range(n + 1)]
+
+        for i in range(1, n + 1):
+            for j in range(1, m + 1):
+                w = a[i - 1]
+                val = v[i - 1]
+                if j >= w:
+                    dp[i][j] = max(dp[i - 1][j], dp[i - 1][j - w] + val)
+                else:
+                    dp[i][j] = dp[i - 1][j]
+
+        return dp[n][m]
+
+# 压缩空间，应该倒序遍历
+class Solution:
+    def back_pack(self, a: List[int], v: List[int], m: int) -> int:
+        # write your code here
+        n = len(a)
+        dp = [0 for j in range(m + 1)]
+
+        for i in range(1, n + 1):
+            for j in range(m, 0, -1):
+                w = a[i - 1]
+                val = v[i - 1]
+                if j >= w:
+                    dp[j] = max(dp[j], dp[j - w] + val)
+
+        return dp[m]
+```
+
+### 完全背包问题
+
+不限次数
+
+选择1. 不装第i个物品: `dp[i][j] = dp[i - 1][j]`
+
+选择2，装第i个物品：`dp[i][j] = dp[i][j - W] + V  #由于不限次数dp[i]不变`
+
+```python
+class Solution:
+    def back_pack(self, a: List[int], v: List[int], m: int) -> int:
+        # write your code here
+        n = len(a)
+        dp = [[0 for j in range(m + 1)] for i in range(n + 1)]
+
+        for i in range(1, n + 1):
+            for j in range(1, m + 1):
+                w = a[i - 1]
+                val = v[i - 1]
+                if j >= w:
+                    dp[i][j] = max(dp[i - 1][j], dp[i][j - w] + val)
+                else:
+                    dp[i][j] = dp[i - 1][j]
+
+        return dp[n][m]
+
+# 压缩空间，应该正序遍历
+class Solution:
+    def back_pack(self, a: List[int], v: List[int], m: int) -> int:
+        # write your code here
+        n = len(a)
+        dp = [0 for j in range(m + 1)]
+
+        for i in range(1, n + 1):
+            for j in range(1, m + 1):
+                w = a[i - 1]
+                val = v[i - 1]
+                if j >= w:
+                    dp[j] = max(dp[j], dp[j - w] + val)
+
+        return dp[m]
+```
+
+## 技巧
+
+### 方案与获利
+
+1. 方案数/可行性，初始化为1。状态=各个可能的之和/OR，没有额外值
+2. 最大获利，初始化为0，状态=各个可能方案+单次奖励
+
+### 字符串匹配
+
+`dp[i][j] = k`为A字符串前i个与B字符串前j个相匹配的时候的k值
 
 --End--

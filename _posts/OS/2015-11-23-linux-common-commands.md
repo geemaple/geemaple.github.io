@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "CentOS7之常用命令"
+title: "Linux - 常用命令"
 date:   2015-11-23
 categories: OS
 tags: Linux

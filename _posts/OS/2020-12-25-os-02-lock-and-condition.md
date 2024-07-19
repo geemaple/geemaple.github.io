@@ -81,7 +81,7 @@ class Lock {
 
 ### 多核CPU 
 
-大多数CPU架构提供多核之间原子的`read-modify-write`指令, 每个内核有自己的cache。 多核架构采用内存一致性机制:
+大多数CPU架构提供多核之间原子的`read-modify-write`指令(可以在User Level执行), 每个内核有自己的cache。 多核架构采用内存一致性机制:
 
 内核缓存拥有状态，`exclusive`或者`read-only`. 如果其他内核有数据拷贝，那么原始数据必须是`read-only`的。
 对于`exclusive`缓存，内核需要去获取实时最新的的值
@@ -108,6 +108,26 @@ public:
         memory_barrier();
     }
 }
+
+class SpinLock {
+private:
+    int value = 0; // 0 = FREE; 1 = BUSY
+
+public:
+    // (Free) Can access this memory location from user space!
+    int mylock = 0; // Interface: acquire(&mylock);
+    //                        release(&mylock);
+
+    void acquire(int *thelock) {
+        do {
+            while (*thelock); // Wait until might be free (quick check/test!) 减少共享内存总线和缓存一致性子系统的负担
+        } while (test&set(thelock)); // Atomic grab of lock (exit if succeeded)
+    }
+
+    void release(int *thelock) {
+        *thelock = 0; // Atomic release of lock
+    }
+};
 ```
 
 当中断处理函数访问到临界区变量时，应该使用自旋锁。
@@ -199,6 +219,31 @@ void Scheduler::makeReady(TCB *thread) {
     enableInterrupts();
 }
 
+```
+
+借助Linux的futex函数，futex是个私有内核API
+
+```cpp
+typedef enum { UNLOCKED,LOCKED,CONTESTED } Lock;
+Lock mylock = UNLOCKED; // Interface: acquire(&mylock);
+                        //            release(&mylock);
+
+acquire(Lock *thelock) {
+    // If unlocked, grab lock!
+    if (compare&swap(thelock,UNLOCKED,LOCKED))
+        return;
+
+    // Keep trying to grab lock, sleep in futex
+    while (swap(mylock,CONTESTED) != UNLOCKED)
+        // Sleep unless someone releases hear!
+        futex(thelock, FUTEX_WAIT, CONTESTED);
+}
+
+release(Lock *thelock) {
+    // If someone sleeping,
+    if (swap(thelock,UNLOCKED) == CONTESTED)
+        futex(thelock,FUTEX_WAKE,1);
+}
 ```
 
 ### 条件

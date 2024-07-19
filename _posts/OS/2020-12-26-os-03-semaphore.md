@@ -76,13 +76,13 @@ static int testEntry() {
 
 ## 同步原语对比
 
-1. `Condition`会自动原子的释放和持有锁，所以可以安全的访问共享数据。`Semaphore`没有这个锁的特性，而且通常需要在使用`wait`前释放掉锁。否者，除非线程恢复执行，锁一直是持有状态
+1. `Condition`会自动原子的释放和持有锁，所以可以安全的访问共享数据。`Semaphore`没有自动释放获取锁的特性，而且通常需要在使用`wait`前释放掉锁。否者，除非线程恢复执行，锁一直是持有状态
 2. `Condition`是无内存状态，若没有等待线程`signal`没有任何作用。`Semaphore`有值，`signal`会+1，会导致下一个`wait`直接执行
 3. `Semaphore`的`sigal`会释放资源(+1), `wait`会消耗一个资源(-1), 始终伴随着状态改变，要仔细对应到合适的业务场景
 4. `Lock`语意明确，检测`lock`和`unlock`是否成对出现更容易. `Semaphore`需要对应整个使用流程
 5. 一个无状态的`Condition`和`Lock`，可以适应任意业务逻辑的判断。`Semaphore`只适用简单的递增递减逻辑
 
-`semaphore`的灵活多变，使得有些人不推荐。
+`semaphore`的灵活多变，使得有些人不推荐。`monitor`是`lock`和若干`Condition`
 
 ## 适用场景
 
