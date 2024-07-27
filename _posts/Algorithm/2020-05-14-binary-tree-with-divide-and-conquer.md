@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "算法 - 二叉树的分治算法"
+title: "数据结构 - 二叉树的分治算法"
 categories: Algorithm
 tags: D&C
 excerpt: "顾名思义，分而治之"

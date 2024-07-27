@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "算法 - 图的搜索对比BFS vs. DFS"
+title: "数据结构 - 图的搜索对比BFS vs. DFS"
 categories: Algorithm
 tags: BFS DFS
 excerpt: "图的搜索遍历，深度优先与广度优先"

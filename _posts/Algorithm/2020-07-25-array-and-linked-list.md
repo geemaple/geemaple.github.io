@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "算法 - 数组与链表"
+title: "数据结构 - 数组与链表"
 categories: Algorithm
 tags: Array LinkedList
 excerpt: "一线之间"

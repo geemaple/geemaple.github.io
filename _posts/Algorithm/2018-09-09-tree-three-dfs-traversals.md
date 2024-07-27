@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "算法 - 二叉树前序，中序，后序遍历"
+title: "数据结构 - 二叉树前序，中序，后序遍历"
 categories: Algorithm
 tags: DFS
 excerpt: "树的前序遍历，中序遍历，后序遍历"

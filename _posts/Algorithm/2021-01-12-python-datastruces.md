@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "算法 - Python数据结构"
+title: "语言 - Python数据结构"
 categories: Algorithm
 tags: Python
 excerpt: Life is short, I use python
