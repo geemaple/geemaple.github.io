@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "算法 - C++排序比较实现"
+title: "语言 - C++排序比较"
 categories: Algorithm
 tags: C++
 excerpt: “行走江湖必备，C++三种常用的cmp方式实现”

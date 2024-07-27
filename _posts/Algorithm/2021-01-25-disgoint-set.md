@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "算法 - 并查集Disjoint-Set"
+title: "数据结构 - 并查集Disjoint-Set"
 categories: Algorithm
 tags: DisjointSet
 excerpt: "Big Brother"

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "算法 - 二分查找"
+title: "算法 - 二分查找BS"
 categories: Algorithm
 tags: Binary-Search
 excerpt: "锤子，可以用来敲各种钉子"
