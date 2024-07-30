@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "算法 - 搜索算法A*"
+title: "AI - 搜索算法A*"
 categories: Algorithm
 tags: A-star AI
 excerpt: "状态搜索"

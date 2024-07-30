@@ -2,7 +2,7 @@
 layout: post
 title: "算法 - 二分查找BS"
 categories: Algorithm
-tags: Binary-Search
+tags: BS
 excerpt: "锤子，可以用来敲各种钉子"
 ---
 
