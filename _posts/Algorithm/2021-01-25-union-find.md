@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "数据结构 - 并查集Disjoint-Set"
+title: "数据结构 - 并查集UnionFind"
 categories: Algorithm
-tags: DisjointSet
+tags: DisjointSet UnionFind
 excerpt: "Big Brother"
 ---
 
@@ -11,7 +11,7 @@ excerpt: "Big Brother"
 
 ## 并查集
 
-支持集合快速**合并**和**查找**的数据结构
+并查集(Disjoint-Set)支持集合快速**合并(Union)**和**查找(Find)**的数据结构
 
 以下图为例Google和YouTube都是字母表的子公司, 当Google收购FitBit的时候, 那么FitBit也是Alphabet这个集合中的一员了
 
@@ -96,29 +96,29 @@ O(1)
 
 ## 代码实现
 
-以下是将并查集的代码放入一个Class中, 实际操作可以只用两个函数+变量
+以下是将并查集的代码放入一个Class中, 实际操作可以只用两个函数，支持个数统计
 
 ```python
 class UnionFind:
-    def __init__(self, num: int):
-        self.ancestor = [i for i in range(num)]
-        
-    def find(self, node: int) -> int:
-        
-        path = []
-        while self.ancestor[node] != node:
-            path.append(node)
-            node = self.ancestor[node]
-            
-        # 路径压缩
-        for child in path:
-            self.ancestor[child] = node
-            
-        return node
-    
-    def union(self, a: int, b: int):
-        # 先找到跟节点，在合并
-        self.ancestor[self.find(a)] = self.find(b)
+    def __init__(self, n):
+        # 也可以用hash表
+        self.table = [i for i in range(n)] 
+        self.count = [1 for i in range(n)]
+
+    def connect(self, a, b):
+        root_a = self.find(a)
+        root_b = self.find(b)
+
+        if root_a != root_b:
+            self.table[root_a] = root_b
+            self.count[root_b] += self.count[root_a]
+
+    def find(self, x):
+        if self.table[x] == x:
+            return x
+
+        self.table[x] = self.find(self.table[x]) # 路径压缩
+        return self.table[x]
 ```
 
 PS: 代码中用数组实现的，你也可以尝试用Hash来实现

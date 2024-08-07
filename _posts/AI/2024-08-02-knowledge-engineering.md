@@ -1,8 +1,8 @@
 ---
 layout: post
 title: "AI - 知识工程KE"
-categories: Algorithm
-tags: AI Model-Checking
+categories: AI
+tags: Model-Checking
 excerpt: "Knowledge Base"
 mathjax: true
 ---

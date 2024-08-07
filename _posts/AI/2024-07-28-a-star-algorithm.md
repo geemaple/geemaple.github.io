@@ -1,8 +1,8 @@
 ---
 layout: post
 title: "AI - 搜索算法A*"
-categories: Algorithm
-tags: A-star AI
+categories: AI
+tags: A-star
 excerpt: "状态搜索"
 mathjax: true
 ---

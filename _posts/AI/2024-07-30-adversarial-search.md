@@ -1,8 +1,8 @@
 ---
 layout: post
 title: "AI - 对抗搜索Minimax"
-categories: Algorithm
-tags: Minimax AI
+categories: AI
+tags: Minimax
 excerpt: "博弈"
 mathjax: true
 ---
