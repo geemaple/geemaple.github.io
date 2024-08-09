@@ -1,32 +1,50 @@
 ---
 layout: post
-title: "KMP字符串匹配搜索算法"
+title: "算法 - 字符串匹配搜索KMP"
 categories: Algorithm
-tags: String KMP
+tags: String KMP DP
 excerpt: "一米阳光的幸福"
 ---
 
 * content
 {:toc}
 
-KMP是历史上第一个O(N)级别的字符匹配算法，各大教科书必备看家算法。
+```python
+class Solution:
+    def strStr(self, haystack: str, needle: str) -> int:
+        n = len(haystack)
+        m = len(needle)
 
-它的难点在于，如何计算部分匹配表，其次是如何使用这个表优化搜索
+        for i in range(n):
+            for j in range(m):
+                if i + j >= n or haystack[i + j] != needle[j]:
+                    break
+                if j == m - 1:
+                    return i
+
+        return -1
+```
+
+正常的字符串匹配，同向双指针为锚点，比较两个字符串内容是否相等，不相等往后移动一位, 时间复杂度O(NM)
+
+KMP使用构建好的部分匹配表，即Next数组，来优化向后移动，时间复杂度O(N + M)
+
+KMP难点在于，如何构建Next数组，其次是如何使用这个表优化搜索
 
 ## 部分匹配表
 
-### 前后缀定义
+### 前后缀
 
 ```python
-A = BS, 对于非空字符S, B是A的前缀
-A = SB, 对于非空字符S, B是A的后缀
+A = PS, 对于非空字符S, P是A的前缀
+A = SP, 对于非空字符S, P是A的后缀
 ```
 
-⚠️注意, 对于字符串S来讲，S本身既不是它的前缀，也不是它的后缀
+⚠️注意, 对于字符串A来讲，A本身既不是它的前缀，也不是它的后缀
 
-### 部分匹配表详解
+### Next数组
 
-部分匹配表(PMT), 指的是字符串所有公共前后缀中最大的长度, 详细解释如下:
+部分匹配表(PMT), 也叫`next数组`, 指的是字符串所有公共前后缀中最大的长度, 详细解释如下:
 
 例如: ```ABCDABD```
 
@@ -60,95 +78,102 @@ ABCDABD 前缀 = [A, AB, ABC, ABCD, ABCDA, ABCDAB]
         结果 = 0
 ```
 
-### 部分匹配表动态代码
+### 动态规划
 
-O(N)
-
-部分匹配表，本质是一个动态规划
+使用动态规划计算出`next数组`, 时间复杂度为O(N)
 
 #### 状态定义
 
 ```python
-    dp[j]
+    dp[i]
 ------------
 SSSSSSSSSSSS....SSSS
-0          j
+0          i
 ```
 
-dp[j]等于s[0: j]字符串(包含下标j), 公共前后缀最长的长度
+`dp[i]`等于`s[0: i]`字符串(包含下标j), 公共前后缀**最长**的长度`k`
+
+根据该定义，若字符串长度为`l`, `dp[l - 1] = k`
 
 #### 状态转移
 
 ```python
-i   k       j
-A B C D A B D
----     ---
-  ^       ^
-  k       k     
+        k1            j
+A B C D E.... A B C D E
+-------       -------
+      ^             ^
+      k2            k2     
 ```
 
-k代表**s[i : j - 1] = "ABCDAB"**中最长的公共前后缀, 同时k也是待匹配字符的'C'的下标
+`K`分成`k1,k2`便于说明, `k1`是待匹配字符的`E`的下标, `k2`代表`s[0 : j - 1] = "ABCDE...ABCD"`中最长的公共前后缀的长度
 
-如果s[k] == s[j]
+如果`s[k] == s[j]`, 则 `dp[j] = dp[j - 1] + 1 = k + 1`
 
-dp[j] = dp[j - 1] + 1 = k + 1
 
-如果不相等, 需要找到```ABCDAB```次长度的公共前后缀来尝试, 比如说k-1, k-2, ...0来尝试, 如下图
+如果不相等, 如下图, 需要找到次长度的公共前后缀来尝试, 如下图
 
 ```python
- s1      s2
-ABCD....ABCD
-----    ---- k
----      --- k - 1
---        -- k - 2
--          - ...
-             0
+    s1     =     s2       "ABCD"
 
- s1      s2
-ABCD....ABCD
-  \      /
-   \    /
-    \  /
-    ABCD
-     s1
+A B C D E....A B C D F
+-------        -------     dp[k - 1]
+-----            -----     dp[k - 2]
+---                ---     ...
+-                    -
+                           0
 ```
 
-对于上述字符串，次长度前缀一定在s1中，次长度后缀一定在s2中，关键是**s1 == s2**，而且s1/s2是最长的
+具体迭代过程，假设`^和$`是即将匹配字串, `dp[i - 1] = k`, 由一堆`x`表示
 
-所以s1....s2字符串，可以用s1/s2其中一个代替，根据从0开始的动规定义，使用s1更简单
+因为`x`长度为`k`, 末尾下标为`k - 1`，根据dp定义, 这堆`x`的前后缀最长为`dp[k - 1]` = `l`，下图划线部分
 
-s1中最后字符的下标last = k - 1, 图中s1长度为k = 4, 末尾'D'下标 = k - 1 = 3
+图中一共4个`l`, 由于要找小一点的前后缀，中间的2个`l`遭到破坏不需关心。
 
-所以k = dp[k - 1], 再次尝试, 重复判断直到k == 0, 或者遇到匹配
+我们更关心起始两端的`l`, 根据递推公式，若`^和$`相等`l + 1`, 若不相等，重复此迭代过程，直到`l`最后为`0` 
+
+
+```python
+           k                                 k
+xxxxxxxxxxxxxxxxxxxxxxxx^........xxxxxxxxxxxxxxxxxxxxxxxx$
+------            ------         ------            ------
+  l                  l              l                 l
+               <-丢掉末尾         丢掉开头->
+------            ------         ------            ------
+yyyyyy^............................................yyyyyy$
+
+  .                                                  .
+  .                                                  .
+  .                                                  .
+^........................................................$
+```
 
 #### 计算方向
 
 从左到右
 
-不相等的时候，k长度递减，公共前后缀始终包含两端
+不相等的时候，`k`长度按dp序列递减
 
 #### 边界条件
 
-无
+k = 0, 由于单个字符没有公共前后缀，从1开始计算
 
 代码如下:
 
 ```python
-class Solution:
-    def calcuateNextArray(self,  s : str) -> List[str]:
+def buildNext(self, text: str) -> list[int]:
+    n = len(text)
+    next_array = [0] * n
+    k = 0
+    for i in range(1, n):
+        while k > 0 and text[i] != text[k]:
+            k = next_array[k - 1]
 
-        res = [0 for i in range(len(s))]
-        k = 0
-        for i in range(1,  len(s)):
-            while (k > 0 and s[i] != s[k]):
-                k = res[k - 1]
+        if text[i] == text[k]:
+            k += 1
 
-            if s[i] == s[k]:
-                k += 1
-
-            res[i] = k
-            
-        return res
+        next_array[i] = k
+    
+    return next_array
 ```
 
 我们的Next数组计算如下
@@ -169,7 +194,7 @@ Pattern = "ABCDABD", 部分匹配表如上述代码结果
 
 ----------- i
 A B C D A B A B C D        # i处 'A' != 'D' 
-A B C D A B D              # 最大公共前后缀AB
+A B C D A B D              # 匹配部分最大公共前后缀AB，dp值=2
 -----------
 
 >>>>> |
@@ -177,50 +202,48 @@ A B C D A B D              # 最大公共前后缀AB
 
 ```
 
-假设在上述匹配中, **Text[i] != Pattern[i]**, 那么划线部分是已经匹配好的, 划线部分="ABCDAB", 对应部分匹配表的值=2
-
-不匹配的时候Pattern需要后移, 根据预先计算好的, Text/Pattern划线部分前后缀**相等**的特性, 依次后移只有前后缀相等的部分才有可能匹配, 此时, 我们可以放心的将Pattern开头，移动到后缀匹配的位置。
+不匹配的时候Pattern需要后移, 只有前后缀相等的部分才有可能匹配, 此时, 我们可以放心的将Pattern开头，移动到后缀匹配的位置。
 
 
 ### 代码实现
 
 ```python
 class Solution:
-    def strStr(self, text: str, pattern: str) -> int:
+    def strStr(self, haystack: str, needle: str) -> int:
+        n, m = len(haystack), len(needle)
         
-        if len(pattern) == 0:
+        if m == 0:
             return 0
         
-        # pattern的计算next数组
-        dp = [0 for _ in range(len(pattern))]
-        
-        k = 0
-        for i in range(1,  len(pattern)):
-            while (k > 0 and pattern[i] != pattern[k]):
-                k = dp[k - 1]
+        next_array = self.buildNext(needle)
+        match_length = 0
 
-            if pattern[i] == pattern[k]:
+        for i in range(n):
+            while match_length > 0 and haystack[i] != needle[match_length]:
+                match_length = next_array[match_length - 1]
+
+            if haystack[i] == needle[match_length]:
+                match_length += 1
+
+            if match_length == m:
+                return i - m + 1
+
+        return -1
+
+    def buildNext(self, text: str) -> list[int]:
+        n = len(text)
+        next_array = [0] * n
+        k = 0
+        for i in range(1, n):
+            while k > 0 and text[i] != text[k]:
+                k = next_array[k - 1]
+
+            if text[i] == text[k]:
                 k += 1
 
-            dp[i] = k
-    
-        i = 0
-        match = 0
-        while i < len(text):
-            if text[i] == pattern[match]:
-                i += 1
-                match += 1
-                
-            if match == len(pattern):
-                return i - match
-            
-            if i < len(text) and text[i] != pattern[match]:
-                if match > 0:
-                    match = dp[match - 1]
-                else:
-                    i += 1
-            
-        return -1
+            next_array[i] = k
+        
+        return next_array
 ```
 
 ### CASE模拟
@@ -232,27 +255,23 @@ ABCDABD
 i
 ```
 
-左对齐，比较后发现match个数等于0，那么不断右移一格(i++)，直到首位相等
+左对齐，比较后发现match个数等于0，那么不断右移一格，直到首位相等
 
 ```python
 BBC ABCDAB ABCDABCDABDE
     ABCDABD
           ^
           i = 10, match=6
-```
 
-逐个判断相等之后，发现D与空格不匹配，**如果是暴力破解，Pattern就只能右移动一格。KMP利用next数组，可以一次移动更多格数**
-
-设置match = dp[match - 1], ```ABCDAB```的末尾字符```B```, 下标index=match - 1, 查表对应的数值是2
-
-```python
 BBC ABCDAB ABCDABCDABDE
         ABCDABD
           ^
           i = 10, match=2
 ```
 
-此时，已经比较了```AB```2个字符，最后一位匹配的是字符```B```, 查表得知对应的数值 = 0, match = 0
+逐个判断相等之后，发现`D`与`空格`不匹配，`dp(ABCDAB) = 2`, 保留2个匹配`AB`已匹配
+
+此时`C`与空格依然不相等，`dp(AB) = 0`, 没有任何匹配，将首字母与空格`对齐`
 
 ```python
 BBC ABCDAB ABCDABCDABDE
@@ -266,7 +285,7 @@ BBC ABCDAB ABCDABCDABDE
            i = 11, match = 0
 ```
 
-重复最开始的match=0的逻辑，i++
+重复最开始的match=0的逻辑，右移一格，首字母匹配
 
 ```python
 BBC ABCDAB ABCDABCDABDE
@@ -280,15 +299,15 @@ BBC ABCDAB ABCDABCDABDE
                  i = 17, match = 2
 ```
 
-重复match > 0的逻辑，i保持不变, 查表得知match = dp[match - 1] = 2
+逐个匹配, 发现最后一个字母`D`与`C`不行，`dp(ABCDAB) = 2`, 保留`AB`已匹配
 
 ```python
 BBC ABCDAB ABCDABCDABDE
                ABCDABD
-                      ^
+                     ^
                  i = 22, match = 7
 ```
 
-逐个匹配, 找到了结果，返回i - match
+找到了结果，返回`i - match + 1`
 
 --End--
