@@ -11,9 +11,17 @@ excerpt: Life is short, I use python
 
 ## 拷贝
 
+```python
+tmp = [1,2,3]
+res = []
+res.append(tmp)
+del tmp[1]
+print(res) # 结果 = [1,3]
+```
+
 拷贝只对于复合数据结构(数组，类)才有所不同, 虽然不同语言处理细节不同, 但简单原则如下:
 
-### 浅拷贝
+### 浅拷贝(assign)
 
 尽可能拷贝的越少越好，无论是否返回​同一个对象，最终的数据源是共享的，一份数据的改变体现在所有的拷贝上
 
@@ -23,7 +31,7 @@ B = A        # C
 # 如果C改变，那么B的状态也会改变
 ```
 
-### 深拷贝(clone)
+### 深拷贝(Constructor)
 
 拷贝所有细节，返回不同的对象，最终的数据源是隔离的，一份数据的改变不会影响其他拷贝
 
@@ -188,12 +196,12 @@ d = defaultdict(lambda: 42) # 默认值42， lambda不常用
 TypeError: unhashable type: 'list'
 ```
 
-### 堆
+### 堆(小)
 
 优先队列通常用堆来实现，python语言是个小堆，最小元素在堆顶, 大堆的实现通常将数字改成负数
 
 ```python
-import heapq
+iimport heapq
 
 # 创建一个空的优先队列
 pq = []
@@ -204,10 +212,146 @@ heapq.heappush(pq, (3, 'task 3'))
 heapq.heappush(pq, (2, 'task 2'))
 
 # 顶部元素
-top = qp[0]
+top = pq[0]
 
 # 获取并删除优先级最高的元素
 print(heapq.heappop(pq))  # (1, 'task 1')
+```
+
+## 循环
+
+### Range循环
+
+序列数据结构(List, Tuple, Range)的一种, 常与For循环一起使用
+
+```python
+# 0 - 9
+val = range(10)
+val = range(0, 10)
+val = range(0, 10, 1)
+
+# [0, 2, 4, 6, 8]
+for num in range(0, 10, 2):
+  print(num)
+
+# [8, 6, 4, 2, 0]
+for num in reversed(range(0, 10, 2)):
+  print(num)
+
+# [8, 6, 4, 2, 0]
+for num in range(8, -1, -2):
+  print(num)
+```
+
+### 列表循环
+
+```python
+l = ['tic', 'tac', 'toe']
+
+for index in range(len(l))
+  print(index, l[index])
+
+for val in l:
+  print(val)
+
+for index, val in enumerate(l):
+  print(index, val)
+```
+
+### 字典循环
+
+```python
+d = {'gallahad': 'the pure', 'robin': 'the brave'}
+
+for key in d:
+  print(key, d[key])
+
+for key, val in d.items():
+  print(key, val)
+```
+
+### zip循环
+
+返回Tuple的迭代器, 第i个元素来自于参数中每一个第i个元素, 长度等于最短的那个参数
+
+```python
+questions = ['name', 'quest', 'favorite color']
+answers = ['lancelot', 'the holy grail', 'blue']
+# zip结果 = [('name', 'lancelot'), ('quest', 'the holy grail'), ('favorite color', 'blue')]
+for q, a in zip(questions, answers):
+  print(q, a)
+```
+
+## 比较与排序
+
+### 多元素排序
+
+默认递增排序，如果第一个元素相等，比较第二个，以此类推
+
+```python
+data = [
+    [1, 4],
+    [1, 2],
+    [5, 6],
+    [4, 7]
+]
+
+# 使用 sorted() 和自定义比较函数进行排序
+# 默认排序是按升序排序，如果两个列表的第一个元素相同，会继续按第二个元素排序
+sorted_data = sorted(data)
+
+# 输出排序后的结果
+for elem in sorted_data:
+    print(f"[{elem[0]}, {elem[1]}]")
+```
+
+### lambda排序
+
+```python
+# 按字符串结尾字符倒排
+words = ["banana", "pie", "Washington", "book"]
+sorted_words = sorted(words, key=lambda x: x[-1], reverse=True)
+print(sorted_words)  # 输出: ['Washington', 'book', 'pie', 'banana']
+```
+
+### 自定义排序
+
+```python
+class Employee:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    def __lt__(self, other):
+        return self.age < other.age
+
+    def __repr__(self):
+        return f'{self.name} ({self.age})'
+
+employees = [Employee("Alice", 30), Employee("Bob", 25), Employee("Charlie", 35)]
+sorted_employees = sorted(employees)
+print(sorted_employees)  # 输出: [Bob (25), Alice (30), Charlie (35)]
+```
+
+### 比较函数(不推荐)
+
+```python
+from functools import cmp_to_key
+
+def compare(x, y):
+    # 返回负数表示 x < y
+    # 返回零表示 x == y
+    # 返回正数表示 x > y
+    if x[1] < y[1]:
+        return -1
+    elif x[1] > y[1]:
+        return 1
+    else:
+        return 0
+
+data = [("John", 30), ("Jane", 25), ("Alice", 35), ("Bob", 25)]
+sorted_data = sorted(data, key=cmp_to_key(compare))
+print(sorted_data)  # 输出: [('Jane', 25), ('Bob', 25), ('John', 30), ('Alice', 35)]
 ```
 
 ## 生成式
@@ -286,70 +430,6 @@ def fib(n):
 if __name__ == '__main__':
     for val in fib(20):
         print(val)
-```
-
-## 循环
-
-### Range循环
-
-序列数据结构(List, Tuple, Range)的一种, 常与For循环一起使用
-
-```python
-# 0 - 9
-val = range(10)
-val = range(0, 10)
-val = range(0, 10, 1)
-
-# [0, 2, 4, 6, 8]
-for num in range(0, 10, 2):
-  print(num)
-
-# [8, 6, 4, 2, 0]
-for num in reversed(range(0, 10, 2)):
-  print(num)
-
-# [8, 6, 4, 2, 0]
-for num in range(8, -1, -2):
-  print(num)
-```
-
-### 列表循环
-
-```python
-l = ['tic', 'tac', 'toe']
-
-for index in range(len(l))
-  print(index, l[index])
-
-for val in l:
-  print(val)
-
-for index, val in enumerate(l):
-  print(index, val)
-```
-
-### 字典循环
-
-```python
-d = {'gallahad': 'the pure', 'robin': 'the brave'}
-
-for key in d:
-  print(key, d[key])
-
-for key, val in d.items():
-  print(key, val)
-```
-
-### zip循环
-
-返回Tuple的迭代器, 第i个元素来自于参数中每一个第i个元素, 长度等于最短的那个参数
-
-```python
-questions = ['name', 'quest', 'favorite color']
-answers = ['lancelot', 'the holy grail', 'blue']
-# zip结果 = [('name', 'lancelot'), ('quest', 'the holy grail'), ('favorite color', 'blue')]
-for q, a in zip(questions, answers):
-  print(q, a)
 ```
 
 ## 参考
