@@ -44,6 +44,7 @@ R = Right(右节点)
 Pre-order: F, B, A, D, C, E, G, I, H.
 
 ### 中序遍历
+
 ![中序遍历]({{site.static}}/images/in-order-search.png)
 
 In-order: A, B, C, D, E, F, G, H, I.
@@ -51,6 +52,7 @@ In-order: A, B, C, D, E, F, G, H, I.
 在二叉搜索树(BST)中，中序遍历返回递增的一个序列
 
 ### 后序遍历
+
 ![后序遍历]({{site.static}}/images/post-order-search.png)
 
 Post-order: A, C, E, D, B, H, I, G, F.

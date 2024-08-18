@@ -15,7 +15,7 @@ excerpt: "拓扑排序"
 
 非递归代码，通过队列**Queue**来完成。考虑到递归的缺点，加上BFS实现简单, BFS一般不用递归来实现
 
-## 层级遍历
+### 层级遍历
 
 ```python
 from collections import deque
@@ -40,7 +40,7 @@ class Solution:
         return res
 ```
 
-## 图的连通性
+### 图的连通性
 
 判断一个图是否是一个树:
 
@@ -77,7 +77,7 @@ class Solution(object):
         return len(visted) == n
 ```
 
-## 最短路径
+### 最短路径
 
 棋盘上，起始从起点到终点的最短路径
 
@@ -108,7 +108,7 @@ class Solution:
         return -1
 ```
 
-## 拓扑排序
+### 拓扑排序
 
 ```sh
 1 ->
