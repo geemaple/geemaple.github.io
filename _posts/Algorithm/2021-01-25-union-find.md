@@ -11,7 +11,7 @@ excerpt: "Big Brother"
 
 ## 并查集
 
-并查集(Disjoint-Set)支持集合快速**合并(Union)**和**查找(Find)**的数据结构
+并查集(Disjoint-Set)支持集合快速**合并(Union)**和**查找(Find)**的数据结构, 并查集是一个多叉树，用父亲表示法表示
 
 以下图为例Google和YouTube都是字母表的子公司, 当Google收购FitBit的时候, 那么FitBit也是Alphabet这个集合中的一员了
 

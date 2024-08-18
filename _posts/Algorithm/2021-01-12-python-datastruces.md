@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "语言 - Python数据结构"
+title: "语言 - Python"
 categories: Algorithm
 tags: Python
 excerpt: Life is short, I use python
@@ -9,36 +9,38 @@ excerpt: Life is short, I use python
 * content
 {:toc}
 
-## 栈
-```python
-# 使用List作为栈
-stack = [3, 4, 5]
+## 拷贝
 
-# 入栈
-stack.append(6)
-# 出栈
-val = stack.pop()
-# 栈定元素
-val = stack[-1]
-```
+拷贝只对于复合数据结构(数组，类)才有所不同, 虽然不同语言处理细节不同, 但简单原则如下:
 
-## 队列
+### 浅拷贝
 
-队列是FIFO, 但是List对于First Out效率不够高。通常用双端队列Deque来实现队列
-
-Deque的特点是，两端添加和删除都是O(1)的时间复杂度
+尽可能拷贝的越少越好，无论是否返回​同一个对象，最终的数据源是共享的，一份数据的改变体现在所有的拷贝上
 
 ```python
-from collections import deque
-queue = deque(["Eric", "John", "Michael"])
-
-# 入队列
-queue.append("Terry")
-# 出队列
-queue.popleft()
+A = [1,2,3]  # C
+B = A        # C 
+# 如果C改变，那么B的状态也会改变
 ```
 
-## 元组
+### 深拷贝(clone)
+
+拷贝所有细节，返回不同的对象，最终的数据源是隔离的，一份数据的改变不会影响其他拷贝
+
+深拷贝有潜在的诸多问题:
+
+1. 拷贝内容过多, 通常解决的方案，是让开发者自己定义如何拷贝。
+2. 循环拷贝, 属于图的遍历范畴，所以记得去重复。
+
+```python
+A = [1,2,3] # C0
+B = list(A) = A[:] = A.copy() # C1
+# 如果C0改变，B的状态C1没有影响
+```
+
+## 数据结构
+
+### 元组
 
 与List非常相似，但是Tuple是不可变的数据结构
 
@@ -98,18 +100,37 @@ timeit.timeit('''t = tuple(i for i in range(10000))''', number = 10000)
 timeit.timeit('''t = *(i for i in range(10000)),''', number = 10000)
 ```
 
-## Range
-
-序列数据结构(List, Tuple, Range)的一种, 常与For循环一起使用
+### 栈
 
 ```python
-# 0 - 9
-val = range(10)
-val = range(0, 10)
-val = range(0, 10, 1)
+# 使用List作为栈
+stack = [3, 4, 5]
+
+# 入栈
+stack.append(6)
+# 出栈
+val = stack.pop()
+# 栈定元素
+val = stack[-1]
 ```
 
-## 集合
+### 队列
+
+队列是FIFO, 但是List对于First Out效率不够高。通常用双端队列Deque来实现队列
+
+Deque的特点是，两端添加和删除都是O(1)的时间复杂度
+
+```python
+from collections import deque
+queue = deque(["Eric", "John", "Michael"])
+
+# 入队列
+queue.append("Terry")
+# 出队列
+queue.popleft()
+```
+
+### 集合
 
 ![图片说明]({{site.static}}/images/python-data-structure-set.png)
 
@@ -133,7 +154,7 @@ subtraction = a - b
 symmetric_difference = a ^ b
 ```
 
-## 字典
+### 字典
 
 字典由(Key: Value)对组成，对于Key的要求是不可变类型(String, Number等)，
 
@@ -150,10 +171,43 @@ d = {x: x**2 for x in (2, 4, 6)}
 d = dict(sape=4139, guido=4127, jack=4098)
 ```
 
+默认字典, 可以提供一个默认值，能够减少代码行数
+
+```python
+from collections import defaultdict
+
+d = defaultdict(int)  # 默认值是 0
+d = defaultdict(list) # 默认值时 []
+d = defaultdict(set)  # 默认值 set()
+d = defaultdict(lambda: 42) # 默认值42， lambda不常用
+```
+
 **但是**如果Tuple内包含可变类型，那么也不能作为Key, 会出现如下错误:
 
 ```python
 TypeError: unhashable type: 'list'
+```
+
+### 堆
+
+优先队列通常用堆来实现，python语言是个小堆，最小元素在堆顶, 大堆的实现通常将数字改成负数
+
+```python
+import heapq
+
+# 创建一个空的优先队列
+pq = []
+
+# 插入元素 (优先级, 数据)
+heapq.heappush(pq, (1, 'task 1'))
+heapq.heappush(pq, (3, 'task 3'))
+heapq.heappush(pq, (2, 'task 2'))
+
+# 顶部元素
+top = qp[0]
+
+# 获取并删除优先级最高的元素
+print(heapq.heappop(pq))  # (1, 'task 1')
 ```
 
 ## 生成式
@@ -171,14 +225,14 @@ for x in range(10):
 squares = [x**2 for x in range(10)]
 ```
 
-**条件语句**
+### 条件语句
 
 ```python
 # [(1, 3), (1, 4), (2, 3), (2, 1), (2, 4), (3, 1), (3, 4)]
 [(x, y) for x in [1,2,3] for y in [3,1,4] if x != y]
 ```
 
-**使用函数**
+### 使用函数
 
 ```python
 # ['3.1', '3.14', '3.142', '3.1416', '3.14159']
@@ -186,7 +240,7 @@ from math import pi
 [str(round(pi, i)) for i in range(1, 6)]
 ```
 
-**生成式嵌套**
+### 生成式嵌套
 
 ```python
 matrix = [
@@ -236,6 +290,29 @@ if __name__ == '__main__':
 
 ## 循环
 
+### Range循环
+
+序列数据结构(List, Tuple, Range)的一种, 常与For循环一起使用
+
+```python
+# 0 - 9
+val = range(10)
+val = range(0, 10)
+val = range(0, 10, 1)
+
+# [0, 2, 4, 6, 8]
+for num in range(0, 10, 2):
+  print(num)
+
+# [8, 6, 4, 2, 0]
+for num in reversed(range(0, 10, 2)):
+  print(num)
+
+# [8, 6, 4, 2, 0]
+for num in range(8, -1, -2):
+  print(num)
+```
+
 ### 列表循环
 
 ```python
@@ -263,19 +340,7 @@ for key, val in d.items():
   print(key, val)
 ```
 
-### reversed
-
-```python
-# [0, 2, 4, 6, 8]
-for num in range(0, 10, 2):
-  print(num)
-
-# [8, 6, 4, 2, 0]
-for num in reversed(range(0, 10, 2)):
-  print(num)
-```
-
-### zip
+### zip循环
 
 返回Tuple的迭代器, 第i个元素来自于参数中每一个第i个元素, 长度等于最短的那个参数
 
