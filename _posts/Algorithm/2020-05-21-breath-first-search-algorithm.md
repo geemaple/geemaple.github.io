@@ -15,7 +15,98 @@ excerpt: "拓扑排序"
 
 非递归代码，通过队列**Queue**来完成。考虑到递归的缺点，加上BFS实现简单, BFS一般不用递归来实现
 
-BFS适用于：层级遍历，图是否连通，拓扑排序，(同权重)最短路径
+## 层级遍历
+
+```python
+from collections import deque
+class Solution:
+    def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+        if root is None:
+            return []
+
+        res = []
+        q = deque([root])
+        while len(q) > 0:
+            size = len(q) # 这个大小单独保存额外重要
+            level = []
+            for i in range(size):
+                node = q.popleft()
+                level.append(node.val)
+                if node.left:
+                    q.append(node.left)
+                if node.right:
+                    q.append(node.right)
+            res.append(level)
+        return res
+```
+
+## 图的连通性
+
+判断一个图是否是一个树:
+
+1. n个点，n-1条边
+2. 图连通
+
+```python
+class Solution(object):
+    def validTree(self, n, edges):
+        """
+        :type n: int
+        :type edges: List[List[int]]
+        :rtype: bool
+        """
+        if n != 1 + len(edges):
+            return False
+        
+        graph = {i : [] for i in range(n)}
+        for i in range(len(edges)):
+            graph[edges[i][0]].append(edges[i][1])
+            graph[edges[i][1]].append(edges[i][0])
+            
+        visted = set()
+        queue = [0]
+        
+        while len(queue) > 0:
+            tmp = queue.pop(0)
+            visted.add(tmp)
+            
+            for neighbor in graph[tmp]:
+                if neighbor not in visted:
+                    queue.append(neighbor)
+                    
+        return len(visted) == n
+```
+
+## 最短路径
+
+棋盘上，起始从起点到终点的最短路径
+
+```python
+class Solution:
+    def shortestPath(self, grid, source, destination) ->int:
+        directions = [[1, 2], [1, -2], [-1, 2], [-1, -2], [2, 1], [2, -1], [-2, 1], [-2, -1]]
+        q = [(source.x, source.y)]
+        steps = 0
+        grid[source.x][source.y] = True
+
+        while len(q) > 0:
+            size = len(q)
+            for i in range(size):
+                x, y = q.pop(0)
+                if x == destination.x and y == destination.y:
+                    return steps
+
+                for i in range(8):
+                    new_x = x + directions[i][0]
+                    new_y = y + directions[i][1]
+                    if 0 <= new_x < len(grid) and 0 <= new_y < len(grid[x]) and not grid[new_x][new_y]:
+                        grid[new_x][new_y] = True
+                        q.append((new_x, new_y))
+
+            steps += 1
+
+        return -1
+```
 
 ## 拓扑排序
 
@@ -36,11 +127,6 @@ BFS适用于：层级遍历，图是否连通，拓扑排序，(同权重)最短
 ### 课程排序
 
 ```python
-# https://leetcode.com/problems/course-schedule-ii/
-# 现在你总共有 n 门课需要选，记为 0 到 n-1。
-# 在选修某些课程之前需要一些先修课程。 例如，想要学习课程 0 ，你需要先完成课程 1 ，我们用一个匹配来表示他们: [0,1]
-# 给定课程总量以及它们的先决条件，返回你为了学完所有课程所安排的学习顺序。
-# 可能会有多个正确的顺序，你只要返回一种就可以了。如果不可能完成所有课程，返回一个空数组。
 from collections import defaultdict, deque
 class Solution:
     def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
