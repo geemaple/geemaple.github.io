@@ -2,7 +2,7 @@
 layout: post
 title: "算法 - 最小生成树MST"
 categories: Algorithm
-tags: MST
+tags: Greedy MST
 excerpt: 走的人多了，也会成为路
 ---
 
