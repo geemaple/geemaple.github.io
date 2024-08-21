@@ -63,9 +63,46 @@ for i in range(len(y)):
 
 **拓扑排序**
 
-这里提一下，如果谷歌"Topological Sort", 靠前面的答案，给的都是DFS解决。
+DFS主要判断拓扑排序有没有环路出现，正常构造图，结果需要反向；亦或逆向构造图，直接返回结果
 
-但从实现上，推荐更简单的宽度优先搜索算法BFS
+个人推荐更简单的宽度优先搜索算法BFS
+
+```python
+class Solution:
+    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+        graph = defaultdict(list)
+        for x in prerequisites:
+            graph[x[1]].append(x[0])
+        
+        visited = {}  # 访问状态
+        path = set()  # 路径状态，用于检测环
+        res = []  # 存储拓扑排序结果
+        
+        for course in range(numCourses):
+            if course not in visited:
+                if not self.dfs(course, graph, visited, path, res):  # 如果存在环，返回空列表
+                    return []
+        
+        return res[::-1]  # 反转结果，返回正确的拓扑排序
+
+    def dfs(self, course: int, graph: defaultdict(list), visited: list, path: list, res: list) -> bool:
+        if course in path:  # 检测到环
+            return False
+        if course in visited:  # 如果已经访问过，直接返回
+            return True
+        
+        # 标记路径与回溯
+        path.add(course)
+        for neighbor in graph[course]:  # 遍历所有邻接节点
+            if not self.dfs(neighbor, graph, visited, path, res):  # 如果DFS返回False，说明存在环
+                return False
+        path.remove(course)
+
+        # 当前节点处理完后，加入结果并标记为已访问
+        visited[course] = True
+        res.append(course)
+        return True
+```
 
 ## 暴力破解
 
