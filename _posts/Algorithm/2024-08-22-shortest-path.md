@@ -117,18 +117,18 @@ class Solution:
         for x, y, p in flights:
             graph[x][y] = p
 
-        heap = [(0, src, k + 1)]
+        heap = [(0, src, 0)]
         while len(heap) > 0:
             cost, cur, stop = heapq.heappop(heap)
     
             if cur == dst:
                 return cost
 
-            if stop == 0:
+            if stop == k + 1:
                 continue
             
             for node, node_cost in graph[cur].items(): # 主要的时间成本都在堆上，减少堆里面的数据量
-                heapq.heappush(heap, (node_cost + cost, node, stop - 1))
+                heapq.heappush(heap, (node_cost + cost, node, stop + 1))
 
         return -1
 

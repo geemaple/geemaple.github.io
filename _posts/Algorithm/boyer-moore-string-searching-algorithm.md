@@ -9,6 +9,4 @@ excerpt: ""
 * content
 {:toc}
 
-//TBD
-
 --End--
