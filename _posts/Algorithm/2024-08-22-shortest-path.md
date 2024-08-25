@@ -88,6 +88,75 @@ class Solution:
                     heapq.heappush(heap, (time + delay, node))
 
         return res if len(visited) == n else -1
+
+class Solution:
+    def networkDelayTime(self, times: List[List[int]], n: int, k: int) -> int:
+        graph = defaultdict(dict)
+        for u, v, w in times:
+            graph[u][v] = w
+
+        heap = [(0, k)]
+        cost = {k: 0}
+        while len(heap) > 0:
+            delay, cur = heapq.heappop(heap)
+
+            for node, time in graph[cur].items():
+                if node not in cost or cost[node] > time + delay:
+                    cost[node] = time+ delay
+                    heapq.heappush(heap, (time + delay, node))
+
+        return max(cost.values()) if len(cost) == n else -1
+```
+
+```python
+from collections import defaultdict
+import heapq
+class Solution:
+    def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, k: int) -> int:
+        graph = defaultdict(dict)
+        for x, y, p in flights:
+            graph[x][y] = p
+
+        heap = [(0, src, k + 1)]
+        while len(heap) > 0:
+            cost, cur, stop = heapq.heappop(heap)
+    
+            if cur == dst:
+                return cost
+
+            if stop == 0:
+                continue
+            
+            for node, node_cost in graph[cur].items(): # 主要的时间成本都在堆上，减少堆里面的数据量
+                heapq.heappush(heap, (node_cost + cost, node, stop - 1))
+
+        return -1
+
+class Solution:
+    def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, k: int) -> int:
+        graph = defaultdict(dict)
+        for x, y, p in flights:
+            graph[x][y] = p
+
+        cost_map = {}
+        stop_map = {}
+        heap = [(0, src, 0)]
+        while len(heap) > 0:
+            cost, cur, stop = heapq.heappop(heap)
+    
+            if cur == dst:
+                return cost
+
+            if stop == k + 1:
+                continue
+
+            for node, node_cost in graph[cur].items():
+                if node not in cost_map or cost + node_cost < cost_map[node] or stop + 1 < stop_map[node]:
+                    cost_map[node] = cost + node_cost
+                    stop_map[node] = stop + 1
+                    heapq.heappush(heap, (node_cost + cost, node, stop + 1))
+
+        return -1
 ```
 
 ### Bellman-Ford算法
@@ -112,6 +181,21 @@ class Solution:
 
         res = max(delay[1:]) # 第0个没用，忽略掉
         return res if res < float('inf') else -1
+```
+
+```python
+class Solution:
+    def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, k: int) -> int:
+        cost = [float('inf') for i in range(n)]
+        cost[src] = 0
+        for i in range(k + 1):
+            tmp = list(cost)
+            for u, v, w in flights:
+                if cost[u] < float('inf') and cost[u] + w < tmp[v]:
+                    tmp[v] = cost[u] + w
+            cost = tmp
+                
+        return cost[dst] if cost[dst] < float('inf') else -1
 ```
 
 ### Floyd-Warshall算法
