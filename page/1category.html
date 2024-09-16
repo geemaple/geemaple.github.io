@@ -14,11 +14,7 @@ type: page
             {% for category in site.categories %}
                 {% assign name = category | first %}
                 {% assign post = site.categories[name] | first %}
-                {% if post.index > 0 %}
-                    {% assign sortedPosts = site.categories[name] | sort: "index" | reverse %}
-                {% else %}
-                    {% assign sortedPosts = site.categories[name] | sort: "title" | reverse %}
-                {% endif %}
+                {% assign sortedPosts = site.categories[name] | sort: "title" | reverse %}
                 <h2 id="{{category | first}}">{{name}}</h2>
                 {% for post in sortedPosts  %}
                     {% if post.url %}

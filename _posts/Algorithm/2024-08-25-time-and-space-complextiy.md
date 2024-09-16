@@ -46,13 +46,13 @@ excerpt: 复杂度分析
     <path d="M50 0 L 50 450 L 800 450" fill="transparent" stroke="black" stroke-width="2"></path>
 
     <path d="M50 448 L 800 448" fill="transparent" stroke="black" stroke-width="2"></path>
-    <text x="240" y="470" fill="black">O(logN), O(1)</text>
+    <text x="365" y="445" fill="black">O(logN), O(1)</text>
 
     <path d="M50 450 L 800 400" fill="transparent" stroke="black" stroke-width="2"></path>
-    <text x="365" y="445" fill="black">O(N)</text>
+    <text x="400" y="415" fill="black">O(N)</text>
 
     <path d="M50 450 Q 400 350, 800 150" fill="transparent" stroke="black" stroke-width="2"></path>
-    <text x="385" y="350" fill="black">O(NlogN)</text>
+    <text x="385" y="300" fill="black">O(NlogN)</text>
 
     <path d="M50 450 Q 180 380, 250 0" fill="transparent" stroke="black" stroke-width="2"></path>
     <text x="230" y="150" fill="black">O(N^2)</text>
@@ -63,7 +63,9 @@ excerpt: 复杂度分析
     <path d="M50 450 C 80 450, 80 350, 80 0" fill="transparent" stroke="black" stroke-width="2"></path>
     <text x="80" y="40" fill="black">O(N!)</text>
 
-   
+    <text x="0" y="0" transform="translate(420 470)" style="dominant-baseline: middle; text-anchor: middle; font-size:20px; color: #555; font-style: italic;" fill="black">Number of items in Collections</text>
+    <text x="0" y="0" transform="translate(30 230) rotate(-90)" style="dominant-baseline: middle; text-anchor: middle; font-size:20px; color: #555; font-size:20px; color: #555; font-style: italic;" fill="black">Number of Operations for given Big-O Notiation</text>
+
     </svg>
 </div>
 </center>
@@ -108,6 +110,88 @@ excerpt: 复杂度分析
 | [Counting Sort](https://en.wikipedia.org/wiki/Counting_sort)              | <code style="background-color:#53D000">Ω(n+k)</code> | <code style="background-color:#53D000">Θ(n+k)</code> | <code style="background-color:#53D000">O(n+k)</code> | <code style="background-color:#FFFF00">O(k)</code> |
 | [Cubesort](https://en.wikipedia.org/wiki/Cubesort)                        | <code style="background-color:#FFFF00">Ω(N)</code> | <code style="background-color:#FFC543">Θ(NlogN)</code> | <code style="background-color:#FFC543">O(NlogN)</code> | <code style="background-color:#FFFF00">O(N)</code> |
 
+## 复杂度分析
+
+### O(1)
+
+```python
+n = 100
+total = (n + 1) * n // 2
+```
+
+### O(N)
+
+通常和`for`循环有关
+
+```python
+n = 100
+total = 0
+for i in range(n):
+    total += n
+```
+
+### O(N^2)
+
+双重循环，而且第二重j每次更新到`n-1`, 有回头操作(即又0开始)
+
+```python
+for i in range(n):
+    for j in range(n):
+        print(i, j)
+```
+
+### O(logN)
+
+二分查找，或者和平衡二叉树相关的，因为树的高度就是logN
+
+```python
+def binary_search(arr, target):
+    left, right = 0, len(arr) - 1
+    
+    while left <= right:
+        mid = left + (right - left) // 2
+        
+        if arr[mid] == target:
+            return mid
+        elif arr[mid] < target:
+            left = mid + 1
+        else:
+            right = mid - 1
+    
+    return -1  # Target not found
+```
+
+### O(k^N)
+
+常见于暴力搜索
+
+```python
+def fibonacci(n):
+    if n <= 1:
+        return n
+    else:
+        return fibonacci(n - 1) + fibonacci(n - 2)
+```
+
+### O(N!)
+
+暴力搜索中，以及全排列问题
+
+```python
+def permute(nums):
+    result = []
+    backtrack(nums, 0, result)  # 调用外部的 backtrack 函数
+    return result
+
+def backtrack(nums, start, result):
+    if start == len(nums):
+        result.append(list(nums))
+        return
+    for i in range(start, len(nums)):
+        nums[start], nums[i] = nums[i], nums[start]  # 交换
+        backtrack(nums, start + 1, result)  # 递归生成后续排列
+        nums[start], nums[i] = nums[i], nums[start]  # 还原交换
+```
 
 -- END --
 

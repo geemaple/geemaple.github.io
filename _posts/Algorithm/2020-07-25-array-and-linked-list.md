@@ -131,7 +131,7 @@ char[] str = s.toCharArray();
 
 ```python
 --------   --------   --------   ---------
-| 1 | x--->| 2 | x--->| 3 | x--->| 4 | x--> Null
+| 1 | x--->| 2 | x--->| 3 | x--->| 4 | x--> None
 --------   --------   --------   ---------
 ```
 
@@ -140,30 +140,50 @@ char[] str = s.toCharArray();
 ### 双向链表
 
 ```python
----------   -----------    -----------    -----------
-|   | x------> |   | x------> |   | x------> |   | x------> Null
-| 1 | <------x | 2 | <------x | 3 | <------x | 4 |
----------   -----------    -----------    -----------
+            ----------    ----------     ----------     ----------
+              |   | x------> |   | x------> |   | x------> |   | x------> None
+None <------p | 1 | <------p | 2 | <------p | 3 | <------p | 4 |
+            ----------    ----------     ----------     ----------
 ```
 
 双端队列(Deque)算是阉割版本的双向链表，只能从两头添加删除
 
 经典缓存LRU使用的便是双链表+哈希，如果有新访问的便将数据节点放在链表头部
 
-### 头节点
+### 哨兵头节点
 
 对于链表来说，头节点最特殊，没有前继节点。通常需要特殊处理。
 
 如果给链表头加一个新头节点，那么就消除了特殊Case的情况，生活变得简单不少。
 
 ```python
-1 -> 2 -> 3 -> 4 -> Null
+1 -> 2 -> 3 -> 4 -> None
 ^
 head
 
-new_head -> 1 -> 2 -> 3 -> 4 -> Null
+new_head -> 1 -> 2 -> 3 -> 4 -> None
 
 head = new_head.next
+```
+
+### 哨兵尾节点
+
+同理，对于双链表来讲，再加一个尾节点，会减少空的判断
+
+```python
+class CacheNode:
+    def __init__(self, key, val):
+        self.key = key
+        self.val = val
+        self.pre = None
+        self.next = None
+
+class DoubleLinkedList:
+    def __init__(self):
+        self.head = CacheNode(key=None, val=None)
+        self.tail = CacheNode(key=None, val=None)
+        self.head.next = self.tail
+        self.tail.pre = self.head
 ```
 
 ## 双指针
@@ -190,4 +210,3 @@ head = new_head.next
 > Linked-list劈成两半，记得将中间节点node->next = null
 
 --End--
-
