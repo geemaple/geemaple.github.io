@@ -103,6 +103,8 @@ F(0) = 0, F(1) = 1
 
 ## 空间优化
 
+### 取模压缩
+
 状态数组的好处是，有空间压缩的可能
 
 由于动态规划计算都是有一定方向的，那么对于前面的dp数组保存的值，可能就用不上了，可以空间压缩
@@ -123,7 +125,7 @@ class Solution:
         return dp[N % 2]
 ```
 
-少数可以只用几个变量
+### 替换压缩
 
 ```python
 class Solution:
@@ -136,6 +138,85 @@ class Solution:
             pre, cur = cur, pre + cur
             
         return cur
+```
+
+### 维度考虑
+
+当我们考虑空间优化时，DP矩阵行列的布局就变得尤为重要。通常情况下，在填充DP矩阵时，我们可以利用前一行的结果来更新当前行。
+
+然而，如果我们将 DP矩阵的行列互换，在访问时可能会导致需要保留更多的状态信息，特别是在我们需要同时访问当前行和前一行数据的情况下。 由于题目的多样性，这种行列互换，可能并不是有意为之的。
+
+```python
+class Solution:
+    def back_pack_v(self, nums: List[int], target: int) -> int:
+        # 无法压缩空间
+        n = len(nums)
+        dp = [[0] * (n + 1) for i in range(target + 1)]
+        
+        for i in range(n + 1):
+            dp[0][i] = 1
+
+        for i in range(1, target + 1):
+            for j in range(1, n + 1):
+                weight = nums[j - 1]
+                dp[i][j] = dp[i][j - 1]
+                if i >= weight:
+                    dp[i][j] += dp[i - weight][j - 1]
+
+        return dp[target][n]
+
+class Solution:
+    def back_pack_v(self, nums: List[int], target: int) -> int:
+        n = len(nums)
+        dp = [[0] * (target + 1) for i in range(n + 1)]
+        
+        for i in range(n + 1):
+            dp[i][0] = 1
+
+        for i in range(1, n + 1):
+            for j in range(1, target + 1):
+                weight = nums[i - 1]
+                dp[i][j] = dp[i - 1][j]
+                if j >= weight:
+                    dp[i][j] += dp[i - 1][j - weight]
+
+        return dp[n][target]
+
+class Solution:
+    def back_pack_v(self, nums: List[int], target: int) -> int:
+        n = len(nums)
+        dp = [0] * (target + 1)
+        dp[0] = 1
+
+        for i in range(1, n + 1):
+            for j in range(target, 0, -1):
+                weight = nums[i - 1]
+                if j >= weight:
+                    dp[j] += dp[j - weight]
+
+        return dp[target]
+```
+
+### 逆序依赖
+
+逆序依赖，除了可以像上面倒着遍历，还可以使用临时变量
+
+```python
+class Solution:
+    def back_pack_v(self, nums: List[int], target: int) -> int:
+        n = len(nums)
+        dp = [0] * (target + 1)
+        dp[0] = 1
+
+        for i in range(1, n + 1):
+            tmp = list(dp)
+            for j in range(1, target + 1):
+                weight = nums[i - 1]
+                if j >= weight:
+                    tmp[j] = dp[j] + dp[j - weight]
+
+            dp = tmp
+        return dp[target]
 ```
 
 ## 背包问题
