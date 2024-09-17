@@ -217,7 +217,7 @@ class Solution:
         return dp[target]
 ```
 
-### 其他方向
+### 45度方向
 
 ```py
  i \ j | a        | b        | c        | d        |
@@ -233,7 +233,7 @@ class Solution:
 
 区间型动态规划，是从小的区间计算到大的区间，题目初始化为长度**1**， 也就是对角线。
 
-从斜边往右上↗️, 区间长度一次递增
+从斜边往右上↗️, 区间长度一次递增， 这里思考沿着45度方向思考
 
 ```py
 class Solution:
@@ -261,7 +261,7 @@ class Solution:
 class Solution:
     def longestPalindromeSubseq(self, s: str) -> int:
         n = len(s)
-        pre = [1] * n # 对角线，但个字符1
+        pre = [1] * n # 对角线，单个字符1
         cur = [1] * n # 两个字符默认值 = 单个字符，同样1
 
         for i in range(n - 1):
@@ -284,39 +284,62 @@ class Solution:
         return cur[n - 1]
 ```
 
-另一种，如果从下往上，从左往右遍历, 每次更新一行
+把原二维dp，反转一下，这里优化要水平横着思考
 
 ```py
-  i \ j | a        | b        | c        | d        |
-
-^   a   | 1                                         |
-^
-^   b   |          | 1                ⬅️   🔴        |
-^                                      ↙️   ⬇️
-^   c   |                     | 1                   |
-^
-^   d   |                                | 1        |
-方向 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+   i \ j | a        | b        | c        | d        |
+---------|----------|----------|----------|----------|
+   a     | 1        |          |          |          |
+---------|----------|----------|----------|----------|
+   b     | dp[0][1] | 1        |          |          |
+---------|----------|----------|----------|----------|
+   c     | dp[0][2] | dp[1][2] | 1        |          |
+---------|----------|----------|----------|----------|
+   d     | dp[0][3] | dp[1][3] | dp[2][3] | 1        |
 ```
 
 ```py
+
+class Solution:
+    def longestPalindromeSubseq(self, s: str) -> int:
+        n = len(s)
+        dp = [[0] * n for i in range(n)]
+
+        for i in range(n):
+            dp[i][i] = 1
+
+        for i in range(n - 1):
+            dp[i + 1][i] = 2 if s[i] == s[i + 1] else 1
+
+        for l in range(3, n + 1):
+            for j in range(l - 1, n):
+                i = j - l + 1
+                
+                if s[i] == s[j]:
+                    dp[j][i] = dp[j - 1][i + 1] + 2
+                else:
+                    dp[j][i] = max(dp[j - 1][i], dp[j][i + 1])
+   
+        return dp[n - 1][0]
+
 class Solution:
     def longestPalindromeSubseq(self, s: str) -> int:
         n = len(s)
         dp = [0] * n
-        
-        for i in range(n-1, -1, -1):
-            dp[i] = 1  # 单个字符的回文子序列长度为1
-            prev = 0   # 用来保存 dp[i+1][j-1]
-            for j in range(i+1, n):
+  
+        for i in range(n):
+            dp[i] = 1 # 斜边单个字符初始化1
+            prev = 0   # 用来保存 dp[j - 1][i + 1], 初始化为空字符0
+            for j in range(i - 1, -1, -1):
                 temp = dp[j]
                 if s[i] == s[j]:
                     dp[j] = prev + 2
                 else:
-                    dp[j] = max(dp[j], dp[j-1])
-                prev = temp  # 更新 prev 为下次循环的 dp[i+1][j-1]
+                    dp[j] = max(dp[j], dp[j + 1])
+                # 更新 prev 为下次循环的 dp[j - 1][i + 1]，每一次内循环后: 区间长度+1, 也就是斜边深度+1
+                prev = temp  
         
-        return dp[n-1]
+        return dp[0]
 ```
 
 ## 背包问题
@@ -422,13 +445,17 @@ class Solution:
 
 `dp[i][j] = k`为A字符串前i个与B字符串前j个相匹配的时候的k值
 
-### 条件划分
+### 划分类型
 
 1. 划分行，最后一步是满足条件的一段, 而不是最后一个坐标, 比如最后一步是回文串
 2. 划分次数 = 划分结果个数 - 1
 
-### 博弈性
+### 博弈类型
 
 1. 从每个人视角看他都是先手, 某一步A想尽所有办法，从B的视角看全必赢，那么此次结果A为必输
+
+### 区间类型
+
+1. 区间类型由长度l, 从小到大递归方向，也就是二维矩阵45度方向
 
 --End--
