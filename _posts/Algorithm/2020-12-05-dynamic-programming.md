@@ -98,8 +98,7 @@ F(0) = 0, F(1) = 1
 
 **计算方向：**
 
-推倒方向，从0到N
-
+推导方向，从0到N
 
 ## 空间优化
 
@@ -107,7 +106,7 @@ F(0) = 0, F(1) = 1
 
 ### 一维压缩
 
-由于动态规划计算都是有一定方向的，如果依赖是水平方向，可以使用空间压缩
+由于动态规划计算都是有一定方向的，可以使用空间压缩
 
 ```python
 class Solution:
@@ -282,6 +281,31 @@ class Solution:
             pre, cur = cur, tmp
 
         return cur[n - 1]
+
+# 同样，根据逆序依赖， 如果i逆序，可以不使用新的tmp数组
+class Solution:
+    def longestPalindromeSubseq(self, s: str) -> int:
+        n = len(s)
+        pre = [1] * n # 对角线，单个字符1
+        cur = [1] * n # 两个字符默认值 = 单个字符，同样1
+
+        for i in range(n - 1):
+            if s[i] == s[i + 1]:
+                cur[i + 1] = 2
+
+        # 直接在pre上更新, 然后pre，cur互换一下
+        for length in range(3, n + 1): 
+            tmp = pre
+            for i in range(n - length, -1, -1):
+                j = i + length - 1
+                if s[i] == s[j]:
+                    tmp[j] = pre[j - 1] + 2
+                else:
+                    tmp[j] = max(cur[j - 1], cur[j])
+
+            pre, cur = cur, pre
+
+        return cur[n - 1]
 ```
 
 把原二维dp，反转一下，这里优化要水平横着思考
@@ -447,7 +471,7 @@ class Solution:
 
 ### 划分类型
 
-1. 划分行，最后一步是满足条件的一段, 而不是最后一个坐标, 比如最后一步是回文串
+1. 划分行，最后一步是满足条件的一段(不一定是最后一个坐标), 比如最后一步是回文串
 2. 划分次数 = 划分结果个数 - 1
 
 ### 博弈类型
@@ -456,6 +480,6 @@ class Solution:
 
 ### 区间类型
 
-1. 区间类型由长度l, 从小到大递归方向，也就是二维矩阵45度方向
+1. 区间类型由长度`length`从小到大递归方向，也就是二维矩阵45度方向
 
 --End--
