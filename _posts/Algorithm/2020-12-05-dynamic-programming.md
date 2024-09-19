@@ -194,11 +194,75 @@ class Solution:
 
 ### 逆序依赖
 
-逆序依赖，除了可以像上面倒着遍历，还可以使用临时变量
+空间压缩时，只需要判断前两个维度的依赖关系, 压缩维度和次维度
 
-正常遍历隐含着向左，向上依赖
+正序遍历隐含着向左，向上依赖, 也就是双垂直90度
+
+1. 上下垂直的依赖⬆️：压缩时自然继承
+2. 水平左右依赖⬅️➡️：新值依赖当前行新值，要顺着箭头方向遍历
+3. 倾斜角度依赖↖️↗️: 新值依赖次行旧值，要避让箭头的方向
 
 ```python
+class Solution:
+    def findMaxForm(self, strs: List[str], m: int, n: int) -> int:
+
+        k = len(strs)
+        
+        dp = [[[0 for _ in range(n + 1)] for _ in range(m + 1)] for _ in range(k + 1)]
+
+        for i in range(1, k + 1):
+            num = strs[i - 1]
+            zeros = num.count('0')
+            ones = len(num) - zeros
+
+            for z in range(m + 1):
+                for o in range(n + 1):
+                    if zeros <= z and ones <= o:
+                        dp[i][z][o] = max(dp[i - 1][z][o], dp[i - 1][z - zeros][o -ones] + 1) # max右边，↖️依赖，要避让箭头方向遍历
+                    else:
+                        dp[i][z][o] = dp[i - 1][z][o] # 垂直依赖，自然继承
+
+        return dp[k][m][n]
+
+class Solution:
+    def findMaxForm(self, strs: List[str], m: int, n: int) -> int:
+
+        k = len(strs)
+        
+        dp = [[0 for j in range(n + 1)] for i in range(m + 1)]
+
+        for i in range(1, k + 1):
+            num = strs[i - 1]
+            zeros = num.count('0')
+            ones = len(num) - zeros
+
+            for z in range(m, zeros - 1, -1):
+                for o in range(n, ones - 1, -1):
+                    dp[z][o] = max(dp[z][o], dp[z - zeros][o - ones] + 1)
+
+        return dp[m][n]
+```
+
+逆序依赖，除了可以像上面倒着遍历，还可以使用临时变量，因为不再有覆盖问题，所以正序逆序都可以。
+
+```python
+class Solution:
+    def back_pack_v(self, nums: List[int], target: int) -> int:
+        n = len(nums)
+        dp = [[0] * (target + 1) for i in range(n + 1)]
+        
+        for i in range(n + 1):
+            dp[i][0] = 1
+
+        for i in range(1, n + 1):
+            for j in range(1, target + 1):
+                weight = nums[i - 1]
+                dp[i][j] = dp[i - 1][j]
+                if j >= weight:
+                    dp[i][j] += dp[i - 1][j - weight]
+
+        return dp[n][target]
+
 class Solution:
     def back_pack_v(self, nums: List[int], target: int) -> int:
         n = len(nums)
