@@ -42,6 +42,17 @@ typedef id _Nullable (*IMP)(id _Nonnull, SEL _Nonnull, ...);
 #endif
 ```
 
+
+测试代码如下，`objc_msgSend`参数和返回值只是占位用的，实际要转成对应的方法具体类型
+
+```objc
+- (void)testMsgSend {
+    Human *instance = [[Human alloc] init];
+    NSString *result = ((NSString *(*)(id, SEL, NSString *))objc_msgSend)(instance, @selector(say:), @"Hello");
+    XCTAssertTrue([result isEqualToString:@"Hello"]);
+}
+```
+
 ### 动态添加
 
 ```objc
@@ -224,13 +235,13 @@ void method_invoke(void /* id receiver, Method m, ... */ )
     
     uint64_t start = mach_absolute_time();
     
-    NSString * result1 = ((NSString*(*)(id, Method, NSString*))method_invoke)(instance, method, @"Hello");
+    NSString * result = ((NSString*(*)(id, Method, NSString*))method_invoke)(instance, method, @"Hello");
     NSLog(@"invoke = %llul", mach_absolute_time() - start);
-    XCTAssertTrue([result1 isEqualToString:@"Hello"]);
+    XCTAssertTrue([result isEqualToString:@"Hello"]);
     
     [self measureBlock:^{
         for (int i = 0; i < self.times; i++) {
-            NSString *result2 __attribute__((unused)) = ((NSString*(*)(id, Method, NSString*))method_invoke)(instance, method, @"Hello");
+            NSString *result __attribute__((unused)) = ((NSString*(*)(id, Method, NSString*))method_invoke)(instance, method, @"Hello");
         }
     }];
 }
@@ -244,15 +255,15 @@ void method_invoke(void /* id receiver, Method m, ... */ )
     
     NSString *(*function)(id, SEL, NSString *) = (NSString *(*)(id, SEL, NSString *))method_getImplementation(method);
     SEL selecor = method_getName(method);
-    NSString * result2 = function(instance, selecor, @"Hello");
+    NSString * result = function(instance, selecor, @"Hello");
     NSLog(@"iml&sel = %llul", mach_absolute_time() - start);
     
-    XCTAssertTrue([result2 isEqualToString:@"Hello"]);
+    XCTAssertTrue([result isEqualToString:@"Hello"]);
     [self measureBlock:^{
         for (int i = 0; i < self.times; i++) {
             NSString *(*function)(id, SEL, NSString *) = (NSString *(*)(id, SEL, NSString *))method_getImplementation(method);
             SEL selecor = method_getName(method);
-            NSString *result2 __attribute__((unused)) = function(instance, selecor, @"Hello");
+            NSString *result __attribute__((unused)) = function(instance, selecor, @"Hello");
         }
     }];
 }
