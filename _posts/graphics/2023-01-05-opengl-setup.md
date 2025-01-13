@@ -77,6 +77,8 @@ make install
 
 ## [GLAD](https://github.com/Dav1dde/glad)
 
+GLAD 是一个简化 OpenGL 使用的工具，它帮助开发者自动加载和管理 OpenGL 的众多扩展和新版本功能，从而避免手动处理函数指针、跨平台兼容等复杂配置，让 OpenGL 开发更高效。
+
 ```
 浏览器访问: https://glad.dav1d.de/
 C++

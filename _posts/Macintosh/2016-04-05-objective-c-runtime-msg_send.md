@@ -11,182 +11,173 @@ excerpt: Objective-C消息分发，拦截与转发机制。
 
 ## 介绍
 
-> 这是之前[《死磕Objective-C runtime运行》](https://segmentfault.com/a/1190000007446208)的重写。还是延续问答的方式，日期复用当时的日期，并加入测试代码
+本文介绍[objc](https://github.com/apple-oss-distributions/objc4)公开接口message.h中的所有API, 涉及测试代码在[这里](https://github.com/geemaple/learning/tree/main/learn_objc/unit_test/objc_msgSend)
 
-本文涉及测试代码在[这里](https://github.com/geemaple/geemaple.github.io/blob/master/_code/iOS/ObjcWarmUps/ObjcWarmUps/MessagingWarmUps.m)
+## 消息发送
 
-## 问题1: 说一说objc_msgSend方法
+### msgSend
 
-**Message**: 消息, 即`objc_msgSend`和`objc_msgSendSuper`
-
-> These functions must be cast to an appropriate function pointer type before being called
-
-> Sends a message with a simple return value to an instance of a class.
-When it encounters a method call, the compiler generates a call to one of the functions objc_msgSend, objc_msgSend_stret, objc_msgSendSuper, or objc_msgSendSuper_stret. Messages sent to an object’s superclass (using the super keyword) are sent using objc_msgSendSuper; other messages are sent using objc_msgSend. Methods that have data structures as return values are sent using objc_msgSendSuper_stret and objc_msgSend_stret.
-
-这里复用上一遍文章[代码](https://github.com/geemaple/geemaple.github.io/blob/master/_code/iOS/ClassObject/ClassObject/main.m)
-
-其中主要摘抄如下：
-```objc
-- (instancetype)init{
-    if(self = [super init]){
-        //因为PrisonCat没有覆盖class方法，所以调用self和super结果是一样的，如果把下面class注释去掉，cls = super_cls就不一样了
-        Class cls = [self class];
-        Class super_cls = [super class];
-        printf("place holder");
-    }
-    return self;
-}
-
-//- (Class)class{
-//    return objc_getClass("NSObject");
-//}
-```
-
-Clang重写之后：
+1. 汇编实现, 不同CPU架构有对应版本。该组函数拥有不同返回类型，这么多应该是为了优化。
 
 ```cpp
-static instancetype _I_PrisonCat_init(PrisonCat * self, SEL _cmd) {
-    if(self = ((PrisonCat *(*)(__rw_objc_super *, SEL))(void *)objc_msgSendSuper)((__rw_objc_super){(id)self, (id)class_getSuperclass(objc_getClass("PrisonCat"))}, sel_registerName("init"))){
-        Class cls = ((Class (*)(id, SEL))(void *)objc_msgSend)((id)self, sel_registerName("class"));
-        Class super_cls = ((Class (*)(__rw_objc_super *, SEL))(void *)objc_msgSendSuper)((__rw_objc_super){(id)self, (id)class_getSuperclass(objc_getClass("PrisonCat"))}, sel_registerName("class"));
-        printf("place holder");
-    }
-    return self;
-}
-}
+// 普通的应该是返回int和指针类型
+void objc_msgSend(void /* id self, SEL op, ... */ )
+void objc_msgSendSuper(void /* struct objc_super *super, SEL op, ... */ )
+
+/*
+ * On some architectures, use objc_msgSend_stret for some struct return types.
+ * On some architectures, use objc_msgSend_fpret for some float return types.
+ * On some architectures, use objc_msgSend_fp2ret for some float return types.
+*/ 
 ```
 
-从文档和转意代码来看，objective-c消息发送(方括号语法)主要靠objc_msgSend和objc_msgSendSuper来实现。
+### 方法定义
 
-其中[self class]通过`objc_msgSend `
+```cpp
+// These functions must be cast to an appropriate function pointer type before being called
+#if !OBJC_OLD_DISPATCH_PROTOTYPES
+typedef void (*IMP)(void /* id, SEL, ... */ ); ✅
+#else
+typedef id _Nullable (*IMP)(id _Nonnull, SEL _Nonnull, ...); 
+#endif
+```
 
-其中[super class]通过和`class_getSuperclass `和`objc_msgSendSuper`
-
-对于不同构架和返回函数，struct返回值用到`objc_msgSend_stret`， float返回值用到`objc_msgSend_fpret`或`objc_msgSend_fp2ret`
-
-相应的，对于super，struct返回值用到`objc_msgSendSuper`
-
-
-## 问题2: objc_msgSend失败了会怎么样
-1. **Dynamic Method Resolution**： `resolveClassMethod:`和`resolveInstanceMethod`, 若返回YES同时运行时状态有新函数加入，则直接调用实现，完成消息发送
-2. **Message Forwarding**: 若不然, `forwardingTargetForSelector:` 若返回不是nil和self，则完成消息发送
-3. **Message Forwarding**: 若不然, `methodSignatureForSelector:` 若返回不为空，则发送消息给`forwardInvocation:`由Invocation完成
-4. **NSInvalidArgumentException** : 若不然, 调用`doesNotRecognizeSelector:`抛出异常
-
-
-
-### class_addMethod测试
-
-class_addMethod最后的参数参考[文档](https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtTypeEncodings.html#//apple_ref/doc/uid/TP40008048-CH100)
+### 动态添加
 
 ```objc
-@interface TestClassAddMethod: NSObject
-- (NSString *)hello:(NSString *)content;
+@interface HumanAddMethod: NSObject
+- (NSString *)say:(NSString *)content;
 @end
 
-NSString * hello(id self, SEL selector, NSString *content){
-    return [NSString stringWithFormat:@"%@", content];
+NSString * say(id self, SEL selector, NSString *msg){
+    return [NSString stringWithFormat:@"%@", msg];
 }
 
-@implementation TestClassAddMethod
+@implementation HumanAddMethod
 - (instancetype)init{
     if(self = [super init]){
-        class_addMethod([self class], @selector(hello:), (IMP)hello, "@@:@"); //@=id :=sel
+        const char *types = [[NSString stringWithFormat:@"%s%s%s%s", @encode(NSString *), @encode(id), @encode(SEL), @encode(NSString *)] UTF8String];
+        NSMethodSignature *sig = [NSMethodSignature signatureWithObjCTypes:types];
+        NSLog(@"💚 types=%s args= %lu rlength= %s rtype=%lu isOneway=%@", types, (unsigned long)sig.numberOfArguments, sig.methodReturnType, (unsigned long)sig.methodReturnLength, sig.isOneway ? @"YES": @"NO");
+        
+        for (int i = 0; i < sig.numberOfArguments; i++) {
+            NSLog(@"    - %d arg type = %s", i, [sig getArgumentTypeAtIndex:i]);
+        }
+        
+        class_addMethod([self class], @selector(say:), (IMP)say, types);
     }
     return self;
 }
 @end
 ```
 
-### 假的resolveMethod测试
+## 消息转发
 
-即使`resolveInstanceMethod`返回YES, 若没有该方法，直接回调用doesNotRecognizeSelector，抛出异常
+```cpp
+void _objc_msgForward(void /* id receiver, SEL sel, ... */ )
+
+```
+
+
+若消息发送失败，这进入消息转发，流程如下
+
+1. **Dynamic Method Resolution**： `resolveClassMethod:`和`resolveInstanceMethod`, 若返回YES同时运行时状态有新函数注册，则直接调用实现，完成消息发送. 否则
+2. **Message Forwarding**:  `forwardingTargetForSelector:` 若返回不是nil和self，则完成消息发送，否者
+3. **Message Forwarding**:  `methodSignatureForSelector:` 若返回不为空，则发送消息给`forwardInvocation:`由Invocation完成, 否则
+4. **抛出异常** : 调用`doesNotRecognizeSelector:`抛出异常
+
+```
+💚 1. resolveInstanceMethod called say:
+💚 2. forwardingTargetForSelector called say:
+💚 3. methodSignatureForSelector called say:
+💚 1. resolveInstanceMethod called say:
+💚 1. resolveInstanceMethod called _forwardStackInvocation:
+💚 3. forwardInvocation called <NSInvocation: 0x6000018bc480>
+```
+
+### 动态解析
 
 ```objc
-@interface TestClassFakeResolve: NSObject
-- (NSString *)hello:(NSString *)content;
+- (NSString *)say:(NSString *)content;
 @end
 
-@implementation TestClassFakeResolve
+@implementation HumanResolve
 + (BOOL)resolveInstanceMethod:(SEL)sel{
-    if (sel == @selector(hello:)) {
+    if (sel == @selector(say:)) {
+        const char *types = [[NSString stringWithFormat:@"%s%s%s%s", @encode(NSString *), @encode(id), @encode(SEL), @encode(NSString *)] cStringUsingEncoding:NSUTF8StringEncoding];
+        class_addMethod([self class], sel, (IMP)say, types);
         return YES;
     }
     return [super resolveInstanceMethod:sel];
 }
 @end
 ```
-![ios_messaging_fake_resolve]({{site.static}}/images/ios_messaging_fake_resolve.jpg)
 
-![ios_messaging_fake_resolve_crash]({{site.static}}/images/ios_messaging_fake_resolve_crash.jpg)
-
-### 正常resolveMethod测试
+### 转发1
 ```objc
-+ (BOOL)resolveInstanceMethod:(SEL)sel{
-    if (sel == @selector(hello:)) {
-        class_addMethod([self class], sel, (IMP)hello, "v@:@");
-        return YES;
-    }
-    return [super resolveInstanceMethod:sel];
+@interface HumanForwardTarget: NSObject{
+    Dog *_surrogate;
 }
-```
-
-### forwardingTargetForSelector测试
-
-```objc
-@interface TestClassForwardTarget: NSObject{
-    TestClassAddMethod *_surrogate;
-}
-- (NSString *)hello:(NSString *)content;
+- (NSString *)say:(NSString *)content;
 @end
 
-@implementation TestClassForwardTarget
+- (instancetype)init {
+    if (self) {
+        _surrogate = [[Dog alloc] init];
+    }
+    return self;
+}
 
 + (BOOL)resolveInstanceMethod:(SEL)sel{
-    NSLog(@"resolveInstanceMethod called");
+    NSLog(@"💚 1. resolveInstanceMethod called %@", NSStringFromSelector(sel));
     return [super resolveInstanceMethod:sel];
 }
 
 - (id)forwardingTargetForSelector:(SEL)aSelector{
-    if (!_surrogate) {
-        _surrogate = [[TestClassAddMethod alloc] init];
-    }
     return _surrogate;
 }
-
 @end
 ```
 
-### forwardInvocation测试
+### 转发2
+
 ```objc
-@interface TestClassForwardInvocation: NSObject{
-    TestClassAddMethod *_surrogate;
+@interface HumanForwardInvocation: NSObject{
+    Cat *_surrogate;
 }
-- (NSString *)hello:(NSString *)content;
+- (NSString *)say:(NSString *)content;
 @end
 
-@implementation TestClassForwardInvocation
+@implementation HumanForwardInvocation
+
+- (instancetype)init {
+    if (self) {
+        _surrogate = [[Cat alloc] init];
+    }
+    return self;
+}
+
++ (BOOL)resolveInstanceMethod:(SEL)sel{
+    NSLog(@"💚 1. resolveInstanceMethod called %@", NSStringFromSelector(sel));
+    return [super resolveInstanceMethod:sel];
+}
 
 - (id)forwardingTargetForSelector:(SEL)aSelector{
-    NSLog(@"forwardingTargetForSelector called");
+    NSLog(@"💚 2. forwardingTargetForSelector called %@", NSStringFromSelector(aSelector));
     return [super forwardingTargetForSelector:aSelector];
 }
 
 - (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector{
-
-    NSMethodSignature* signature = [super methodSignatureForSelector:aSelector];
-    if (!signature) {
-        if (!_surrogate) {
-            _surrogate = [[TestClassAddMethod alloc] init];
-        }
-
-        signature = [_surrogate methodSignatureForSelector:aSelector];
+    NSLog(@"💚 3. methodSignatureForSelector called %@", NSStringFromSelector(aSelector));
+    if ([_surrogate respondsToSelector:aSelector]) {
+        return [_surrogate methodSignatureForSelector:aSelector];
+    } else {
+        return [super methodSignatureForSelector:aSelector];
     }
-    return signature;
 }
 
 - (void)forwardInvocation:(NSInvocation *)anInvocation{
+    NSLog(@"💚 3. forwardInvocation called %@", [anInvocation description]);
     if ([_surrogate respondsToSelector: [anInvocation selector]]){
         [anInvocation invokeWithTarget:_surrogate];
     }
@@ -197,16 +188,73 @@ NSString * hello(id self, SEL selector, NSString *content){
 @end
 ```
 
-PS: 至于调用顺序，就只能用断点来查看了。
-
-## 问题3: 说一说doesNotRecognizeSelector方法
+### 抛出异常
 
 `doesNotRecognizeSelector`是运行时找不到对应的SEL(方法)最后调用的函数，在NSObject里实现, 虽然注释写着已经改为CF实现，但是不影响我们学习，其内部实现主要是抛出`NSInvalidArgumentException`异常。这也是iOS常见的崩溃原因之一。
 ```objc
 // Replaced by CF (throws an NSException)
++ (void)doesNotRecognizeSelector:(SEL)sel {
+    _objc_fatal("+[%s %s]: unrecognized selector sent to instance %p", 
+                class_getName(self), sel_getName(sel), self);
+}
+
+// Replaced by CF (throws an NSException)
 - (void)doesNotRecognizeSelector:(SEL)sel {
-    _objc_fatal("-[%s %s]: unrecognized selector sent to instance %p",
+    _objc_fatal("-[%s %s]: unrecognized selector sent to instance %p", 
                 object_getClassName(self), sel_getName(sel), self);
+}
+```
+
+## 方法调用
+
+如果有两个参数object和method. method_invoke可以调用，从搜索来看，主要用在KVO中
+
+```cpp
+// Using this function to call the implementation of a method is faster than calling method_getImplementation and method_getName.
+void method_invoke(void /* id receiver, Method m, ... */ ) 
+```
+
+没测试出来稳定的速度对比，结果都很快百万次0.3秒，姑且相信文档说的`method_invoke`更快吧
+
+```objc
+- (void)testMethodInvoke{
+    
+    Human *instance = [[Human alloc] init];
+    Method method = class_getInstanceMethod([instance class], @selector(say:));
+    
+    uint64_t start = mach_absolute_time();
+    
+    NSString * result1 = ((NSString*(*)(id, Method, NSString*))method_invoke)(instance, method, @"Hello");
+    NSLog(@"invoke = %llul", mach_absolute_time() - start);
+    XCTAssertTrue([result1 isEqualToString:@"Hello"]);
+    
+    [self measureBlock:^{
+        for (int i = 0; i < self.times; i++) {
+            NSString *result2 __attribute__((unused)) = ((NSString*(*)(id, Method, NSString*))method_invoke)(instance, method, @"Hello");
+        }
+    }];
+}
+
+- (void)testImpAndSel {
+    Human *instance = [[Human alloc] init];
+    Method method = class_getInstanceMethod([instance class], @selector(say:));
+    
+    uint64_t start = mach_absolute_time();
+
+    
+    NSString *(*function)(id, SEL, NSString *) = (NSString *(*)(id, SEL, NSString *))method_getImplementation(method);
+    SEL selecor = method_getName(method);
+    NSString * result2 = function(instance, selecor, @"Hello");
+    NSLog(@"iml&sel = %llul", mach_absolute_time() - start);
+    
+    XCTAssertTrue([result2 isEqualToString:@"Hello"]);
+    [self measureBlock:^{
+        for (int i = 0; i < self.times; i++) {
+            NSString *(*function)(id, SEL, NSString *) = (NSString *(*)(id, SEL, NSString *))method_getImplementation(method);
+            SEL selecor = method_getName(method);
+            NSString *result2 __attribute__((unused)) = function(instance, selecor, @"Hello");
+        }
+    }];
 }
 ```
 
@@ -214,3 +262,5 @@ PS: 至于调用顺序，就只能用断点来查看了。
 [https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtDynamicResolution.html](https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtDynamicResolution.html)<br/>
 
 [https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtForwarding.html#//apple_ref/doc/uid/TP40008048-CH105-SW1](https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtForwarding.html#//apple_ref/doc/uid/TP40008048-CH105-SW1)
+
+[https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtTypeEncodings.html#//apple_ref/doc/uid/TP40008048-CH100](https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtTypeEncodings.html#//apple_ref/doc/uid/TP40008048-CH100)

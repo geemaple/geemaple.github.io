@@ -8,13 +8,13 @@ def get_all_images_from_directory(directory):
     for root, _, files in os.walk(directory):
         for file in files:
             if any(file.lower().endswith(ext) for ext in image_extensions):
-                images.add(file)
+                images.add(file.lower())
+
     return images
 
 def get_all_image_references_from_markdown(directory):
     """从指定目录下的所有Markdown文件中提取图片引用"""
     image_references = set()
-    missing_images = set()
     image_pattern = re.compile(r'!\[.*?\]\(\{\{site\.static\}\}/images/([^\)]+)\)')
     
     for root, _, files in os.walk(directory):
@@ -35,15 +35,19 @@ def find_unlinked_and_missing_images(images, references):
     return unlinked_images, missing_images
 
 def main():
-    images_dir = './images'
-    posts_dir = './_posts'
+
+    current_file_path = os.path.abspath(__file__)
+    current_directory = os.path.dirname(current_file_path)
+    parent_directory = os.path.dirname(current_directory)
+    images_dir = os.path.join(parent_directory, 'images')
+    posts_dir = os.path.join(parent_directory, '_posts')
 
     # 获取所有图片文件名
     images = get_all_images_from_directory(images_dir)
     
     # 提取所有Markdown文件中的图片引用
     references = get_all_image_references_from_markdown(posts_dir)
-    
+
     # 找到未被引用的图片和引用但缺失的图片
     unlinked_images, missing_images = find_unlinked_and_missing_images(images, references)
 
