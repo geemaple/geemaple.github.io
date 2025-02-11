@@ -193,8 +193,8 @@ Text = "ABCDABABCD"
 Pattern = "ABCDABD", 部分匹配表如上述代码结果
 
 ----------- i
-A B C D A B A B C D        # i处 'A' != 'D' 
-A B C D A B D              # 匹配部分最大公共前后缀AB，dp值=2
+A B C D A B A B C D        # i处 'A' != 'D', match = 6
+A B C D A B D              # 匹配部分最大公共前后缀AB，dp值=2,  match赋值为2。继续尝试匹配
 -----------
 
 >>>>> |
@@ -203,7 +203,6 @@ A B C D A B D              # 匹配部分最大公共前后缀AB，dp值=2
 ```
 
 不匹配的时候Pattern需要后移, 只有前后缀相等的部分才有可能匹配, 此时, 我们可以放心的将Pattern开头，移动到后缀匹配的位置。
-
 
 ### 代码实现
 
