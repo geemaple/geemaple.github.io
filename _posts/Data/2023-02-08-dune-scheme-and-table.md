@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "平台介绍 - Dune"
-categories: DA
+categories: Data
 tags: Web3
 excerpt: "数据表"
 ---

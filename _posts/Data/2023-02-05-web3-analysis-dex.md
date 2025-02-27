@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Web3 - Dex历史"
-categories: DA
+categories: Data
 tags: Web3
 excerpt: "去中心化交易所"
 mathjax: true

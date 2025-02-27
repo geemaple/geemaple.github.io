@@ -9,7 +9,7 @@ excerpt: 三角形是最稳定的
 * content
 {:toc}
 
-## 双缓冲设计
+## 双缓冲设计(Double Buffering)
 
 ```cpp
 void glfwSwapBuffers(GLFWwindow * window)
@@ -20,9 +20,9 @@ When an application draws in a single buffer the resulting image may display fli
 */
 ```
 
-`glfwSwapBuffers`采用两个缓冲设计，因为绘制不是立即完成的，所以绘制在幕后进行，当绘制完成后，在切换到前台给用户看到，这样增强用户体验
+`glfwSwapBuffers`采用两个缓冲设计，因为绘制不是立即完成的(由上到下，由左到右)，所以绘制在幕后进行，当绘制完成后，在切换到前台给用户看已经画好的，这样增强用户体验
 
-## 垂直同步
+## 垂直同步(V-SYNC)
 
 ```cpp
 void glfwSwapInterval(int interval) 
@@ -32,15 +32,17 @@ void glfwSwapInterval(int interval)
 */
 ```
 
-设置要等多少次屏幕刷新，才切换幕后缓冲到前台。
+设置要等待多少次屏幕刷新，才会将后台缓冲区切换到前台。
 
-如果设置为0，GPU过于牛逼，会导致有些画面还没看到就被显示器丢弃掉
+如果设置为0，GPU无需等待显示器刷新信号，可能导致画面渲染速度过快，显示器来不及显示，出现画面丢失。
 
-如果设置为1，GPU过于垃圾，更新速度跟不上，降低FPS降低
+如果设置为1，GPU会等待显示器的V-Blank信号进行缓冲区交换，若GPU性能较差，可能导致帧率降低，画面更新不及时。
 
-## [栅格化](https://en.wikipedia.org/wiki/Rasterisation)
+## [栅格化(Rasterisation)](https://en.wikipedia.org/wiki/Rasterisation)
 
 ![栅格化]({{site.static}}/images/opengl-top-left-triangle-rasterization-rule.gif)
+
+**栅格化**: 指的是将3D模型中的图形，尤其是三角形等几何图形，通过投影映射到2D屏幕上的过程
 
 完美的几何图形可以比作无限高清图片，当矢量绘制到低像素屏幕上，就会出现一个现象，就是信息会丢失。
 
@@ -59,7 +61,7 @@ Application =>  Geometry => Rasterization => Screen
 
 OpenGL世界是3D, 但屏幕是2D的，所以很大一部分绘制工作，就是将3D坐标转换成2D坐标。
 
-Graphics Pipeline的另一部分工作室，将转换的2D坐标，绘制成颜色像素点
+Graphics Pipeline的另一部分工作是，将转换的2D坐标，绘制成颜色像素点
 
 流水线上的操作处理程序，称作shaders，随着时间推移，shaders一词已经进化成为处理图形渲染的专门程序
 
@@ -122,10 +124,9 @@ glEnableVertexAttribArray(0);
 新版OpenGL提供了VAO(vertex array object)，能够存储所有的vertex.
 
 1. 创建一个Buffer Array
-2. 通过Bind绑定
+2. 通过Bind绑定，这里要先绑定VAO，让后续的VBO绑定和属性设置记录到VAO中
 3. 绑定后`glVertexAttribPointer glEnableVertexAttribArray glDisableVertexAttribArray`操作都会存储到VAO中
-4. 和调用`glDisableVertexAttribArray`相关的VBO引用也会存储到VAO中
-5. 需要enable属性
+4. 需要enable属性
 
 ```cpp
 unsigned int VAO;

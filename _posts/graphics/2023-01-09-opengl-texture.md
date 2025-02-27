@@ -68,7 +68,7 @@ glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
 
 ### 放大缩小
 
-指定放大时使用`GL_NEAREST`, 缩小是使用`GL_NEAREST`
+指定放大时使用`GL_NEAREST`, 缩小是使用`GL_LINEAR`
 
 ```cpp
 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);

@@ -15,7 +15,7 @@ OpenGL本身是一个大的状态机，一堆状态指示显卡如何绘制。�
 
 我们绘制的时候，通常改变一些状态，改变buffers，然后用context来绘制
 
-Shaders是GPU中的小程序，他们是流水线上的特殊功能程序，只有输入和输出，彼此见也没有交流
+Shaders是GPU中的小程序，他们是流水线上的特殊功能程序，只有输入和输出，彼此间也没有交流
 
 ## GLSL
 
@@ -79,7 +79,7 @@ r, g, b, a
 s, t, p, q
 
 // swizzling
-vec2 someVec;
+vec2 someVec = vec2(0.1, 0.2);
 vec4 differentVec = someVec.xyxx;
 vec3 anotherVec = differentVec.zyw;
 vec4 otherVec = someVec.xxxx + anotherVec.yxzy;

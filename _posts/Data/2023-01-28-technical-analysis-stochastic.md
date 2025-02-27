@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "技术分析 - Stochastic"
-categories: DA
+categories: Data
 tags: Oscillator Python
 excerpt: "市场永远是对的"
 mathjax: true

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "技术分析 - MA"
-categories: DA
+categories: Data
 tags: Python
 excerpt: "平均也有权重"
 mathjax: true

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "技术分析 - MACD"
-categories: DA
+categories: Data
 tags: Oscillator Python
 excerpt: "指标的指标"
 ---

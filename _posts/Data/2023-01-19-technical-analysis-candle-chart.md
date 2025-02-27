@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "技术分析 - K线图"
-categories: DA
+categories: Data
 tags: Python
 excerpt: 时间是最好的朋友
 ---

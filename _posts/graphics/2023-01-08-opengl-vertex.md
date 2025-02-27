@@ -47,6 +47,14 @@ void main()
 设置vertex attribute， 注意第一个参数location下标的使用， 最后一个参数起始offset
 
 ```cpp
+// glVertexAttribPointer
+// index = 0 (GLSL的location, glEnableVertexAttribArray)中需一致
+// 数据维度 = 3
+// 数据类型 = GL_FLOAT
+// 是否需要normalized，如果是无符号转换成[0, 1], 有符号数据转换成[-1, 1]
+// 下一组数据的offset
+// 第一组数据起始offset
+
 // position attribute
 glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
 // color attribute

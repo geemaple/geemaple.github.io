@@ -78,6 +78,7 @@ $
 ### 向量长度
 
 将向量起点平移到坐标原点，终点到原点的距离
+
 $
 ｜\vec{v}｜ = \sqrt{x^2 + y^2}
 $
@@ -117,13 +118,26 @@ $
 外积是3D空间中的定义，两个不平行的向量，可以确定一个平面，外积的方向垂直于这个平面，通过右手法则确定。
 如果输入的两个向量也是正交的，那么叉乘之后将会产生3个互相正交的向量
 
+![叉乘]({{site.static}}/images/opengl-vectors-crossproduct.png)
+
 **几何**
 
 如果以向量$\vec{a}$与$\vec{b}$为边构成一个平行四边形，那么这两个向量外积的模长与这个平行四边形的面积相等。
 
-$\vec{a}\times\vec{b} = ｜\vec{b}｜ * ｜\vec{b}｜ * \sin\theta\vec{n}$
+$\theta$ 是这两个向量之间的夹角  $\hat{n}$ 是一个单位向量
+
+$\vec{a}\times\vec{b} = ｜\vec{a}｜ * ｜\vec{b}｜ * \sin\theta\hat{n}$
 
 **数学**
+
+$
+\vec{a} \times \vec{b} = \begin{vmatrix}\hat{i} & \hat{j} & \hat{k} \\\ a_1 & a_2 & a_3 \\\ b_1 & b_2 & b_3 \end{vmatrix}
+= \hat{i} \cdot \begin{vmatrix} a_2 & a_3 \\\ b_2 & b_3 \end{vmatrix}
+\hat{j} \cdot \begin{vmatrix} a_1 & a_3 \\\ b_1 & b_3 \end{vmatrix}
+\hat{k} \cdot \begin{vmatrix} a_1 & a_2 \\\ b_1 & b_2 \end{vmatrix}
+$
+
+行列式展开的结果是一个新的向量，它的坐标是：
 
 $
 \begin{pmatrix} A_1  \\\ A_2  \\\ A_3  \end{pmatrix} \times
@@ -214,7 +228,7 @@ $
 
 OpenGL通常进行2D/3D操作，可以定义3个缩放变量, 每个变量缩放一个轴(x, y或z)
 
-以向量$\vec{v} = \begin{pmatrix} 3 \\\ 2  \end{pmatrix}$ 为例， 把宽度缩小至1/2，把长度放大至2倍。
+以向量$\vec{v} = \begin{pmatrix} 3 \\\ 2  \end{pmatrix}$ 为例， 把x轴缩小至1/2，把y轴放大至2倍。
 
 得到向量$\vec{s} = \begin{pmatrix} 1.5 \\\ 4  \end{pmatrix}$
 
@@ -234,7 +248,7 @@ $
 
 位移(Translation)是在原来向量的基础上加上另一个向量，从而获得一个新的不同位置的向量, 可以回想下向量的三角形法则
 
-构造`translation`矩阵，有了位移矩阵，就可以在`(x, y, z)`三个方向上移动物体:
+构造`translation`矩阵，有了位移矩阵，就可以在`(x, y, z, w=1)`三个方向上移动物体:
 
 $
 \begin{pmatrix} 1 & 0 & 0 & T_x \\\ 0 & 1 & 0 & T_y \\\ 0 & 0 & 1 & T_z \\\ 0 & 0 & 0 & 1 \end{pmatrix} \cdot
@@ -242,7 +256,9 @@ $
 \begin{pmatrix} x + T_x \\\ y + T_y  \\\ z + T_z \\\ 1  \end{pmatrix}
 $
 
-向量的`w`分量也叫`齐次坐标`，想要从齐次向量得到3D向量，我们可以把x、y和z坐标分别除以w坐标。我们通常不会注意这个问题，因为w分量通常是1.0。使用齐次坐标有几点好处：它允许我们在3D向量上进行位移，因为3为坐标没办法和4x4矩阵想成。再有就是w值创建3D观察视角。 如果$w=0$, 这个坐标就是方向向量，不能移动
+向量的`w`分量也叫`齐次坐标`，想要从齐次向量得到3D向量，我们可以把x、y和z坐标分别除以w坐标。我们通常不会注意这个问题，因为w分量通常是1.0。使用齐次坐标有几点好处：它允许我们在3D向量上进行位移，因为3为坐标没办法和4x4矩阵想成。再有就是w值创建3D观察视角。
+
+如果$w=0$, 根据矩阵乘法不能移动，这个坐标就是方向向量
 
 ### Rotation
 
@@ -264,6 +280,7 @@ $\vec{v}$由$\vec{k}$顺时针旋转72度所得:
 旋转矩阵在3D空间中每个单位轴都有不同定义，旋转角度用$\theta$表示：
 
 **X轴**
+
 $
 \begin{pmatrix} 1 & 0 & 0 & 0 \\\ 0 & \cos\theta & -\sin\theta & 0 \\\ 0 & \sin\theta & \cos\theta & 0 \\\ 0 & 0 & 0 & 1 \end{pmatrix} \cdot
 \begin{pmatrix} x \\\ y  \\\ z \\\ 1  \end{pmatrix} = 
@@ -303,7 +320,7 @@ $
 \begin{bmatrix} \cos \theta + \color{red}{R_x}^2(1 - \cos \theta) & \color{red}{R_x}\color{green}{R_y}(1 - \cos \theta) - \color{blue}{R_z} \sin \theta & \color{red}{R_x}\color{blue}{R_z}(1 - \cos \theta) + \color{green}{R_y} \sin \theta & 0 \\\ \color{green}{R_y}\color{red}{R_x} (1 - \cos \theta) + \color{blue}{R_z} \sin \theta & \cos \theta + \color{green}{R_y}^2(1 - \cos \theta) & \color{green}{R_y}\color{blue}{R_z}(1 - \cos \theta) - \color{red}{R_x} \sin \theta & 0 \\\ \color{blue}{R_z}\color{red}{R_x}(1 - \cos \theta) - \color{green}{R_y} \sin \theta & \color{blue}{R_z}\color{green}{R_y}(1 - \cos \theta) + \color{red}{R_x} \sin \theta & \cos \theta + \color{blue}{R_z}^2(1 - \cos \theta) & 0 \\\ 0 & 0 & 0 & 1 \end{bmatrix}
 $
 
-但即使这样一个矩阵也不能完全解决万向节死锁问题（尽管会极大地避免）。避免万向死锁的真正解决方案是使用四元数(Quaternion)，它不仅更安全，而且计算会更有效率
+但即使这样一个矩阵也不能完全解决万向节死锁问题（尽管会极大地避免）。避免万向死锁的真正解决方案是使用四元数(Quaternion)，它不仅更安全，而且计算会更有效率，由于OpenGL使用旋转矩阵来处理，就不拓展
 
 ### Combine
 
@@ -317,7 +334,7 @@ $
 Trans . Scale = \begin{bmatrix} \color{red}1 & \color{red}0 & \color{red}0 & \color{red}1 \\\ \color{green}0 & \color{green}1 & \color{green}0 & \color{green}2 \\\ \color{blue}0 & \color{blue}0 & \color{blue}1 & \color{blue}3 \\\ \color{purple}0 & \color{purple}0 & \color{purple}0 & \color{purple}1 \end{bmatrix} . \begin{bmatrix} \color{red}2 & \color{red}0 & \color{red}0 & \color{red}0 \\\ \color{green}0 & \color{green}2 & \color{green}0 & \color{green}0 \\\ \color{blue}0 & \color{blue}0 & \color{blue}2 & \color{blue}0 \\\ \color{purple}0 & \color{purple}0 & \color{purple}0 & \color{purple}1 \end{bmatrix} = \begin{bmatrix} \color{red}2 & \color{red}0 & \color{red}0 & \color{red}1 \\\ \color{green}0 & \color{green}2 & \color{green}0 & \color{green}2 \\\ \color{blue}0 & \color{blue}0 & \color{blue}2 & \color{blue}3 \\\ \color{purple}0 & \color{purple}0 & \color{purple}0 & \color{purple}1 \end{bmatrix}
 $
 
-注意，当矩阵相乘时我们先写位移再写缩放变换的。矩阵乘法是不遵守交换律的，这意味着它们的顺序很重要。当矩阵相乘时，在最右边的矩阵是第一个与向量相乘的，所以你应该从右向左读这个乘法。建议您在组合矩阵时，先进行缩放操作，然后是旋转，最后才是位移，否则它们会（消极地）互相影响。比如，如果你先位移再缩放，位移的向量也会同样被缩放（比如向某方向移动2米，2米也许会被缩放成1米）！
+注意，当矩阵相乘时我们先写位移再写缩放变换的。矩阵乘法是不遵守交换律的，这意味着它们的顺序很重要。当矩阵相乘时，在最右边的矩阵是第一个与向量相乘的，所以你应该从右向左读这个乘法。**建议您在组合矩阵时，先进行缩放操作，然后是旋转，最后才是位移**，否则它们会（消极地）互相影响。比如，如果你先位移再缩放，位移的向量也会同样被缩放（比如向某方向移动2米，2米也许会被缩放成1米）！
 
 用最终的变换矩阵左乘我们的向量会得到以下结果：
 
@@ -383,6 +400,12 @@ trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
 trans = glm::scale(trans, glm::vec3(2, 2, 2));
 
 unsigned int transformLoc = glGetUniformLocation(shaderProgram, "transform");
+
+// 参数解析：
+// 1.location: 目标着色器中的 uniform 变量的位置。通常使用 glGetUniformLocation 获取。
+// 2.count: 矩阵的数量，通常为 1，因为我们通常只传递一个矩阵给着色器。如果传递多个矩阵，可以指定数量。
+// 3.transpose: 指示是否对矩阵进行转置。OpenGL 使用列主序存储矩阵，通常设置为 GL_FALSE。如果你的矩阵数据是按行主序存储的，可能需要设置为 GL_TRUE。
+// 4.value: 矩阵的值。这是一个指向矩阵数据的指针，通常通过 glm::value_ptr 获取 glm::mat4 数据的指针。
 glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 ```
 

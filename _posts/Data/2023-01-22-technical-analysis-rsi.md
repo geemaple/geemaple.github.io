@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "技术分析 - RSI"
-categories: DA
+categories: Data
 tags: Oscillator Python
 excerpt: 相对强弱指数RSI
 mathjax: true

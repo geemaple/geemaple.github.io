@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "工具介绍 - Excel利率计算"
-categories: DA
+categories: Data
 tags: Excel
 excerpt: "生产力三件套"
 ---

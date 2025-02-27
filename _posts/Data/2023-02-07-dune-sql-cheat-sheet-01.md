@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "SQL语言01 - 基本查询"
-categories: DA
+categories: Data
 tags: SQL
 excerpt: "SQL使用"
 ---
