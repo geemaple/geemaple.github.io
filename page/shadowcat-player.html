@@ -7,32 +7,40 @@ type: app
 
 <div class="content">
   <div class="left"> <!-- Left section (intro) -->
-    <h3>Shadowcat Player</h3>
-    <div>
-      <p>AI-powered subtitle generation, export, and progress-based navigation. </p>
-      <p>Ideal for language learners and video creators to enhance content.</p>
+
+    <div class="horizontal-flex">
+      <img class="item icon" src="{{ site.static }}/images/shadowcat-icon.png" alt="shadowcat-icon">
+      <div class="vertical-flex">
+        <p class="item title">Shadowcat Player</p>
+        <p class="item subtitle">AI Subtitles for Videos</p>
+      </div>
     </div>
-    <div class="feature">
-      <h3>Features:</h3>
-      <ul>
-        <li>
-          <span class="feature-title">AI-generated subtitles:</span>
-          <span class="feature-desrciption">Automatically generated for accuracy and convenience.</span>
-        </li>
-        <li>
-          <span class="feature-title">Subtitle export:</span>
-          <span class="feature-desrciption">Easily export subtitles for your own use.</span>
-        </li>
-        <li>
-          <span class="feature-title">Progress-based navigation:</span>
-          <span class="feature-desrciption">Jump to specific video sections by selecting subtitles.</span>
-        </li>
-      </ul>
-    </div>
+
     <div>
-      <p>
-        <a href="./shadowcat-privacy-policy">Privacy Policy</a>
-      </p>
+      <p class="item">AI-powered subtitle generation, export, and progress-based navigation. </p>
+    </div>
+
+    <div class="item">
+      <p class="feature">Features:</p>
+        <ul>
+          <li>
+            <span class="feature-title">AI-generated subtitles:</span>
+            <span class="feature-desrciption">Automatically generated for accuracy and convenience.</span>
+          </li>
+          <li>
+            <span class="feature-title">Subtitle export:</span>
+            <span class="feature-desrciption">Easily export subtitles for your own use.</span>
+          </li>
+          <li>
+            <span class="feature-title">Progress-based navigation:</span>
+            <span class="feature-desrciption">Jump to specific video sections by selecting subtitles.</span>
+          </li>
+        </ul>
+    </div>
+    <div class="item"> <!-- Bottom section -->
+      <p>If you have any questions or need assistance, please feel free to reach out via the form below.</p>
+      <form action="https://docs.google.com/forms/d/e/1FAIpQLSfjNVkhevC4S8OyBK29ll6XzlgcTSK89wtbiubMuhYCP4YiYA/viewform?usp=dialog" method="get" target="_blank">
+        <button type="submit">Contact Us</button>
     </div>
   </div>
   <div class="right"> <!-- Right section (preview) -->
@@ -50,12 +58,15 @@ type: app
         <div class="slide">
           <img src="{{site.static}}/images/shadowcat-player-4.png", alt="shadowcat-player-4">
         </div>
+        <div class="slide">
+          <img src="{{ site.static }}/images/shadowcat-player-1.png" alt="shadowcat-player-1">
+        </div>
       </div>
     </div>
   </div>
 </div>
 <div class="lower"> <!-- Bottom section -->
-  <p>If you have any questions or need assistance, please feel free to reach out via the form below.</p>
-  <form action="https://docs.google.com/forms/d/e/1FAIpQLSfjNVkhevC4S8OyBK29ll6XzlgcTSK89wtbiubMuhYCP4YiYA/viewform?usp=dialog" method="get" target="_blank">
-    <button type="submit">Contact Us</button>
+  <div class="item">
+    <a href="./shadowcat-privacy-policy">Privacy Policy</a>
+  </div>
 </div>

@@ -25,19 +25,75 @@
     .lower {
         padding: 20px;
         background-color: #ddd;
+        font-weight: normal;
+        font-size: 12px;
+        text-align: center;
         /* Style for the bottom content */
     }
 
-      section {
-        padding: 40px;
-        margin: 20px;
-        background-color: #fff;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      }
+    .vertical-flex {
+        display: flex; /* Enable flexbox */
+        flex-direction: column; /* Align items vertically */
+        gap: 0px; /* Add space between items */
+    }
+
+    .horizontal-flex {
+        display: flex; /* Enable flexbox */
+        justify-content: flex-start; /* Align items horizontally */
+        gap: 0px; /* Add space between items */
+    }
+
+    .item {
+        margin: 10px;
+    }
+
+    .icon {
+        width: 64px;
+        height: 64px;
+        border-radius: 12px;
+    }
+
+    .title {
+        font-weight: bold;
+        font-size: 24px;
+        margin-bottom: 5px;
+    }
+
+    .subtitle {
+        font-weight: normal;
+        font-size: 16px;
+    }
+
+    .description {
+        margin: 10px;
+        font-weight: normal;
+        font-size: 16px;
+    }
+
+    .feature {
+        font-weight: bold;
+        font-size: 20px;
+        margin: 5px 0;
+    }
+
+    li {
+        margin-bottom: 10px;
+    }
+
+    .feature-title {
+        font-weight: bold;
+        font-size: 16px;
+        margin-bottom: 5px;
+    }
+
+    .feature-description {
+        margin: 10px;
+        font-weight: normal;
+        font-size: 16px;
+    }
       
-      /* Carousel Section */
-      .carousel {
+     /* Carousel Section */
+    .carousel {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -45,17 +101,17 @@
         overflow: hidden;
         width: 100%;
         margin: auto;
-      }
+    }
       
-      .slides {
+    .slides {
         display: flex;
-        transition: transform 0.3s ease;
-      }
+        transition: transform 1s ease-in-out;
+    }
       
-      .slide {
+    .slide {
         min-width: 100%;
         text-align: center;
-      }
+    }
 }
 
 @media screen and (max-width:1200px) and (min-width: 770px) {
