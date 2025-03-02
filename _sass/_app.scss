@@ -27,6 +27,35 @@
         background-color: #ddd;
         /* Style for the bottom content */
     }
+
+      section {
+        padding: 40px;
+        margin: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      
+      /* Carousel Section */
+      .carousel {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+        margin: auto;
+      }
+      
+      .slides {
+        display: flex;
+        transition: transform 0.3s ease;
+      }
+      
+      .slide {
+        min-width: 100%;
+        text-align: center;
+      }
 }
 
 @media screen and (max-width:1200px) and (min-width: 770px) {
