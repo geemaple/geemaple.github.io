@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: app
 title: ShadowCat Privacy Policy
 permalink: /app/shadowcat-privacy-policy
 type: app
@@ -7,8 +7,6 @@ type: app
 
 * content
 {:toc}
-
-**Effective Date:** March 1, 2025
 
 At **ShadowCat Player**, we value your privacy and are committed to protecting your personal information. This Privacy Policy outlines how we collect, use, and share information when you use our app.
 
@@ -18,7 +16,6 @@ We may collect the following types of information when you use **ShadowCat Playe
 
 - **Usage Data**: Information about how you use the app, including but not limited to playback actions, settings, and preferences.
 - **Device Information**: Information about your device, including the type of device, operating system, and unique identifiers.
-- **Audio/Video Data**: If you choose to use features that involve media playback or subtitles, we may access and process the media files or subtitle files, but we do not store or share this data.
 - **Crash Data**: We may collect data about any crashes or errors to help improve app functionality.
 
 ## 2. How We Use Your Information

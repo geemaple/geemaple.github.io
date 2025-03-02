@@ -1,0 +1,49 @@
+.app {
+    // display: flex;
+    width: 1140px;
+    box-sizing: border-box;
+    margin: 0 auto;
+
+    .content {
+        display: flex;
+        flex-grow: 1;
+        width: 100%;
+    }
+      
+    .left {
+        width: 35%; /* Adjust based on your design */
+        padding: 20px;
+        background-color: #f8f8fd;
+    }
+    
+    .right {
+        width: 65%; /* Adjust based on your design */
+        padding: 20px;
+        background-color: #f0f0f0;
+    }
+    
+    .lower {
+        padding: 20px;
+        background-color: #ddd;
+        /* Style for the bottom content */
+    }
+}
+
+@media screen and (max-width:1200px) and (min-width: 770px) {
+    .page {
+        width: 90%;
+    }
+}
+  
+/* Media Query for smaller screens */
+@media screen and (max-width: 770px) {
+    .app {
+        width: 95%;
+        .content {
+            flex-direction: column;
+        }
+        .left, .right {
+            width: 100%; /* Stack left and right vertically */
+        }
+    }
+}
