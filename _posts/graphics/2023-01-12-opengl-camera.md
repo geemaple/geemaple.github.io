@@ -18,6 +18,9 @@ OpenGL本身没有`Camera`定义，但是可以通过移动世界，给一个我
 
 定义相机，我们需要它在`世界空间`中的位置、观察的方向、一个指向它右侧的向量以及一个指向它上方的向量。也就是以**相机位置**为**原点**的一个坐标系。
 
+- 正的 z 轴 通常指向相机的背后，即从相机出发，指向远离场景的方向。
+- 负的 z 轴 通常指向相机的前方，即场景中的物体是沿着负 z 轴从相机的视角被观察到的。
+
 ![相机坐标系]({{site.static}}/images/opengl-camera-coordinate.png)
 
 ### 相机位置
@@ -32,7 +35,7 @@ glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 2.0f);
 
 尽管相机指向`z`的负方向，但是作为`View Space`我们希望坐标轴指向为正
 
-让相机指向`世界空间`原点，根据向量相减的几何意义，得到一新的向量，新的向量由`target`坐标指向`pos`坐标，也就是我们想要的z的方向。
+让相机指向`世界空间`原点，根据向量相减的几何意义，得到一新的向量，新的向量由**被减数**(target)指向**减数**(pos)，也就是我们想要的z的方向。
 
 ```cpp
 glm::vec3 cameraTarget = glm::vec3(0.0f, 0.0f, 0.0f);
@@ -41,7 +44,7 @@ glm::vec3 cameraDirection = glm::normalize(cameraPos - cameraTarget);
 
 ### 相机右轴X
 
-首先在`世界空间`定义个向上的`单位向量`， 然后将该向量与`相机方向`做`叉乘`, 会得到一个垂直于`单位向量`和`相机方向`的新向量，根据右手定则，新的向量即是我们想要的`View Space`的x轴
+首先在`世界空间`定义个向上的`单位向量`， 然后将该向量与`相机方向`做`叉乘`, 会得到一个垂直于`单位向量`和`相机方向`的新向量，根据**右手定则**，新的向量即是我们想要的`View Space`的x轴
 
 ```cpp
 glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f); 
@@ -103,6 +106,7 @@ glm::vec3 cameraPos   = glm::vec3(0.0f, 0.0f,  3.0f);
 glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 glm::vec3 cameraUp    = glm::vec3(0.0f, 1.0f,  0.0f);
 
+// cameraPos + cameraFront 是动态计算相机的观察目标点，适用于移动情况
 view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 ```
 
@@ -166,7 +170,7 @@ const float cameraSpeed = 2.5f * deltaTime;
 
 每个欧拉角都有一个值来表示，把三个角结合起来我们就能够计算3D空间中任何的旋转向量了。
 
-对于`相机`来说，我们只关心前两个, 假设相方向向量如下:
+对于`相机`来说，我们只关心前两个(鼠标做不到旋转角), 假设相方向向量如下:
 
 ![相机方向]({{site.static}}/images/opengl-camera-direction.png)
 
@@ -178,7 +182,7 @@ $角p对边=斜边\times\sin(p)$
 
 $角p邻边=斜边\times\cos(p)$
 
-由于`对边=1`, `相机方向`向量计算如下:
+由于`斜边=1`, `相机方向`向量计算如下:
 
 ```cpp
 glm::vec3 direction;
@@ -221,11 +225,29 @@ static void mouseCaptureCallback(GLFWwindow* window, double xpos, double ypos) {
 然后设置`GLFW`隐藏并捕光标动作。`捕捉`意味着光标应该停留在窗口中（除非程序失去焦点或者退出）
 
 ```cpp
+// - GLFW_CURSOR_NORMAL 标准模式 (默认) - 鼠标光标可见，可以自由移动
+// 适用于普通 GUI 应用、2D 游戏等场景
+// 
+// - GLFW_CURSOR_HIDDEN 隐藏模式 - 鼠标光标不可见，但仍然可以自由移动
+// 适用于游戏中隐藏鼠标光标（如狙击镜瞄准模式）
+// 
+// - GLFW_CURSOR_DISABLED 禁用模式 (FPS 模式) - 鼠标光标不可见，并锁定在窗口中心
+// 适用于第一人称相机控制，让鼠标输入直接影响视角旋转
 glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 glfwSetCursorPosCallback(window, mouseCaptureCallback);
 ```
 
 ### 相机空间
+
+在**屏幕坐标系**中：
+
+- 鼠标的 Y 轴 是从 上到下 增大的（向下为正）。
+- 鼠标的 X 轴 是从 左到右 增大的（向右为正）。
+
+但在**数学坐标系**(OpenGL 3D 空间）中：
+
+- 我们希望 Y 轴是从下到上增大的（向上为正）。
+- 轴仍然是 左到右增大，符合 OpenGL 右手坐标系的规则。
 
 首先获得鼠标输入`增量`, 我们希望获的`y`轴·，是底部到顶部是增大的，所以鼠标捕获的值需要**取负值**。
 

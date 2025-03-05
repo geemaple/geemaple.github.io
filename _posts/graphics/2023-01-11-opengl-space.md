@@ -77,6 +77,15 @@ OpenGL使用`gl_Position`数值, 超出`[-1, 1]`的部分被剪裁掉，这也�
 ![正射投影]({{site.static}}/images/opengl-orthographic-projection.png)
 
 ```cpp
+/*
+    - left, right: 近平面的左右边界
+    - bottom, top: 近平面的上下边界
+    - near, far: 近平面和远平面的距离（注意，near 和 far 一般是正值）
+
+    在正射投影（Orthographic Projection）中，近平面和远平面的大小是相同的，
+    形成一个长方体（Box-shaped Frustum）。所有物体的投影是平行的，不会因距离远近而缩放，
+    适用于 2D 游戏、UI 界面等不需要透视效果的场景。
+*/
 glm::ortho(0.0f, 800.0f, 0.0f, 600.0f, 0.1f, 100.0f);
 ```
 
@@ -99,6 +108,14 @@ $
 ![透视投影]({{site.static}}/images/opengl-perspective-projection.png)
 
 ```cpp
+/**
+ * - fov 视野角度 (Field of View)，以弧度表示，决定观察空间的大小。较大的 fov 提供更广的视野，但会产生较大的透视失真。
+ * - aspect 纵横比 (Aspect Ratio)，通常计算为 `width / height`，用于保持正确的画面比例，防止拉伸或压缩变形。
+ * - near 近平面 (Near Clipping Plane)，定义视锥体最靠近观察者的可见范围，必须为正数 (通常 0.1f 或 0.01f)。过小的 near 可能会导致深度缓冲精度问题。
+ * - far 远平面 (Far Clipping Plane)，定义视锥体最远的可见范围，超出此范围的物体将被裁剪。一般不宜设得过大，否则可能会影响深度缓冲精度。
+ * 
+ * 返回透视投影矩阵，映射 3D 坐标到标准化设备坐标 (NDC) 范围 [-1, 1] 以进行后续的光栅化处理。
+ */
 glm::mat4 proj = glm::perspective(glm::radians(45.0f), (float)width/(float)height, 0.1f, 100.0f);
 ```
 
@@ -167,6 +184,16 @@ glm::mat4 projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.
 
 ### Vertex Shader
 
+简单回顾一下每个部分的作用：
+
+1. 模型矩阵（Model）：将物体的局部坐标转换为世界坐标。
+2. 视图矩阵（View）：将世界坐标系转换为相机坐标系（即相机的视角），通常由相机的位置和朝向决定。
+3. 投影矩阵（Projection）：将视图空间中的坐标转换为裁剪空间，通常分为正交投影和透视投影。
+
+公式中的：
+- aPos 是物体在局部空间的顶点位置。
+- vec4(aPos, 1.0) 将顶点从3D坐标转换为齐次坐标，准备进行矩阵乘法运算。
+
 定义3个`uniform`变量
 
 ```cpp
@@ -181,7 +208,7 @@ uniform mat4 view;
 uniform mat4 projection;
 
 void main()
-{
+{    
     gl_Position = projection * view * model * vec4(aPos, 1.0);
     TexCoord = aTexCoord;
 }
