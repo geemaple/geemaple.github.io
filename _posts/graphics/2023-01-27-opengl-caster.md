@@ -16,7 +16,7 @@ mathjax: true
 
 平行光(Directional Ligt), 当点光源无限远的时候，所有的光线接近于平行，光源来自同一方向。
 
-例如太阳光，虽然不是无限远，但太阳足够远，所以我们认为太阳光就是平行光源。
+例如太阳光，虽然不是无限远，但太阳足够远，所以我们认为太阳光就是平行光源。而且没有衰减
 
 ![平行光]({{site.static}}/images/opengl-light-casters-directional.png)
 
