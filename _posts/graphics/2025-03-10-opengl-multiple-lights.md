@@ -40,7 +40,7 @@ void main()
 }  
 ```
 
-### [平行光]({{site.static}}/graphics/opengl-caster#平行光)
+### [平行光]({{site.static}}/graphics/opengl-lighting-caster#平行光)
 
 ```cpp
 struct DirLight {
@@ -69,7 +69,7 @@ vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir)
 }  
 ```
 
-### [点光源]({{site.static}}/graphics/opengl-caster#点光源)
+### [点光源]({{site.static}}/graphics/opengl-lighting-caster#点光源)
 
 ```cpp
 struct PointLight {    
@@ -110,7 +110,7 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
 } 
 ```
 
-### [聚光]({{site.static}}/graphics/opengl-caster#聚光)
+### [聚光]({{site.static}}/graphics/opengl-lighting-caster#聚光)
 
 ```cpp
 struct SpotLight {

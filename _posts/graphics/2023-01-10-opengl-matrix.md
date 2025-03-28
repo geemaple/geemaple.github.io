@@ -303,6 +303,12 @@ $
 \begin{pmatrix} \cos\theta * x - \sin\theta * y \\\ \sin\theta * x - \cos\theta * y  \\\ z \\\ 1  \end{pmatrix}
 $
 
+旋转矩阵是正教矩阵，那么它的转置=逆
+
+$
+R^T = R^{-1} 
+$
+
 **万向节锁**
 
 万向节锁是3D空间中，一个轴的自由度消失的问题，万向节锁发生在当两个轴处于同一平面时，将旋转锁死在一个2D空间中。
@@ -320,7 +326,9 @@ $
 \begin{bmatrix} \cos \theta + \color{red}{R_x}^2(1 - \cos \theta) & \color{red}{R_x}\color{green}{R_y}(1 - \cos \theta) - \color{blue}{R_z} \sin \theta & \color{red}{R_x}\color{blue}{R_z}(1 - \cos \theta) + \color{green}{R_y} \sin \theta & 0 \\\ \color{green}{R_y}\color{red}{R_x} (1 - \cos \theta) + \color{blue}{R_z} \sin \theta & \cos \theta + \color{green}{R_y}^2(1 - \cos \theta) & \color{green}{R_y}\color{blue}{R_z}(1 - \cos \theta) - \color{red}{R_x} \sin \theta & 0 \\\ \color{blue}{R_z}\color{red}{R_x}(1 - \cos \theta) - \color{green}{R_y} \sin \theta & \color{blue}{R_z}\color{green}{R_y}(1 - \cos \theta) + \color{red}{R_x} \sin \theta & \cos \theta + \color{blue}{R_z}^2(1 - \cos \theta) & 0 \\\ 0 & 0 & 0 & 1 \end{bmatrix}
 $
 
-但即使这样一个矩阵也不能完全解决万向节死锁问题（尽管会极大地避免）。避免万向死锁的真正解决方案是使用四元数(Quaternion)，它不仅更安全，而且计算会更有效率，由于OpenGL使用旋转矩阵来处理，就不拓展
+但即使这样一个矩阵也不能完全解决万向节死锁问题（尽管会极大地避免）。避免万向死锁的真正解决方案是使用四元数(Quaternion)，它不仅更安全，而且计算会更有效率，由于OpenGL使用旋转矩阵来处理，就不拓展。
+
+四元数的引用是为了计算旋转之间的插值和差值。例如，对于二维旋转 15° 和 25°，如果直接对旋转矩阵求平均，结果不再是一个有效的旋转矩阵，也不会得到 20°。正确的方法是先将旋转转换为四元数，计算平均值（使用 SLERP 插值），然后再转换回旋转矩阵，最终得到 20° 的旋转
 
 ### Combine
 
