@@ -22,14 +22,14 @@ excerpt: "动态前缀和"
 
 node = i
 parent = i - (i & -i) # 打掉最右有效位
-child = i + (i & -i) 
+update = i + (i & -i) 
 ```
 
 ### 图示
 
 根节点`dummy_root=0`, 只是一个占位，没有实际意义，`BIT`的索引下表从`1`开始。与数组从`0`开始不同
 
-每个节点表示的范围和 = ```(根节点上限, 根节点上限 + (i & -i)]```
+每个节点表示的范围和 = ```(i - (i & -i), i]```
 
 ![索引树]({{site.static}}/images/algorithm_fenwick_tree.png)
 
@@ -41,13 +41,13 @@ class FenwickTree:
         self.n = size
         self.tree = [0] * (self.n + 1)
     
-    def update(self, i, delta):
+    def update(self, i: int, delta: int):
         i += 1  # 转为 1-based 索引
         while i <= self.n:  # 更新所有影响区间
             self.tree[i] += delta
             i += i & -i
     
-    def query(self, i):
+    def query(self, i: int):
         i += 1  # 转为 1-based 索引
         res = 0
         while i > 0: # 从查询节点沿着根节点
